@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import { App } from './components/App.jsx'
+// Hej hej Lovisa här
 // function Welcome() {
 
 //     const name = 'Nicko';
