@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
 import styles from '../CSS/Nav.module.css';
+import FetchBoard from './FetchBoards';
 
 const Nav: React.FC<{}> = () => {
   return (
@@ -12,6 +13,8 @@ const Nav: React.FC<{}> = () => {
         <ul className={styles.navLinks}>
           <li><Link to="/" className={styles.navLink}>My Boards</Link></li>
           <li><Link to="/mypage" className={styles.navLink}>My Page</Link></li>
+          <li><Link to="/boards" className={styles.navLink}>Boards</Link></li>
+
         </ul>
       </div>
     </div>
