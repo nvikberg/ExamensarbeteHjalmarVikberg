@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../Data/firebase';  
 import { collection, getDocs } from 'firebase/firestore'; 
+import AddBoards from './AddBoards';
 
 //Hämtar alla anslagstavlorna i en array
 
@@ -42,6 +43,9 @@ const FetchBoard: React.FC = () => {
       ) : (
         <p>No boards found</p>
       )}
+      <div>
+        <AddBoards></AddBoards>
+      </div>
     </div>
   );
 };
