@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { db } from "../Data/firebase"; 
 import { collection, addDoc } from "firebase/firestore";  
+import styles from '../CSS/AddBoard.module.css';
+
 
 //typescript grej att definera typer för state
 interface Board {
@@ -42,20 +44,30 @@ const AddBoards: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Add New Board</h2>
+    // <div className={styles.main}>
+
+          <div className={styles.sidebar}>
+          <div className={styles.boardHeader}>
+      <h2>Add new board</h2>
+      </div>
+      <div>
       <input
+      className={styles.input}
         type="text"
         value={boardName}
         onChange={handleInputChange}
         placeholder="Enter board name"
       />
-      <button onClick={addBoard} disabled={loading}>
-        {loading ? "Adding Board..." : "Add Board"}
+      <button 
+    className={styles.addBoardButton}
+      onClick={addBoard} disabled={loading}>
+        {loading ? "Adding Board..." : "+"}
       </button>
-
+      </div>
       {successMessage && <p>{successMessage}</p>}
     </div>
+    // </div>
+
   );
 };
 

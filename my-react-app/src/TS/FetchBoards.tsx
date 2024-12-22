@@ -4,6 +4,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import AddBoards from './AddBoards';
 
 //Hämtar alla anslagstavlorna i en array
+//Denna komponent användes initiellt för att ta in alla anslagstavlor från databasen
 
 const FetchBoard: React.FC = () => {
   const [boards, setBoards] = useState<any[]>([]);  

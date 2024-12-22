@@ -1,0 +1,129 @@
+/* Color palette */
+:root {
+    --beige: #F6F4E8;
+    --light-turquoise: #BACEC1;
+    --light-orange: #E59560;
+    --dark-green: #1D3124;
+  }
+
+  .main {
+    background-color: #F6F4E8;
+    display: flex;
+    height: fit-content;
+  }
+  
+  /* Sidebar styling */
+  .sidebar {
+    height: 100%;
+    width: 20%;  /* Sidebar takes full width on small screens */
+    background-color: var(--light-turquoise);
+    border-right: 1px solid #e1e4e8;
+    padding: 3%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  
+  /* Board header styling */
+  .boardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .boardHeader h2 {
+    font-size: 1.5vw;
+    color: #000000c9;
+  }
+  
+  /* Input field styling */
+  .input {
+    width: 80%;
+    padding: 5% 5%;
+    font-size: 1vw;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+  }
+  
+  .input:focus {
+    outline: none;
+    border-color: var(--light-orange);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Button styling */
+  .addBoardButton {
+    width: auto;
+    /* min-width: 15%; */
+    text-align: center;
+    background-color: var(--dark-green);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5%;
+    font-size: 1vw;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .addBoardButton:hover {
+    background-color: var(--light-turquoise);
+    color: var(--dark-green);
+  }
+  
+  /* Media Queries for responsive design */
+  @media (max-width: 768px) {
+    /* On tablet-sized screens, adjust layout */
+    .container {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .sidebar {
+        height: 100%;
+      width: 100%; /* Sidebar takes full width on tablets and below */
+      padding-left: 10%;
+      padding-right: 10%;
+    }
+  
+    .input {
+      width: 100%;
+      font-size: 3.5vw;
+      padding: 4% 6%;
+    }
+  
+    .addBoardButton {
+      width: 100%;
+      font-size: 3.5vw;
+      padding: 6% 8%;
+      margin-top: 5%;
+    }
+  
+    .boardHeader h2 {
+      font-size: 4vw;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    /* On mobile-sized screens, make further adjustments */
+    .input {
+      font-size: 4vw;
+      padding: 6% 10%;
+    }
+  
+    .addBoardButton {
+      width: 100%;
+      font-size: 4vw;
+      padding: 8% 10%;
+      margin-top: 10%;
+    }
+  
+    .boardHeader h2 {
+      font-size: 5vw;
+    }
+  }
+  

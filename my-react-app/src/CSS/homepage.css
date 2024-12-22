@@ -1,3 +1,18 @@
+/* 
+colors 
+F6F4E8 BEIGE
+BACEC1 LIGHT TURQUISE
+E59560 LIGHT ORANGE
+1D3124 DARK GREEN */
+
+
+.main {
+background-color: #F6F4E8;
+display: flex;
+width: 100%;
+justify-content: space-between; 
+}
+
 .homepage-container {
     width: 100%;
     max-width: 1200px;
@@ -10,6 +25,7 @@
     font-size: 2.5rem;
     color: #333;
     margin-bottom: 20px;
+    text-align: center;
     font-family: 'Arial', sans-serif;
   }
   
@@ -20,6 +36,7 @@
     gap: 20px;
     margin-top: 30px;
     padding: 0 10px;
+    flex: 1;
   }
   
   /* Grid Item Styling */
@@ -71,6 +88,8 @@
   @media (max-width: 768px) {
     .homepage-container h1 {
       font-size: 2rem;
+      text-align: center;
+
     }
   
     .grid-container {

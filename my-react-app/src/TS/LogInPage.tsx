@@ -27,6 +27,7 @@ const LogIn: React.FC = () => {
   };
 
   return (
+    <div className="main">
     <div className="login-container">
       <h1>Log In</h1>
       <form onSubmit={handleLogin}>
@@ -58,6 +59,7 @@ const LogIn: React.FC = () => {
       <p>
         Don't have an account? <a href="/signup">Sign up</a>
       </p>
+    </div>
     </div>
   );
 };

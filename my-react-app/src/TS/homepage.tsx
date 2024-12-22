@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "../CSS/homepage.css";
 import { db } from "../Data/firebase";
 import { collection, getDocs, doc, getDoc, DocumentReference } from "firebase/firestore";
+import AddBoards from "./AddBoards";
+import FetchBoard from "./FetchBoards";
 
 interface UserData {
   boardID: DocumentReference[]; // Array med references
@@ -67,8 +69,10 @@ const Homepage: React.FC = () => {
   }, []);
 
   return (
+    <div className="main">
+              <AddBoards></AddBoards>
     <div className="homepage-container">
-      <h1>Welcome to your homepage</h1>
+      <h1>Your Boards</h1>
       {loading ? (
         <p>Loading boards...</p>
       ) : items.length > 0 ? (
@@ -81,11 +85,13 @@ const Homepage: React.FC = () => {
             >
               <h3>{item.title}</h3>
             </div>
+        
           ))}
         </div>
       ) : (
         <p>No boards found for this user</p>
       )}
+    </div>
     </div>
   );
 };
