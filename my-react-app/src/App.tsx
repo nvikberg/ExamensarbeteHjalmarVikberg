@@ -6,6 +6,7 @@ import Nav from './TS/Nav';
 import LogInPage from './TS/LogInPage';
 import FetchBoard from './TS/FetchBoards';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';  // Import routing components
+import Logout from './TS/Logout';
 
 function App(): JSX.Element {
   return (
@@ -16,7 +17,10 @@ function App(): JSX.Element {
         <Routes>
         <Route path="/" element={<LogInPage/>} />
         <Route path="/homepage" element={<Homepage />} />
+        <Route path="/logout" element={<Logout />} />
+
         <Route path="/boards" element={<FetchBoard />} />
+
         </Routes>
       </Router>
 
