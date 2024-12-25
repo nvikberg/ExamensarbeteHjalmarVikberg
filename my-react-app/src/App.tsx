@@ -3,7 +3,7 @@ import React from 'react';
 import './CSS/App.css';
 import Homepage from './TS/homepage';  // Import Homepage component
 import Nav from './TS/Nav'; 
-import LogIn from './TS/LogInPage';
+import LogInPage from './TS/LogInPage';
 import FetchBoard from './TS/FetchBoards';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';  // Import routing components
 
@@ -14,7 +14,7 @@ function App(): JSX.Element {
         <Nav />
 
         <Routes>
-        <Route path="/" element={<LogIn />} />
+        <Route path="/" element={<LogInPage/>} />
         <Route path="/homepage" element={<Homepage />} />
         <Route path="/boards" element={<FetchBoard />} />
         </Routes>

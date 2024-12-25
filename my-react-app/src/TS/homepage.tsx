@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../CSS/homepage.css";
 import { db } from "../Data/firebase";
+import { getAuth } from "firebase/auth";
 import { collection, getDocs, doc, getDoc, DocumentReference } from "firebase/firestore";
 import AddBoards from "./AddBoards";
 import FetchBoard from "./FetchBoards";
@@ -11,7 +12,7 @@ interface UserData {
 }
 
 interface BoardData {
-  boardname: string; 
+  boardname: string;
 }
 
 interface Item {
@@ -23,11 +24,21 @@ const Homepage: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const auth = getAuth();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userDocRef = doc(db, "Users", "BjtRnJUgI3LZhJkMDNzT"); // Hardcoded user ID change to logged in user later
+        const user = auth.currentUser; //hämtar användaren som är inloggad genom firebase auth
+
+
+        if (!user) {
+          console.error("No user is logged in")
+          navigate("/login");
+          return;
+        }
+
+        const userDocRef = doc(db, "Users", user.uid);
         const userDoc = await getDoc(userDocRef);
 
         if (userDoc.exists()) {
@@ -70,28 +81,28 @@ const Homepage: React.FC = () => {
 
   return (
     <div className="main">
-              <AddBoards></AddBoards>
-    <div className="homepage-container">
-      <h1>Your Boards</h1>
-      {loading ? (
-        <p>Loading boards...</p>
-      ) : items.length > 0 ? (
-        <div className="grid-container">
-          {items.map((item) => (
-            <div
-              key={item.id}
-              className="grid-item"
-              onClick={() => navigate(`/board/${item.id}`)}
-            >
-              <h3>{item.title}</h3>
-            </div>
-        
-          ))}
-        </div>
-      ) : (
-        <p>No boards found for this user</p>
-      )}
-    </div>
+      <AddBoards></AddBoards>
+      <div className="homepage-container">
+        <h1>Your Boards</h1>
+        {loading ? (
+          <p>Loading boards...</p>
+        ) : items.length > 0 ? (
+          <div className="grid-container">
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className="grid-item"
+                onClick={() => navigate(`/board/${item.id}`)}
+              >
+                <h3>{item.title}</h3>
+              </div>
+
+            ))}
+          </div>
+        ) : (
+          <p>No boards found for this user</p>
+        )}
+      </div>
     </div>
   );
 };

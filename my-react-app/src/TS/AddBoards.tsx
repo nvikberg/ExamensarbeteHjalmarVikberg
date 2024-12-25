@@ -4,6 +4,8 @@ import { collection, addDoc } from "firebase/firestore";
 import styles from '../CSS/AddBoard.module.css';
 
 
+//ATT GÖRA - "user id" ska följa med när man skapar en ny tavla och även att "board title" läggs till under den usern
+
 //typescript grej att definera typer för state
 interface Board {
   boardname: string;
