@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import { getFirestore, addDoc, collection } from 'firebase/firestore';
+import { getFirestore, addDoc, setDoc, collection, doc } from 'firebase/firestore';
 import { db } from '../Data/firebase'; 
 import React from 'react';
 import styles from '../CSS/Login.module.css';
@@ -39,17 +39,20 @@ const Register: React.FC = () => {
 
       //lägger till användaren i vår firestore databas
       const firestore = getFirestore();
-      const docRef = await addDoc(collection(db, 'Users'), {
-        firstName,
-        lastName,
-        email,
-        status, // kommer alltid vara user just nu 
-      });
+      const userRef = doc(db, 'Users', user.uid)
+
+        await setDoc(userRef, {
+          firstName,
+          lastName,
+          email,
+          status, // kommer alltid vara user just nu 
+        });
+       
 
       setLoading(false); 
       alert('Welcome welcome ' + user.email); 
-      console.log('Document written with ID: ', docRef.id);
-      navigate('/');
+      console.log('Document written with ID: ', userRef.id);
+      navigate('/homepage');
     } catch (error) {
       setLoading(false); 
       console.error('Register Error:', error);

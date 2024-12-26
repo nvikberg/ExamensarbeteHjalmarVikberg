@@ -58,7 +58,7 @@ const Homepage: React.FC = () => {
 
               boardsData.push({
                 id: boardDoc.id,
-                title: boardData.boardname || "Untitled",
+                title: boardData.boardname || "",
               });
             } else {
               console.warn(`Board with reference ${boardRef.id} does not exist.`);
