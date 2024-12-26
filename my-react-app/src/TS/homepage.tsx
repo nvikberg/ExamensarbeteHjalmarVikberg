@@ -7,7 +7,7 @@ import { doc, getDoc, DocumentReference } from "firebase/firestore";
 import AddBoards from "./AddBoards";
 
 interface UserData {
-  boardID: DocumentReference[]; // Array med references
+  boardID: string[]; // Array of Firestore references to board documents
 }
 
 interface BoardData {
@@ -22,48 +22,59 @@ interface Item {
 const Homepage: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<any>(null); // Store the current user
   const navigate = useNavigate();
   const auth = getAuth();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const checkUserAndFetchData = async () => {
       try {
-        const user = auth.currentUser; //hämtar användaren som är inloggad genom firebase auth
-
-
-        if (!user) {
-          console.error("No user is logged in")
-          navigate("/login");
+        const currentUser = auth.currentUser; // Get the logged-in user
+        if (!currentUser) {
+          console.error("No user is logged in");
+          navigate("/");
           return;
         }
+        setUser(currentUser); // Set the user state
 
-        const userDocRef = doc(db, "Users", user.uid);
+        const userDocRef = doc(db, "Users", currentUser.uid);
         const userDoc = await getDoc(userDocRef);
 
         if (userDoc.exists()) {
           const userData = userDoc.data() as UserData;
-          const boardRefs = userData.boardID || []; // Array of Firestore references
+          const boardIDs = userData.boardID || []; // Array of DocumentReferences
 
           console.log("User Data:", userData);
+          console.log("Board ids", boardIDs);
 
-          // fetch the boards using references
+          //skapar array för att hålla boardseen
           const boardsData: Item[] = [];
-          for (const boardRef of boardRefs) {
+
+          // Iterate over the boardRefs, which are DocumentReferences
+          for (const boardID of boardIDs) {
+            // Use getDoc() to fetch the document data from Firestore
+            const boardRef = doc(db, "Boards", boardID);  //Behövde lägga till doc för att få ut datan ur referensen 
+
             const boardDoc = await getDoc(boardRef);
+
+
+            console.log("Board Ref2", boardRef); //debugging
 
             if (boardDoc.exists()) {
               const boardData = boardDoc.data() as BoardData;
               console.log("Board Data:", boardData);
 
+              //lägger till board datan till den tomma arrayen
               boardsData.push({
                 id: boardDoc.id,
-                title: boardData.boardname || "",
+                title: boardData.boardname || "", // Use the board name
               });
             } else {
               console.warn(`Board with reference ${boardRef.id} does not exist.`);
             }
           }
 
+          // Set the boards data into state
           setItems(boardsData);
         } else {
           console.error("User document does not exist.");
@@ -75,12 +86,13 @@ const Homepage: React.FC = () => {
       }
     };
 
-    fetchData();
-  }, []);
+    // Call the function to check user and fetch data
+    checkUserAndFetchData();
+  }, [auth.currentUser, navigate]); // Add navigate and auth.currentUser as dependencies
 
   return (
     <div className="main">
-      <AddBoards></AddBoards>
+      <AddBoards />
       <div className="homepage-container">
         <h1>Your Boards</h1>
         {loading ? (
@@ -95,7 +107,6 @@ const Homepage: React.FC = () => {
               >
                 <h3>{item.title}</h3>
               </div>
-
             ))}
           </div>
         ) : (
