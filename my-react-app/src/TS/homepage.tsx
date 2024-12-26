@@ -3,9 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "../CSS/homepage.css";
 import { db } from "../Data/firebase";
 import { getAuth } from "firebase/auth";
-import { collection, getDocs, doc, getDoc, DocumentReference } from "firebase/firestore";
+import { doc, getDoc, DocumentReference } from "firebase/firestore";
 import AddBoards from "./AddBoards";
-import FetchBoard from "./FetchBoards";
 
 interface UserData {
   boardID: DocumentReference[]; // Array med references
