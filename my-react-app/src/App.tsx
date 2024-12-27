@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 // import logo from './logo.svg';
 import './CSS/App.css';
 import Homepage from './TS/Homepage';  // Import Homepage component
@@ -7,8 +8,16 @@ import LogInPage from './TS/LogInPage';
 import FetchBoard from './TS/FetchBoards';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';  // Import routing components
 import Logout from './TS/Logout';
+import { getAuth } from 'firebase/auth';
 
 function App(): JSX.Element {
+
+
+  //OBS håller på att lägga till så programmet trackar om man ät inloggad så ska inte login länken synas
+const [user, setUser] = useState<any>('');
+const auth = getAuth();
+
+
   return (
     <>
       <Router>
