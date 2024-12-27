@@ -1,0 +1,59 @@
+.lists-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f4f4f4;
+  }
+  
+  /* Individual list card */
+  .list-card {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: 300px;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .list-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* List title */
+  .list-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333333;
+  }
+  
+  /* Add card button */
+  .add-card-button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-card-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .lists-container {
+      flex-direction: column;
+      gap: 15px;
+    }
+  
+    .list-card {
+      width: 100%;
+    }
+  }
+  
