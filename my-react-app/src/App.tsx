@@ -2,9 +2,10 @@ import React from 'react';
 import { useState } from 'react';
 // import logo from './logo.svg';
 import './CSS/App.css';
-import Homepage from './TS/Homepage';  // Import Homepage component
+import Homepage from './TS/HomePage';  // Import Homepage component
 import Nav from './TS/Nav'; 
 import LogInPage from './TS/LogInPage';
+import Board from './TS/BoardPage';
 import FetchBoard from './TS/FetchBoards';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';  // Import routing components
 import Logout from './TS/Logout';
@@ -29,6 +30,8 @@ const auth = getAuth();
         <Route path="/logout" element={<Logout />} />
 
         <Route path="/boards" element={<FetchBoard />} />
+
+        <Route path="/board/:id" element={<Board/>} />
 
         </Routes>
       </Router>
