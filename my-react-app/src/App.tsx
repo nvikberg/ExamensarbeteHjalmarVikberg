@@ -31,7 +31,7 @@ const auth = getAuth();
 
         <Route path="/boards" element={<FetchBoard />} />
 
-        <Route path="/board/:id" element={<Board/>} />
+        <Route path="/board/:boardId" element={<Board/>} />
 
         </Routes>
       </Router>
