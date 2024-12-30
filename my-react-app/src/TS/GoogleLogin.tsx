@@ -1,7 +1,7 @@
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { FaGoogle } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
-import { getFirestore, doc, updateDoc} from "firebase/firestore";
+import { getFirestore, doc, updateDoc, query, where, getDocs, collection, setDoc } from "firebase/firestore";
 import { db } from "../Data/firebase";
 import { useState } from "react";
 import React from 'react';
@@ -12,7 +12,7 @@ import React from 'react';
 
 const GoogleLogin: React.FC = () => {
 
-    
+
 
     const provider = new GoogleAuthProvider();
     const auth = getAuth();
@@ -26,7 +26,7 @@ const GoogleLogin: React.FC = () => {
         // setLoading(true);
 
         signInWithPopup(auth, provider)
-            .then(async(result) => {
+            .then(async (result) => {
                 // This gives you a Google Access Token. You can use it to access the Google API.
                 const credential = GoogleAuthProvider.credentialFromResult(result);
 
@@ -37,24 +37,35 @@ const GoogleLogin: React.FC = () => {
 
                     //signed-in user info
                     const user = result.user;
-                    const userEmail = user.email
+                    const userEmail = result.user.email
 
                     console.log("user info", user);
                     console.log("user email", userEmail);
 
 
-                    //sparar user till databasen också 
-                    const userRef = doc(db, 'Users', user.uid)
+                    //kollar om användaren redan finns i databasen i Users, om inte så skapas en NY user
+                    if (userEmail) {
+                        const usersRef = collection(firestore, 'Users');
+                        const q = query(usersRef, where("userEmail", "==", userEmail));
+                        const querySnapshot = await getDocs(q);
 
-                    await updateDoc(userRef, {
-                        userEmail,
-                    });
+                        if (querySnapshot.empty) {
+                            // If no user document is found with this email, create a new document
+                            const userRef = doc(db, 'Users', user.uid);
+                            await setDoc(userRef, {
+                                userEmail,
+                            }, { merge: true }); // merga för att inte skriva över
 
+                            console.log('New user document created with id ', userRef.id);
 
-                    // setLoading(false);
-                    console.log('Document written with ID: ', userRef.id);
-                    console.log ('user id ' + user.uid)
-                    navigate('/homepage');
+                            // else loggar in utan att skapa nått
+                        } else {
+                            console.log('user id ' + user.uid)
+                            navigate('/homepage');
+                        }
+                    } else {
+                        console.log('error with query')
+                    }
                 } else {
                     console.error("Google credential is null");
                 }
