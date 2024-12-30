@@ -3,8 +3,31 @@ import React from 'react';
 import styles from '../CSS/Nav.module.css';
 import FetchBoard from './FetchBoards';
 import Logout from './Logout';
+import { useState, useEffect } from 'react';
+import { getAuth, onAuthStateChanged} from 'firebase/auth';
 
 const Nav: React.FC<{}> = () => {
+
+  //OBS håller på att lägga till så programmet trackar om man ät inloggad så ska inte login länken synas
+const [user, setUser] = useState<any>('');
+const auth = getAuth();
+
+useEffect(() => {
+  // Listen for changes in the user's authentication state
+  const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    if (currentUser) {
+      // User is logged in
+      setUser(currentUser);
+    } else {
+      // User is logged out
+      setUser(null);
+    }
+  });
+
+  // Clean up the listener when the component is unmounted
+  return () => unsubscribe();
+}, [auth]);
+
 
 
   return (
@@ -14,10 +37,14 @@ const Nav: React.FC<{}> = () => {
       </div>
       <div className={styles.linksContainer}>
         <ul className={styles.navLinks}>
+          {!user && (
           <li><Link to="/" className={styles.navLink}>Login</Link></li>
+          )}
           <li><Link to="/homepage" className={styles.navLink}>My Boards</Link></li>
           {/* <li><Link to="/boards" className={styles.navLink}>Boards</Link></li> */}
-          <li><Link to="/logout" className={styles.navLink}>Log Out</Link></li>
+          {user && (
+            <li><Link to="/logout" className={styles.navLink}>Log Out</Link></li>
+          )}
         </ul>
       </div>
     </div>
