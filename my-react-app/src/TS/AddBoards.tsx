@@ -3,6 +3,7 @@ import { db } from "../Data/firebase";
 import { collection, addDoc, updateDoc, doc, arrayUnion } from "firebase/firestore";
 import styles from '../CSS/AddBoard.module.css';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import MultipleUsersToBoards from './MultipleUsersToBoards';
 
 
 //ATT GÖRA - "user id" ska följa med när man skapar en ny tavla och även att "board title" läggs till under den usern
@@ -98,8 +99,13 @@ const AddBoards: React.FC = () => {
           {loading ? "Adding Board..." : "+"}
         </button>
       </div>
+      <div>
+      <MultipleUsersToBoards></MultipleUsersToBoards>
+
+      </div>
       {successMessage && <p>{successMessage}</p>}
     </div>
+    
     // </div>
 
   );
