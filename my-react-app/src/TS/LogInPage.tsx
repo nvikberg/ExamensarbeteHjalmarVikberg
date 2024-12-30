@@ -4,6 +4,7 @@ import { auth } from "../Data/firebase"; // Import Firebase Auth
 import { signInWithEmailAndPassword } from "firebase/auth";
 import Register from "./Register";
 import styles from '../CSS/Login.module.css';
+import GoogleLogin from "./GoogleLogin";
 
 // 25/12 jag la till toggle mellan login och registering.. bråkat med css på register sidan för det bir lite dubblett, måste fixas sen
 // Det ser inte så bra ut men logiken fungerar :)
@@ -68,6 +69,7 @@ const LogIn: React.FC = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          <GoogleLogin></GoogleLogin>
         </div>
         {error && <p className="errorMessage">{error}</p>}
         <button type="submit" disabled={loading}>
