@@ -11,8 +11,8 @@ interface CardData {
 
 interface BoardProps {
   boardId: string;
-  listTitle: string; // Pass the list title to which the card is being added
-  userId: string; // Pass the logged-in user's ID
+  listTitle: string; 
+  userId: string;
 }
 
 const AddCards: React.FC<BoardProps> = ({ boardId, listTitle, userId }) => {

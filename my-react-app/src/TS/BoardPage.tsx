@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { db } from "../Data/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import Lists from "./Lists";
+import AddLists from "./AddList";
 
 const Board: React.FC = () => {
   const { boardId } = useParams<{ boardId: string }>();
@@ -46,6 +47,7 @@ const Board: React.FC = () => {
       <h1>{boardName}</h1>
       <div className="lists">
       <Lists boardId={boardId} />
+      <AddLists boardId={boardId} />
       </div>      
     </div>
   );
