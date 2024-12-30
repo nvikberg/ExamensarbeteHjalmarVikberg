@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../Data/firebase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
+import '../CSS/Card.css';
 
 interface CardData {
   id: string;
@@ -55,19 +56,25 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) =
     return <p>Loading cards...</p>;
   }
 
+  
+
   return (
-    <div>
-      {cards.length > 0 ? (
-        <ul>
-          {cards.map((card) => (
-            <li key={card.id}>{card.cardtext}</li>
-          ))}
-        </ul>
-      ) : (
-        <p> </p>
+    <>
+      {cards.length > 0 && (
+        <div className="card-container">
+          <ul>
+            {cards.map((card) => (
+              <div key={card.id}>{card.cardtext}</div>
+            ))}
+          </ul>
+          <p>Estimated time for task: </p>
+          <input type="number" className="estHour" placeholder="Hours"></input>
+          <input type="number" className="estMin" placeholder="Minutes"></input>
+        </div>
       )}
-    </div>
-  );
-};
+    </>
+  );  
+}
+  
 
 export default CardsComponent;

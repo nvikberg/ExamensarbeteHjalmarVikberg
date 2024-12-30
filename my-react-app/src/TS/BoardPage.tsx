@@ -46,8 +46,8 @@ const Board: React.FC = () => {
     <div>
       <h1>{boardName}</h1>
       <div className="lists">
-      <Lists boardId={boardId} />
       <AddLists boardId={boardId} />
+      <Lists boardId={boardId} />
       </div>      
     </div>
   );

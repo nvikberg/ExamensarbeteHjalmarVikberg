@@ -51,7 +51,7 @@ const AddCards: React.FC<BoardProps> = ({ boardId, listTitle, userId }) => {
         value={cardText}
         onChange={(e) => setCardText(e.target.value)}
       />
-      <button onClick={handleAddCard}>Save Card</button>
+      <button onClick={handleAddCard}>Add Card</button>
     </div>
   );
 };
