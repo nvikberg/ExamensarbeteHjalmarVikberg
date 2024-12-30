@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../CSS/homepage.css";
 import { db } from "../Data/firebase";
 import { getAuth } from "firebase/auth";
-import { doc, getDoc, DocumentReference } from "firebase/firestore";
+import { doc, getDoc, query, collection, where, onSnapshot } from "firebase/firestore";
 import AddBoards from "./AddBoards";
 
 interface UserData {
@@ -89,6 +89,35 @@ const Homepage: React.FC = () => {
     // Call the function to check user and fetch data
     checkUserAndFetchData();
   }, [auth.currentUser, navigate]); // Add navigate and auth.currentUser as dependencies
+
+
+  //lyssnar efter updateringar på bords collection (För att ny board ska synas direkt utan uppdatera) 
+  useEffect(() => {
+    setUser(auth.currentUser)
+    if (user) {
+      const boardsCollectionRef = collection(db, "Boards");
+
+      // Subscribe to changes in the boards collection
+      const q = query(boardsCollectionRef, where("userId", "==", user.uid));
+
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const updatedBoards: Item[] = [];
+        snapshot.forEach((doc) => {
+          const boardData = doc.data() as BoardData;
+          updatedBoards.push({
+            id: doc.id,
+            title: boardData.boardname || "", // Get the board name
+          });
+        });
+
+        // Update state with the new board data
+        setItems(updatedBoards);
+      });
+
+      // Clean up the subscription when the component unmounts
+      return () => unsubscribe();
+    }
+    }, [user]);
 
   return (
     <div className="main">
