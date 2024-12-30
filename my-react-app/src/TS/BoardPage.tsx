@@ -44,7 +44,9 @@ const Board: React.FC = () => {
   return (
     <div>
       <h1>{boardName}</h1>
+      <div className="lists">
       <Lists boardId={boardId} />
+      </div>      
     </div>
   );
 };
