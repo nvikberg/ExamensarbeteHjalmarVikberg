@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../Data/firebase';
 import { doc, getDoc } from 'firebase/firestore'; 
 import '../CSS/Lists.css';
+import CardsComponent from './Cards';
 import AddCards from './AddCard';
 import { getAuth } from 'firebase/auth';
 
@@ -62,6 +63,7 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
         <div className="list-card" key={list.id}>
           <h3 className="list-title">{list.listTitle}</h3>
           <div className="cardContainer">
+            <CardsComponent boardId={boardId} listTitle={list.listTitle} />
             <AddCards boardId={boardId} listTitle={list.listTitle} userId={userId} />
           </div>
         </div>
