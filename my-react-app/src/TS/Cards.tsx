@@ -121,6 +121,8 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) =
                 <p>{card.cardtext}</p>
                 {card.estimatedHours != null && <p>{card.estimatedHours} h</p>}
                 {card.estimatedMinutes != null && <p>{card.estimatedMinutes} min</p>}
+                {card.actualHours != null && <p>{card.actualHours} h</p>}
+                {card.actualMinutes != null && <p>{card.actualMinutes} min</p>}
                 <div className="time-estimation">
                   <p>Estimated time for task: </p>
                   <input
