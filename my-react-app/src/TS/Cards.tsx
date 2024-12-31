@@ -8,6 +8,10 @@ interface CardData {
   cardtext: string;
   boardID: string;
   listtitle: string;
+  estimatedHours?: number | null;
+  estimatedMinutes?: number | null;
+  actualHours?: number | null;
+  actualMinutes?: number | null;
 }
 
 interface CardsComponentProps {
@@ -20,13 +24,14 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) =
   const [loading, setLoading] = useState(true);
   const [estHour, setEstHour] = useState<number | null>(null);
   const [estMin, setEstMin] = useState<number | null>(null);
+  const [actHour, setActHour] = useState<number | null>(null);
+  const [actMin, setActMin] = useState<number |null>(null);
 
   useEffect(() => {
     const fetchCards = async () => {
       try {
         const cardsRef = collection(db, 'Cards');
 
-        // Query for matching boardId and listTitle
         const q = query(
           cardsRef,
           where('boardID', '==', boardId),
@@ -35,12 +40,15 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) =
 
         const querySnapshot = await getDocs(q);
 
-        // Map query results to an array
         const fetchedCards: CardData[] = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           cardtext: doc.data().cardtext,
           boardID: doc.data().boardID,
           listtitle: doc.data().listtitle,
+          estimatedHours: doc.data().estimatedHours,
+          estimatedMinutes: doc.data().estimatedMinutes,
+          actualHours: doc.data().actualHours,
+          actualMinutes: doc.data().actualMinutes,
         }));
 
         setCards(fetchedCards);
@@ -55,8 +63,8 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) =
   }, [boardId, listTitle]);
 
   const handleSaveTimeEstimation = async (cardId: string) => {
-    if (estHour === null || estMin === null) {
-      alert('Please provide both estimated hours and minutes');
+    if (estHour === null && estMin === null) {
+      alert('Please provide either hours or minutes');
       return;
     }
 
@@ -77,6 +85,28 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) =
     }
   };
 
+  const handleSaveActualTime = async (cardId: string) => {
+    if (actHour === null && actMin === null) {
+      alert('Please provide either hours or minutes');
+      return;
+    }
+
+    try {
+      const cardDocRef = doc(db, 'Cards', cardId);
+
+      await updateDoc(cardDocRef, {
+        actualHours: actHour,
+        actualMinutes: actMin,
+      });
+
+      setActHour(null);
+      setActMin(null);
+    } catch (error) {
+      console.error('Error adding actual time:', error);
+      alert('Failed to save actual time. Please try again.');
+    }
+  };
+
   if (loading) {
     return <p>Loading cards...</p>;
   }
@@ -89,6 +119,8 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) =
             {cards.map((card) => (
               <div key={card.id} className="card">
                 <p>{card.cardtext}</p>
+                {card.estimatedHours != null && <p>{card.estimatedHours} h</p>}
+                {card.estimatedMinutes != null && <p>{card.estimatedMinutes} min</p>}
                 <div className="time-estimation">
                   <p>Estimated time for task: </p>
                   <input
@@ -107,6 +139,24 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) =
                   />
                   <button onClick={() => handleSaveTimeEstimation(card.id)}>
                     Save time estimation
+                  </button>
+                  <p>Actual time</p>
+                  <input
+                    type="number"
+                    className="actHour"
+                    placeholder="Hours"
+                    value={actHour ?? ''}
+                    onChange={(e) => setActHour(Number(e.target.value))}
+                  />
+                  <input
+                    type="number"
+                    className="actMin"
+                    placeholder="Minutes"
+                    value={actMin ?? ''}
+                    onChange={(e) => setActMin(Number(e.target.value))}
+                  />
+                  <button onClick={() => handleSaveActualTime(card.id)}>
+                    Save actual time
                   </button>
                 </div>
               </div>
