@@ -5,6 +5,7 @@ import { db } from "../Data/firebase";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc, query, collection, where, onSnapshot } from "firebase/firestore";
 import AddBoards from "./AddBoards";
+import DeleteBoard from "./DeleteBoard";
 
 interface UserData {
   boardID: string[]; // Array of Firestore references to board documents
@@ -135,6 +136,9 @@ const Homepage: React.FC = () => {
                 onClick={() => navigate(`/board/${item.id}`)}
               >
                 <h3>{item.title}</h3>
+                <DeleteBoard 
+                boardID={item.id}
+                userID={user.uid}/>
               </div>
             ))}
           </div>

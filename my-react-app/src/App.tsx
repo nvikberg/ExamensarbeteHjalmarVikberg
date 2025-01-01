@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 // import logo from './logo.svg';
 import './CSS/App.css';
-import Homepage from './TS/HomePage';  // Import Homepage component
+import Homepage from './TS/Homepage';  // Import Homepage component
 import Nav from './TS/Nav'; 
 import LogInPage from './TS/LogInPage';
 import Board from './TS/BoardPage';
