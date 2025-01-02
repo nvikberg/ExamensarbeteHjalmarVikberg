@@ -101,8 +101,9 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
     event.preventDefault();
   }
 
+
   return (
-    <div className="lists-container">
+    <div className={styles.listsContainer}>
       {lists.map((list) => (
         <div
           className={styles.listCard}
@@ -112,12 +113,10 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
             handleDragOver(event); 
           }}
           onDragLeave={handleDragLeave} 
-          onDrop={(event) => {
-            handleDrop(event, list.listTitle); 
-          }}
+          onDrop={(event) => handleDrop(event, list.listTitle)}
         >
-          <h3 className="list-title">{list.listTitle}</h3>
-          <div className="cardContainer">
+          <h3 className={styles.listTitle}>{list.listTitle}</h3>
+          <div className={styles.cardContainer}>
             <CardsComponent boardId={boardId} listTitle={list.listTitle} />
             <AddCards boardId={boardId} listTitle={list.listTitle} userId={userId} />
           </div>
@@ -125,8 +124,7 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
       ))}
     </div>
   );
-  
-}
+};
 
 export default Lists;
   
