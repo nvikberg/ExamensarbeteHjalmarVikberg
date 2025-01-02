@@ -71,6 +71,11 @@ const Inbox: React.FC = () => {
         members: arrayUnion(user.email),
       });
 
+      const userRef = doc(db, "Users", boardID);
+      await updateDoc(userRef, {
+        boardID: arrayUnion(boardID),
+      });
+
       console.log("Invitation accepted!");
       fetchInvitations(user.uid); //refresh inbox
     } catch (error) {

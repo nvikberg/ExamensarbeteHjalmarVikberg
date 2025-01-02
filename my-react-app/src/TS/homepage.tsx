@@ -16,11 +16,14 @@ interface UserData {
 
 interface BoardData {
   boardname: string;
+  members: string[];
 }
 
 interface Item {
   id: string;
   title: string;
+  members: string[];
+
 }
 
 const HomePage: React.FC = () => {
@@ -33,66 +36,67 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     const checkUserAndFetchData = async () => {
-        const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
-          if (!user) {
+      const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
+        if (!user) {
           console.error("No user is logged in");
           navigate("/");
           return;
         }
 
-         try {
+        try {
 
-        setUser(user); // Set the user state
+          setUser(user); // Set the user state
 
-        const userDocRef = doc(db, "Users", user.uid);
-        const userDoc = await getDoc(userDocRef);
+          const userDocRef = doc(db, "Users", user.uid);
+          const userDoc = await getDoc(userDocRef);
 
-        if (userDoc.exists()) {
-          const userData = userDoc.data() as UserData;
-          const boardIDs = userData.boardID || []; // Array of DocumentReferences
+          if (userDoc.exists()) {
+            const userData = userDoc.data() as UserData;
+            const boardIDs = userData.boardID || []; // Array of DocumentReferences
 
-          console.log("User Data:", userData);
-          console.log("Board ids", boardIDs);
+            console.log("User Data:", userData);
+            console.log("Board ids", boardIDs);
 
-          //skapar array för att hålla boardseen
-          const boardsData: Item[] = [];
+            //skapar array för att hålla boardseen
+            const boardsData: Item[] = [];
 
-          // Iterate over the boardRefs, which are DocumentReferences
-          for (const boardID of boardIDs) {
-            // Use getDoc() to fetch the document data from Firestore
-            const boardRef = doc(db, "Boards", boardID);  //Behövde lägga till doc för att få ut datan ur referensen 
-            const boardDoc = await getDoc(boardRef);
+            // Iterate over the boardRefs, which are DocumentReferences
+            for (const boardID of boardIDs) {
+              // Use getDoc() to fetch the document data from Firestore
+              const boardRef = doc(db, "Boards", boardID);  //Behövde lägga till doc för att få ut datan ur referensen 
+              const boardDoc = await getDoc(boardRef);
 
-            console.log("Board Ref2", boardRef); //debugging
+              console.log("Board Ref2", boardRef); //debugging
 
-            if (boardDoc.exists()) {
-              const boardData = boardDoc.data() as BoardData;
-              console.log("Board Data:", boardData);
+              if (boardDoc.exists()) {
+                const boardData = boardDoc.data() as BoardData;
+                console.log("Board Data:", boardData);
 
-              //lägger till board datan till den tomma arrayen
-              boardsData.push({
-                id: boardDoc.id,
-                title: boardData.boardname || "", // Use the board name
-              });
-            } else {
-              console.warn(`Board with reference ${boardRef.id} does not exist.`);
+                //lägger till board datan till den tomma arrayen
+                boardsData.push({
+                  id: boardDoc.id,
+                  title: boardData.boardname || "", // Use the board name
+                  members: boardData.members,
+                });
+              } else {
+                console.warn(`Board with reference ${boardRef.id} does not exist.`);
+              }
             }
+
+            // Set the boards data into state
+            setItems(boardsData);
+          } else {
+            console.error("User document does not exist.");
           }
-
-          // Set the boards data into state
-          setItems(boardsData);
-        } else {
-          console.error("User document does not exist.");
+        } catch (error) {
+          console.error("Error fetching boards:", error);
+        } finally {
+          setLoading(false);
         }
-      } catch (error) {
-        console.error("Error fetching boards:", error);
-      } finally {
-        setLoading(false);
-      }
-    });
+      });
 
-    return () => unsubscribeAuth();
-  };
+      return () => unsubscribeAuth();
+    };
 
     // Call the function to check user and fetch data
     checkUserAndFetchData();
@@ -113,7 +117,8 @@ const HomePage: React.FC = () => {
           const boardData = doc.data() as BoardData;
           updatedBoards.push({
             id: doc.id,
-            title: boardData.boardname || "", // Get the board name
+            title: boardData.boardname || "",
+            members: boardData.members, // Get the board name
           });
         });
 
@@ -124,54 +129,56 @@ const HomePage: React.FC = () => {
       // Clean up the subscription when the component unmounts
       return () => unsubscribe();
     }
-    }, [user]);
+  }, [user]);
 
-    const handleAccept = () => {
-      alert("You have accepted the invitation.");
-      setIsInvited(true);
-    };
-  
-    const handleDeny = () => {
-      alert("You have denied the invitation.");
-      setIsInvited(false);
-    };
-  
+  const handleAccept = () => {
+    alert("You have accepted the invitation.");
+    setIsInvited(true);
+  };
+
+  const handleDeny = () => {
+    alert("You have denied the invitation.");
+    setIsInvited(false);
+  };
+
 
   return (
-      <div className="main">
-        <AddBoards />
-        <div className="homepage-container">
-          <h1>Your Boards</h1>
-          {loading ? (
-            <p>Loading boards...</p>
-          ) : items.length > 0 ? (
-            <div className="grid-container">
-              {items.map((item) => (
-                <div key={item.id} className="grid-item-wrapper">
-                  {/* Card Container */}
-                  <div
-                    className="grid-item"
-                    onClick={() => navigate(`/board/${item.id}`)}
-                  >
-                    <h3>{item.title}</h3>
-                  </div>
-                  
-                  {/* Delete Button below each card */}
-                  <div className="delete-button-container">
-                    <DeleteBoard boardID={item.id} userID={user.uid} />
-                  </div>
+    <div className="main">
+      <AddBoards />
+      <div className="homepage-container">
+        <h1>Your Boards</h1>
+        {loading ? (
+          <p>Loading boards...</p>
+        ) : items.length > 0 ? (
+          <div className="grid-container">
+            {items.map((item) => (
+              <div key={item.id} className="grid-item-wrapper">
+                {/* Card Container */}
+                <div
+                  className="grid-item"
+                  onClick={() => navigate(`/board/${item.id}`)}
+                >
+                  <h3>{item.title}</h3>
+                  <p>Members: </p>
+                  <p>{item.members}</p>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p>No boards found for this user</p>
-          )}
-        </div>
+
+                {/* Delete Button below each card */}
+                <div className="delete-button-container">
+                  <DeleteBoard boardID={item.id} userID={user.uid} />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No boards found for this user</p>
+        )}
       </div>
-    );
-  }
-    
-      {/* <div>
+    </div>
+  );
+}
+
+{/* <div>
       {isInvited && (
         <BoardInvitations
         boardID=""
@@ -181,6 +188,6 @@ const HomePage: React.FC = () => {
         />
       )}
     </div> */}
-  
+
 
 export default HomePage;
