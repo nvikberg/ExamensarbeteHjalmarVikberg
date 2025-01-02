@@ -7,6 +7,8 @@ import { doc, getDoc, query, collection, where, onSnapshot } from "firebase/fire
 import AddBoards from "./AddBoards";
 import DeleteBoard from "./DeleteBoard";
 
+//Kollar authenticate (om user är inloggad)
+
 interface UserData {
   boardID: string[]; // Array of Firestore references to board documents
 }
@@ -29,16 +31,18 @@ const Homepage: React.FC = () => {
 
   useEffect(() => {
     const checkUserAndFetchData = async () => {
-      try {
-        const currentUser = auth.currentUser; // Get the logged-in user
-        if (!currentUser) {
+        const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
+          if (!user) {
           console.error("No user is logged in");
           navigate("/");
           return;
         }
-        setUser(currentUser); // Set the user state
 
-        const userDocRef = doc(db, "Users", currentUser.uid);
+         try {
+
+        setUser(user); // Set the user state
+
+        const userDocRef = doc(db, "Users", user.uid);
         const userDoc = await getDoc(userDocRef);
 
         if (userDoc.exists()) {
@@ -55,9 +59,7 @@ const Homepage: React.FC = () => {
           for (const boardID of boardIDs) {
             // Use getDoc() to fetch the document data from Firestore
             const boardRef = doc(db, "Boards", boardID);  //Behövde lägga till doc för att få ut datan ur referensen 
-
             const boardDoc = await getDoc(boardRef);
-
 
             console.log("Board Ref2", boardRef); //debugging
 
@@ -85,21 +87,23 @@ const Homepage: React.FC = () => {
       } finally {
         setLoading(false);
       }
-    };
+    });
+
+    return () => unsubscribeAuth();
+  };
 
     // Call the function to check user and fetch data
     checkUserAndFetchData();
-  }, [auth.currentUser, navigate]); // Add navigate and auth.currentUser as dependencies
+  }, [navigate]); // Add navigate and auth.currentUser as dependencies
 
 
   //lyssnar efter updateringar på bords collection (För att ny board ska synas direkt utan uppdatera) 
   useEffect(() => {
-    setUser(auth.currentUser)
     if (user) {
       const boardsCollectionRef = collection(db, "Boards");
 
       // Subscribe to changes in the boards collection
-      const q = query(boardsCollectionRef, where("userId", "==", user.uid));
+      const q = query(boardsCollectionRef, where("userID", "==", user.uid));
 
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const updatedBoards: Item[] = [];
