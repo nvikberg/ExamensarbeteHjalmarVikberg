@@ -20,8 +20,8 @@ interface CardsComponentProps {
   cards: CardData[]; 
 }
 
-const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) => {
-  const [cards, setCards] = useState<CardData[]>([]);
+const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, boardId, listTitle }) => {
+  const [cards, setCards] = useState<CardData[]>(initialCards); // Initializing state with the passed prop
   const [loading, setLoading] = useState(true);
   const [estHour, setEstHour] = useState<number | null>(null);
   const [estMin, setEstMin] = useState<number | null>(null);
@@ -35,8 +35,8 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) =
 
         const q = query(
           cardsRef,
-          where('boardID', '==', boardId),
-          where('listtitle', '==', listTitle)
+          where('boardID', '==', boardId), // Using destructured `boardId`
+          where('listtitle', '==', listTitle) // Using destructured `listTitle`
         );
 
         const querySnapshot = await getDocs(q);
@@ -62,7 +62,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) =
     };
 
     fetchCards();
-  }, [boardId, listTitle]);
+  }, [boardId, listTitle]); // Dependency array includes `boardId` and `listTitle`
 
   const handleSaveTimeEstimation = async (cardId: string) => {
     if (estHour === null && estMin === null) {
@@ -119,7 +119,6 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) =
     event.dataTransfer.setData("cardId", cardId);
     event.dataTransfer.effectAllowed = "move";
   };
-  
 
   return (
     <>

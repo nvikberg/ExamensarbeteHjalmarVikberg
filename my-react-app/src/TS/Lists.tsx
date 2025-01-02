@@ -101,46 +101,45 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
     }
   
     try {
-      // Update Firestore
+      // Update the Firestore database
       const cardDocRef = doc(db, "Cards", cardId);
       await updateDoc(cardDocRef, {
         listtitle: newListTitle,
       });
   
-      // Update local state
-      setLists((prevLists) => {
-        return prevLists.map((list) => {
-          if (list.cards.some((card) => card.id === cardId)) {
-            // Remove card from the old list
-            return {
-              ...list,
-              cards: list.cards.filter((card) => card.id !== cardId),
-            };
+      // After the Firestore update, refetch the lists data to ensure it's up to date
+      const fetchLists = async () => {
+        try {
+          const boardDocRef = doc(db, 'Boards', boardId);
+          const boardDoc = await getDoc(boardDocRef);
+  
+          if (boardDoc.exists()) {
+            const boardData = boardDoc.data();
+            const listTitles = boardData?.listTitle || [];
+  
+            const fetchedLists: BoardData[] = listTitles.map((title: string, index: number) => ({
+              id: `${boardId}-list-${index}`,
+              listTitle: title,
+              cards: [], // You'll need to fetch the cards for each list here
+            }));
+  
+            setLists(fetchedLists);
+          } else {
+            console.error("Board not found");
           }
+        } catch (error) {
+          console.error('Error fetching lists:', error);
+        }
+      };
   
-          if (list.listTitle === newListTitle) {
-            // Add card to the new list
-            const cardToMove = prevLists
-              .flatMap((list) => list.cards)
-              .find((card) => card.id === cardId);
-  
-            if (cardToMove) {
-              return {
-                ...list,
-                cards: [...list.cards, cardToMove],
-              };
-            }
-          }
-  
-          return list;
-        });
-      });
+      await fetchLists(); // Trigger the fetch after the update
   
       console.log(`Card ${cardId} successfully moved to list ${newListTitle}`);
     } catch (error) {
       console.error("Error updating card:", error);
     }
   };
+  
   
 
   if (lists.length === 0) {
