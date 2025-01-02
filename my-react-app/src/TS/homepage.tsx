@@ -6,6 +6,7 @@ import { getAuth } from "firebase/auth";
 import { doc, getDoc, query, collection, where, onSnapshot } from "firebase/firestore";
 import AddBoards from "./AddBoards";
 import DeleteBoard from "./DeleteBoard";
+import BoardInvitations from "./BoardInvitations";
 
 //Kollar authenticate (om user är inloggad)
 
@@ -22,10 +23,11 @@ interface Item {
   title: string;
 }
 
-const Homepage: React.FC = () => {
+const HomePage: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null); // Store the current user
+  const [isInvited, setIsInvited] = useState(true);
   const navigate = useNavigate();
   const auth = getAuth();
 
@@ -124,34 +126,61 @@ const Homepage: React.FC = () => {
     }
     }, [user]);
 
-  return (
-    <div className="main">
-      <AddBoards />
-      <div className="homepage-container">
-        <h1>Your Boards</h1>
-        {loading ? (
-          <p>Loading boards...</p>
-        ) : items.length > 0 ? (
-          <div className="grid-container">
-            {items.map((item) => (
-              <div
-                key={item.id}
-                className="grid-item"
-                onClick={() => navigate(`/board/${item.id}`)}
-              >
-                <h3>{item.title}</h3>
-                <DeleteBoard 
-                boardID={item.id}
-                userID={user.uid}/>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>No boards found for this user</p>
-        )}
-      </div>
-    </div>
-  );
-};
+    const handleAccept = () => {
+      alert("You have accepted the invitation.");
+      setIsInvited(true);
+    };
+  
+    const handleDeny = () => {
+      alert("You have denied the invitation.");
+      setIsInvited(false);
+    };
+  
 
-export default Homepage;
+  return (
+      <div className="main">
+        <AddBoards />
+        <div className="homepage-container">
+          <h1>Your Boards</h1>
+          {loading ? (
+            <p>Loading boards...</p>
+          ) : items.length > 0 ? (
+            <div className="grid-container">
+              {items.map((item) => (
+                <div key={item.id} className="grid-item-wrapper">
+                  {/* Card Container */}
+                  <div
+                    className="grid-item"
+                    onClick={() => navigate(`/board/${item.id}`)}
+                  >
+                    <h3>{item.title}</h3>
+                  </div>
+                  
+                  {/* Delete Button below each card */}
+                  <div className="delete-button-container">
+                    <DeleteBoard boardID={item.id} userID={user.uid} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p>No boards found for this user</p>
+          )}
+        </div>
+      </div>
+    );
+  }
+    
+      {/* <div>
+      {isInvited && (
+        <BoardInvitations
+        boardID=""
+          boardname={user.uid}
+          onAccept={handleAccept}
+          onDeny={handleDeny}
+        />
+      )}
+    </div> */}
+  
+
+export default HomePage;

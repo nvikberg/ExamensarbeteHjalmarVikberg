@@ -83,19 +83,20 @@ justify-content: space-between;
     margin: 10px 0;
     font-family: 'Arial', sans-serif;
   }
-
+  .delete-button-container {
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Adjust the delete button */
   .deleteButton {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: rgb(168, 14, 14);
+    background-color: red;
     color: white;
+    padding: 10px 20px;
     border: none;
-    padding: 4px 4px;
-    font-size: 10px;
-    border-radius: 3px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    margin-top: 10px; /* Space above the delete button */
   }
   
   .deleteButton:hover {

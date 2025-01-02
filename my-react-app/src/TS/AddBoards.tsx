@@ -6,6 +6,8 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import MultipleUsersToBoards from './MultipleUsersToBoards';
 
 
+//ATT GÖRA, EFFEKTIVISERA HUR MAN LÄGGER IN board id hos USERS (loopen rad 78)
+
 interface Board {
   boardname: string;
   userID: string;

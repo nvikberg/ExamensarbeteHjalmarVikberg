@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { doc, deleteDoc, deleteField, collection, query, where, getDocs, updateDoc, arrayRemove} from "firebase/firestore";
 import { db } from "../Data/firebase";
-import '../CSS/homepage.css';
+import '../CSS/DeleteBoard.css';
 import { useNavigate } from "react-router-dom";
 
 //Hämtar proops från homepage, delete knappen är kopplad till varje board.
@@ -16,7 +16,7 @@ interface Props {
 
 
 const DeleteBoard: React.FC<Props>= ({ boardID, userID }) => {
-
+    const [isVisible, setVisible] = useState<boolean>(false); 
     const navigate = useNavigate();
 
     const handleDelete = async (): Promise<void> => {
@@ -49,15 +49,37 @@ const DeleteBoard: React.FC<Props>= ({ boardID, userID }) => {
             console.error("Error deleting board:", error);
         }
     };
+
+    const showDelete = () => {
+        setVisible(true);
+      };
+    
+      // Function to hide the confirmation modal
+      const hideDelete = () => {
+        setVisible(false);
+      };
+    
     
 
-
-return (
-    <>
-    <button onClick={handleDelete} className='deleteButton'>Delete Board</button>
-    </>
-
-);
-}
+      return (
+        <div>
+          <button onClick={showDelete} className="deleteButton">Delete Board</button>
+    
+          {/* Confirmation Modal */}
+          {isVisible && (
+            <div className="confirmation-modal">
+              <div className="modal-content">
+                <h2>Are you sure you want to delete this board?</h2>
+                <div className="modal-buttons">
+                  <button onClick={handleDelete} className="confirm-btn">Yes, Delete</button>
+                  <button onClick={hideDelete} className="cancel-btn">Cancel</button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    };
+    
 
 export default DeleteBoard;

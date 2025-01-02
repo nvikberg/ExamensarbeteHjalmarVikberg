@@ -4,6 +4,8 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../Data/firebase";
 import styles from '../CSS/AddBoard.module.css'
 
+//ATT GÖRA - SKAPA KNAPP ATT TA BORT EMAIL FRÅN LISTAN NEDANFÖR OM MAN ÅNGRAT SIG
+
 //Hämtar alla userEmail från Users Collections i db,
 //  ploppar in emaildata i en array och mappar ut den i returnen direkt till options i select menyn
 //Skickar props till addBoard (parent) vilken member som är vald för att kunnna lägga till den emailen i boarden i db (det sistnämnda händer i addboard komponenten)
