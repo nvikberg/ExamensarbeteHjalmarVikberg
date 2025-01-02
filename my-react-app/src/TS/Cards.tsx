@@ -111,13 +111,19 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) =
     return <p>Loading cards...</p>;
   }
 
+  const handleDragCardStart = (event: React.DragEvent<HTMLDivElement>, cardId: string) => {
+    event.dataTransfer.setData("cardId", cardId);
+    event.dataTransfer.setData("currentListTitle", listTitle);
+  
+  }
+
   return (
     <>
       {cards.length > 0 && (
         <div className="card-container">
           <ul>
             {cards.map((card) => (
-              <div key={card.id} className="card">
+              <div key={card.id} id={card.id} className="card" draggable="true" onDragStart={(event) => handleDragCardStart(event, card.id)}>
                 <p>{card.cardtext}</p>
                 {card.estimatedHours != null && <p>{card.estimatedHours} h</p>}
                 {card.estimatedMinutes != null && <p>{card.estimatedMinutes} min</p>}

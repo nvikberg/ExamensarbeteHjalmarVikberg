@@ -4,6 +4,7 @@ import { db } from "../Data/firebase";
 import { collection, query, where, getDocs, getDoc, doc } from "firebase/firestore";
 import Lists from "./Lists";
 import AddLists from "./AddList";
+import  styles from "../CSS/BoardPage.module.css"
 
 const Board: React.FC = () => {
   const { boardId } = useParams<{ boardId: string }>();
@@ -88,8 +89,8 @@ const Board: React.FC = () => {
           Actual time: {actualTotal.hours} h and {actualTotal.minutes} minutes
         </h2>
       </header>
-      <div className="lists">
-        <AddLists boardId={boardId} />
+      <div className={styles.lists} content="width=device-width, initial-scale=1">
+        <AddLists boardId={boardId}/>
         <Lists boardId={boardId} />
       </div>
     </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../Data/firebase';
-import { doc, getDoc } from 'firebase/firestore'; 
-import '../CSS/Lists.css';
+import { doc, getDoc, updateDoc } from 'firebase/firestore'; 
+import styles from "../CSS/Lists.module.css"
 import CardsComponent from './Cards';
 import AddCards from './AddCard';
 import { getAuth } from 'firebase/auth';
@@ -57,10 +57,65 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
     return <p>Loading user information...</p>;
   }
 
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault(); // Allow the drop
+    event.currentTarget.classList.add("drag-over"); // Add the visual indicator
+  };
+  
+  const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
+    event.currentTarget.classList.remove("drag-over"); // Remove the visual indicator
+  };
+  
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>, newListTitle: string) => {
+    event.preventDefault(); // Allow the drop
+    event.currentTarget.classList.remove("drag-over"); // Remove the visual indicator after drop
+    handleDropCard(event, newListTitle); // Your existing logic for handling the drop
+  };
+  
+
+  const handleDropCard = async (event: React.DragEvent<HTMLDivElement>, newListTitle: string) => {
+    event.preventDefault();
+  
+    const cardId = event.dataTransfer.getData("cardId");
+  
+    if (!cardId) {
+      console.error("Card ID not found in drag event.");
+      return;
+    }
+  
+    try {
+      const cardDocRef = doc(db, "Cards", cardId);
+      await updateDoc(cardDocRef, {
+        listtitle: newListTitle,
+      });
+  
+      alert("Card moved successfully!");
+    } catch (error) {
+      console.error("Error updating card listtitle:", error);
+      alert("Failed to move the card.");
+    }
+  };
+  
+
+  const enableDropping = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  }
+
   return (
     <div className="lists-container">
-      {lists.map(list => (
-        <div className="list-card" key={list.id}>
+      {lists.map((list) => (
+        <div
+          className={styles.listCard}
+          key={list.id}
+          onDragOver={(event) => {
+            enableDropping(event); 
+            handleDragOver(event); 
+          }}
+          onDragLeave={handleDragLeave} 
+          onDrop={(event) => {
+            handleDrop(event, list.listTitle); 
+          }}
+        >
           <h3 className="list-title">{list.listTitle}</h3>
           <div className="cardContainer">
             <CardsComponent boardId={boardId} listTitle={list.listTitle} />
@@ -70,7 +125,8 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
       ))}
     </div>
   );
-};
+  
+}
 
 export default Lists;
   
