@@ -6,7 +6,7 @@ import { getAuth } from "firebase/auth";
 import { doc, getDoc, query, collection, where, onSnapshot } from "firebase/firestore";
 import AddBoards from "./AddBoards";
 import DeleteBoard from "./DeleteBoard";
-import BoardInvitations from "./BoardInvitations";
+import BoardInvitations from "./Inbox";
 
 //Kollar authenticate (om user är inloggad)
 

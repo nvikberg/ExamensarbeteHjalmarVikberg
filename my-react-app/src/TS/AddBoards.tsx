@@ -15,7 +15,7 @@ interface Board {
 
 const AddBoards: React.FC = () => {
   const [user, setUser] = useState<any>('')
-  const [boardName, setBoardName] = useState<string>('');
+  const [boardname, setBoardname] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>('');
   const [boards, setBoards] = useState<Board[]>([]); //boardsen som är associerade med usern
@@ -37,7 +37,7 @@ const AddBoards: React.FC = () => {
   }, [auth]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setBoardName(e.target.value);
+    setBoardname(e.target.value);
   };
 
   //lägger till vald member till statet
@@ -47,12 +47,10 @@ const AddBoards: React.FC = () => {
 
   //lägga till en ny anslagstavla i firestore
   const addBoard = async (): Promise<void> => {
-    if (!boardName.trim()) {
+    if (!boardname.trim()) {
       alert('Please enter a valid board name!');
       return;
     }
-
-
     if (!user) {
       alert('You must be logged in to add a board.');
       return;
@@ -63,10 +61,40 @@ const AddBoards: React.FC = () => {
 
       //Lägger till nytt doc med namn (user input)
       const docRef = await addDoc(collection(db, "Boards"), {
-        boardname: boardName,
+        boardname: boardname,
         userID: user.uid,
-        members: [...selectedMembers, user.email], //sparar medlemmar i ny row i dbn
+        members: [...selectedMembers, user.email],//sparar usern som skapade baorden och inbjudna usern i ny row i dbn
       });
+
+      console.log("Board created with ID", docRef.id);
+      console.log("Selected members", selectedMembers);
+
+      //loopar igenom alla medlemmar och lägger till board ID till deras docs också
+      for (const memberEmail of selectedMembers) {
+        console.log("sending invitation to", memberEmail);
+
+        const memberQuery = query(collection(db, "Users"), where("userEmail", "==", memberEmail));
+        const memberSnapshot = await getDocs(memberQuery);
+
+        //hämtar informationen om inbjudna usern för att använda i invitation doc
+        if (!memberSnapshot.empty) {
+          const memberDoc = memberSnapshot.docs[0];
+          const memberData = memberDoc.data();
+          const memberID = memberDoc.id;
+
+          //skapar invitations i db
+          await addDoc(collection(db, "Invitations"), {
+            boardID: docRef.id,
+            senderID: user.uid,
+            receiverID: memberID,
+            status: "pending", // Initial status is pending
+            timestamp: new Date(),
+          });
+
+          console.log(`Invitation sent to ${memberEmail}`);
+          alert('Invitation sent to' + memberEmail)
+        }
+      }
 
       //lägger till boardID i current User
       const userRef = doc(db, "Users", user.uid); // Reference to the user's document
@@ -75,28 +103,14 @@ const AddBoards: React.FC = () => {
       });
 
 
-      //loopar igenom alla medlemmar och lägger till board ID till deras docs också
-      for (const memberEmail of selectedMembers) {
-        const memberQuery = query(collection(db, "Users"), where("userEmail", "==", memberEmail));
-        const memberSnapshot = await getDocs(memberQuery);
-
-        memberSnapshot.forEach(async (doc) => {
-          const memberRef = doc.ref; //userdoc ref
-          await updateDoc(memberRef, {
-            boardID: arrayUnion(docRef.id) //adderar boardID till den usersn boardID array
-          });
-        });
-      }
-
       setLoading(false);
-      alert('Board added!')
-      setSuccessMessage(`Document written with ID: ${docRef.id}`);
+      setSuccessMessage(`Board added with ID ${docRef.id}`);
       setTimeout(() => {
         setSuccessMessage(''); // Clear the success message after 3 seconds
       }, 3000);
 
       //clearar staten så det är tomt på front enden efter det blivit adderad till db
-      setBoardName('');
+      setBoardname('');
       setSelectedMembers([]);
 
 
@@ -118,7 +132,7 @@ const AddBoards: React.FC = () => {
         <input
           className={styles.input}
           type="text"
-          value={boardName}
+          value={boardname}
           onChange={handleInputChange}
           placeholder="Enter board name"
         />

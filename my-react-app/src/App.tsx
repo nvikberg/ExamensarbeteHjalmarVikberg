@@ -10,6 +10,7 @@ import FetchBoard from './TS/FetchBoards';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';  // Import routing components
 import Logout from './TS/Logout';
 import { getAuth } from 'firebase/auth';
+import Inbox from './TS/Inbox';
 
 function App(): JSX.Element {
 
@@ -28,6 +29,7 @@ const auth = getAuth();
         <Route path="/" element={<LogInPage/>} />
         <Route path="/homepage" element={<Homepage />} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="/inbox" element={<Inbox />} />
 
         <Route path="/boards" element={<FetchBoard />} />
 

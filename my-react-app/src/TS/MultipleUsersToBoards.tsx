@@ -18,8 +18,9 @@ const MultipleUsersToBoards: React.FC<MultipleUsersToBoardsProps> = ({ onSelectM
     // const [selectedMembers, setSelectedMembers] = useState<string[]>([]); //spara vald email
     const [userEmails, setUserEmails] = useState<string[]>([]); //array för user emails
     // const [user, setUser] = useState<any>(null); //för att spara loggad in user
-
     const auth = getAuth();
+    const currentUserEmail = auth.currentUser?.email; // Get the current user's email
+
 
     useEffect(() => {
         const fetchUsersEmail = async () => {
@@ -30,7 +31,7 @@ const MultipleUsersToBoards: React.FC<MultipleUsersToBoardsProps> = ({ onSelectM
                 const emails: string[] = [];
                 querySnapshot.forEach((doc) => {
                     const userEmail = doc.data().userEmail;
-                    if (userEmail) {
+                    if (userEmail && userEmail !== currentUserEmail) {
                         emails.push(userEmail); //lägger email i arrayen
                     }
                 });
@@ -42,7 +43,7 @@ const MultipleUsersToBoards: React.FC<MultipleUsersToBoardsProps> = ({ onSelectM
         };
 
         fetchUsersEmail();
-    }, []);
+    }, [currentUserEmail]);
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value;
@@ -51,6 +52,12 @@ const MultipleUsersToBoards: React.FC<MultipleUsersToBoardsProps> = ({ onSelectM
             onSelectMembers(newSelection); // Notify parent with new selection
         }
     };
+
+    const handleRemoveMember = (email: string) => {
+        const updatedSelection = selectedMembers.filter(member => member !== email);
+        onSelectMembers(updatedSelection); //notify parent component after removal också
+    };
+
 
 
     return (
@@ -75,7 +82,10 @@ const MultipleUsersToBoards: React.FC<MultipleUsersToBoardsProps> = ({ onSelectM
                     <strong>Selected Members:</strong>
                     <ul>
                         {selectedMembers.map((member, index) => (
-                            <li key={index}>{member}</li>
+                            <li key={index}>
+                                {member}
+                                <button onClick={() => handleRemoveMember(member)} style={{ marginLeft: "10px" }}>Remove</button>
+                            </li>
                         ))}
                     </ul>
                 </div>

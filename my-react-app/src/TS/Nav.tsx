@@ -41,6 +41,8 @@ useEffect(() => {
           <li><Link to="/" className={styles.navLink}>Login</Link></li>
           )}
           <li><Link to="/homepage" className={styles.navLink}>My Boards</Link></li>
+          <li><Link to="/inbox" className={styles.navLink}>Inbox</Link></li>
+
           {/* <li><Link to="/boards" className={styles.navLink}>Boards</Link></li> */}
           {user && (
             <li><Link to="/logout" className={styles.navLink}>Log Out</Link></li>
