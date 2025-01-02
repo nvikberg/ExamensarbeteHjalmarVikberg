@@ -30,7 +30,7 @@ const Board: React.FC = () => {
 
         if (boardDoc.exists()) {
           const boardData = boardDoc.data();
-          setBoardName(boardData?.boardame || "Unnamed Board");
+          setBoardName(boardData?.boardname || "Unnamed Board");
         }
 
         // Fetch all cards for the board
