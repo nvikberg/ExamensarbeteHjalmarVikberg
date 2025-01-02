@@ -1,68 +1,51 @@
-.lists-container {
-    display: grid;
-    grid-column: 1;
-    gap: 20px;
-    padding: 20px;
-    background-color: #F6F4E8;
-  }
-  
-  /* Individual list card */
-  .listCard {
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    width: 300px;
-    transition: box-shadow 0.3s ease;
-    border: 2px dashed transparent;
+.listsContainer {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background-color: #F6F4E8;
+  overflow-x: auto; /* Allow horizontal scrolling if cards overflow */
+}
+
+.listCard {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  width: 300px;
+  transition: box-shadow 0.3s ease;
+  border: 2px dashed transparent;
+}
+
+.listCard.drag-over {
+  border: 2px dashed #007bff;
+  background-color: #f0f8ff;
+}
+
+.listCard:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.listTitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333333;
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Responsive Layout */
+@media (max-width: 600px) {
+  .listsContainer {
+    flex-direction: column;
+    gap: 15px;
   }
 
-  .list-card.drag-over {
-    border: 2px dashed #007bff; /* Highlight when dragging over */
-    background-color: #f0f8ff; 
+  .listCard {
+    width: 100%;
   }
-  
-  .list-card:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* List title */
-  .list-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #333333;
-  }
-  
-  /* Add card button */
-  .add-card-button {
-    width: auto;
-    /* min-width: 15%; */
-    text-align: center;
-    background-color: var(--dark-green);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 5%;
-    font-size: 1vw;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .add-card-button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 600px) {
-    .lists-container {
-      flex-direction: column;
-      gap: 15px;
-    }
-  
-    .list-card {
-      width: 100%;
-    }
-  }
-  
+}

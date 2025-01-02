@@ -1,4 +1,21 @@
 .lists {
     float: left;
     overflow: auto;
+    display: grid;
+    grid-auto-flow: column;
+    align-self: center;
+}
+
+.boardMainContent {
+    display: grid;
+    grid-auto-flow: column;
+    align-self: center;
+    padding: 20px;
+}
+
+.listWrapper {
+    display: grid;
+    grid-auto-flow: column;
+    align-self: center;
+    padding: 10px;
 }
