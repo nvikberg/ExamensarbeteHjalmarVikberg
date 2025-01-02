@@ -16,13 +16,13 @@ interface UserData {
 
 interface BoardData {
   boardname: string;
-  members: string[];
+  // members: string[];
 }
 
 interface Item {
   id: string;
   title: string;
-  members: string[];
+  // members: string[];
 
 }
 
@@ -76,7 +76,6 @@ const HomePage: React.FC = () => {
                 boardsData.push({
                   id: boardDoc.id,
                   title: boardData.boardname || "", // Use the board name
-                  members: boardData.members,
                 });
               } else {
                 console.warn(`Board with reference ${boardRef.id} does not exist.`);
@@ -118,7 +117,6 @@ const HomePage: React.FC = () => {
           updatedBoards.push({
             id: doc.id,
             title: boardData.boardname || "",
-            members: boardData.members, // Get the board name
           });
         });
 
@@ -160,7 +158,7 @@ const HomePage: React.FC = () => {
                 >
                   <h3>{item.title}</h3>
                   <p>Members: </p>
-                  <p>{item.members}</p>
+                  {/* <p>{item.members}</p> */}
                 </div>
 
                 {/* Delete Button below each card */}

@@ -13,6 +13,7 @@ interface Invitation {
   id: string;
   boardID: string;
   senderID: string;
+  receiverID: string;
   status: string;
   timestamp: string;
 }
@@ -51,6 +52,7 @@ const Inbox: React.FC = () => {
         id: doc.id,
         boardID: invitation.boardID,
         senderID: invitation.senderID,
+        receiverID: invitation.receiverID, 
         status: invitation.status,
         timestamp: invitation.timestamp,
       });
@@ -59,9 +61,14 @@ const Inbox: React.FC = () => {
   };
 
   //hanterar statusen och adderar users email till members fältet i Boards
-  const handleAccept = async (invitationID: string, boardID: string) => {
+  const handleAccept = async (invitation: Invitation, boardID: string) => {
+    if (invitation.status !== "pending") {
+      console.log("Invitation has already been responded to.");
+      return;
+    }
+    
     try {
-      const invitationRef = doc(db, "Invitations", invitationID);
+      const invitationRef = doc(db, "Invitations", invitation.id);
       await updateDoc(invitationRef, {
         status: "accepted",
       });
@@ -71,8 +78,8 @@ const Inbox: React.FC = () => {
         members: arrayUnion(user.email),
       });
 
-      const userRef = doc(db, "Users", boardID);
-      await updateDoc(userRef, {
+      const receiverRef = doc(db, "Users", invitation.receiverID);  // Use invitation.receiverID for the receiver's UID
+      await updateDoc(receiverRef, {
         boardID: arrayUnion(boardID),
       });
 
@@ -105,7 +112,7 @@ const Inbox: React.FC = () => {
           <div key={invitation.id}>
             <h3>Invitation to join board {invitation.boardID}</h3>
             <p>From: {invitation.senderID}</p>
-            <button onClick={() => handleAccept(invitation.id, invitation.boardID)}>Accept</button>
+            <button onClick={() => handleAccept(invitation, invitation.boardID)}>Accept</button>
             <button onClick={() => handleDeny(invitation.id)}>Deny</button>
           </div>
         ))

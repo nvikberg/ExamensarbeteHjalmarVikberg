@@ -5,7 +5,6 @@ import styles from '../CSS/AddBoard.module.css';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import MultipleUsersToBoards from './MultipleUsersToBoards';
 
-
 //ATT GÖRA, EFFEKTIVISERA HUR MAN LÄGGER IN board id hos USERS (loopen rad 78)
 
 interface Board {
@@ -14,12 +13,12 @@ interface Board {
 }
 
 const AddBoards: React.FC = () => {
-  const [user, setUser] = useState<any>('')
-  const [boardname, setBoardname] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false);
-  const [successMessage, setSuccessMessage] = useState<string>('');
-  const [boards, setBoards] = useState<Board[]>([]); //boardsen som är associerade med usern
-  const [selectedMembers, setSelectedMembers] = useState<string[]>([]); // Selected user IDs for the task
+  const [user, setUser] = useState<any>('') // The currently logged-in user
+  const [boardname, setBoardname] = useState<string>(''); // Board name input from user
+  const [loading, setLoading] = useState<boolean>(false); // Loading state for the button
+  const [successMessage, setSuccessMessage] = useState<string>(''); // Success message to show after board creation
+  const [boards, setBoards] = useState<Board[]>([]); // Boards associated with the user
+  const [selectedMembers, setSelectedMembers] = useState<string[]>([]); // Selected user emails for the task
 
   const auth = getAuth();
 
@@ -29,23 +28,23 @@ const AddBoards: React.FC = () => {
         setUser(user);
         console.log(user)
       } else {
-        setUser('');
+        setUser(''); // User is logged out
       }
     });
 
-    return () => unsubscribe();
+    return () => unsubscribe(); // Clean up subscription on unmount
   }, [auth]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setBoardname(e.target.value);
+    setBoardname(e.target.value); // Update the board name when the input changes
   };
 
-  //lägger till vald member till statet
+  // Lägg till vald member till statet
   const handleSelectMembers = (members: string[]): void => {
-    setSelectedMembers(members);
+    setSelectedMembers(members); // Update selected members for the board
   };
 
-  //lägga till en ny anslagstavla i firestore
+  // Lägg till en ny anslagstavla i firestore
   const addBoard = async (): Promise<void> => {
     if (!boardname.trim()) {
       alert('Please enter a valid board name!');
@@ -56,68 +55,75 @@ const AddBoards: React.FC = () => {
       return;
     }
 
-    try {
-      setLoading(true);
+    setLoading(true); // Set loading to true while the operation is in progress
 
-      //Lägger till nytt doc med namn (user input)
+    try {
+      // Lägg till nytt doc med namn (user input)
       const docRef = await addDoc(collection(db, "Boards"), {
         boardname: boardname,
         userID: user.uid,
-        members: [...selectedMembers, user.email],//sparar usern som skapade baorden och inbjudna usern i ny row i dbn
+        members: [...selectedMembers, user.email], // Sparar usern som skapade baorden och inbjudna usern i ny row i dbn
       });
 
       console.log("Board created with ID", docRef.id);
       console.log("Selected members", selectedMembers);
 
-      //loopar igenom alla medlemmar och lägger till board ID till deras docs också
+      // Loopar igenom alla medlemmar och lägger till board ID till deras docs också
       for (const memberEmail of selectedMembers) {
         console.log("sending invitation to", memberEmail);
 
         const memberQuery = query(collection(db, "Users"), where("userEmail", "==", memberEmail));
         const memberSnapshot = await getDocs(memberQuery);
 
-        //hämtar informationen om inbjudna usern för att använda i invitation doc
+        // Hämtar informationen om inbjudna usern för att använda i invitation doc
         if (!memberSnapshot.empty) {
           const memberDoc = memberSnapshot.docs[0];
           const memberData = memberDoc.data();
           const memberID = memberDoc.id;
 
-          //skapar invitations i db
-          await addDoc(collection(db, "Invitations"), {
-            boardID: docRef.id,
-            senderID: user.uid,
-            receiverID: memberID,
-            status: "pending", // Initial status is pending
-            timestamp: new Date(),
-          });
-
-          console.log(`Invitation sent to ${memberEmail}`);
-          alert('Invitation sent to' + memberEmail)
+          // Skapar invitation för varje medlem
+          await createInvitation(docRef.id, user.uid, memberID);
         }
       }
 
-      //lägger till boardID i current User
+      // Lägg till boardID i current User
       const userRef = doc(db, "Users", user.uid); // Reference to the user's document
       await updateDoc(userRef, {
-        boardID: arrayUnion(docRef.id) //`arrayUnion` to add the board ID to the boardIds array(arrayUnion FÖR FIREBASE)
+        boardID: arrayUnion(docRef.id), // `arrayUnion` to add the board ID to the boardIds array (arrayUnion FÖR FIREBASE)
       });
 
-
-      setLoading(false);
-      setSuccessMessage(`Board added with ID ${docRef.id}`);
+      setLoading(false); // Set loading to false once the operation is complete
+      setSuccessMessage(`Board added with ID ${docRef.id}`); // Set success message
       setTimeout(() => {
         setSuccessMessage(''); // Clear the success message after 3 seconds
       }, 3000);
 
-      //clearar staten så det är tomt på front enden efter det blivit adderad till db
+      // Clear the form fields after the board has been added to the DB
       setBoardname('');
       setSelectedMembers([]);
 
-
     } catch (error) {
-      setLoading(false);
+      setLoading(false); // Set loading to false in case of error
       console.error("Error adding document: ", error);
       alert("An error occurred while adding the board.");
+    }
+  };
+
+  // Function to create an invitation document for a member
+  const createInvitation = async (boardID: string, senderID: string, receiverID: string) => {
+    try {
+      // Skapar invitations i db
+      await addDoc(collection(db, "Invitations"), {
+        boardID: boardID,
+        senderID: senderID,
+        receiverID: receiverID,
+        status: "pending", // Initial status is pending
+        timestamp: new Date(),
+      });
+
+      console.log(`Invitation sent to ${receiverID}`);
+    } catch (error) {
+      console.error("Error sending invitation:", error);
     }
   };
 
@@ -147,7 +153,6 @@ const AddBoards: React.FC = () => {
           selectedMembers={selectedMembers}
           onSelectMembers={handleSelectMembers}
         />
-
       </div>
       {successMessage && <p>{successMessage}</p>}
     </div>
