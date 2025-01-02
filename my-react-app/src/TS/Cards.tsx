@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../Data/firebase';
 import { collection, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
-import '../CSS/Card.css';
+import styles from '../CSS/Card.module.css'; 
 
 interface CardData {
   id: string;
@@ -17,6 +17,7 @@ interface CardData {
 interface CardsComponentProps {
   boardId: string;
   listTitle: string;
+  cards: CardData[]; 
 }
 
 const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) => {
@@ -25,7 +26,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) =
   const [estHour, setEstHour] = useState<number | null>(null);
   const [estMin, setEstMin] = useState<number | null>(null);
   const [actHour, setActHour] = useState<number | null>(null);
-  const [actMin, setActMin] = useState<number |null>(null);
+  const [actMin, setActMin] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchCards = async () => {
@@ -45,10 +46,11 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) =
           cardtext: doc.data().cardtext,
           boardID: doc.data().boardID,
           listtitle: doc.data().listtitle,
-          estimatedHours: doc.data().estimatedHours,
-          estimatedMinutes: doc.data().estimatedMinutes,
-          actualHours: doc.data().actualHours,
-          actualMinutes: doc.data().actualMinutes,
+          estimatedHours: doc.data().estimatedHours ?? null,
+          estimatedMinutes: doc.data().estimatedMinutes ?? null,
+          actualHours: doc.data().actualHours ?? null,
+          actualMinutes: doc.data().actualMinutes ?? null,
+          ...doc.data(),
         }));
 
         setCards(fetchedCards);
@@ -99,6 +101,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) =
         actualMinutes: actMin,
       });
 
+      alert('Actual time saved successfully!');
       setActHour(null);
       setActMin(null);
     } catch (error) {
@@ -112,35 +115,42 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) =
   }
 
   const handleDragCardStart = (event: React.DragEvent<HTMLDivElement>, cardId: string) => {
+    event.stopPropagation(); // Prevent interference with list dragging
     event.dataTransfer.setData("cardId", cardId);
-    event.dataTransfer.setData("currentListTitle", listTitle);
+    event.dataTransfer.effectAllowed = "move";
+  };
   
-  }
 
   return (
     <>
       {cards.length > 0 && (
-        <div className="card-container">
-          <ul>
+        <div className={styles.cardContainer}>
+          <ul className={styles.cardList}>
             {cards.map((card) => (
-              <div key={card.id} id={card.id} className="card" draggable="true" onDragStart={(event) => handleDragCardStart(event, card.id)}>
+              <div
+                key={card.id}
+                id={card.id}
+                className={styles.card}
+                draggable="true"
+                onDragStart={(event) => handleDragCardStart(event, card.id)}
+              >
                 <p>{card.cardtext}</p>
                 {card.estimatedHours != null && <p>{card.estimatedHours} h</p>}
                 {card.estimatedMinutes != null && <p>{card.estimatedMinutes} min</p>}
                 {card.actualHours != null && <p>{card.actualHours} h</p>}
                 {card.actualMinutes != null && <p>{card.actualMinutes} min</p>}
-                <div className="time-estimation">
-                  <p>Estimated time for task: </p>
+                <div className={styles.timeEstimation}>
+                  <p>Estimated time for task:</p>
                   <input
                     type="number"
-                    className="estHour"
+                    className={styles.estHour}
                     placeholder="Hours"
                     value={estHour ?? ''}
                     onChange={(e) => setEstHour(Number(e.target.value))}
                   />
                   <input
                     type="number"
-                    className="estMin"
+                    className={styles.estMin}
                     placeholder="Minutes"
                     value={estMin ?? ''}
                     onChange={(e) => setEstMin(Number(e.target.value))}
@@ -148,17 +158,17 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ boardId, listTitle }) =
                   <button onClick={() => handleSaveTimeEstimation(card.id)}>
                     Save time estimation
                   </button>
-                  <p>Actual time</p>
+                  <p>Actual time:</p>
                   <input
                     type="number"
-                    className="actHour"
+                    className={styles.actHour}
                     placeholder="Hours"
                     value={actHour ?? ''}
                     onChange={(e) => setActHour(Number(e.target.value))}
                   />
                   <input
                     type="number"
-                    className="actMin"
+                    className={styles.actMin}
                     placeholder="Minutes"
                     value={actMin ?? ''}
                     onChange={(e) => setActMin(Number(e.target.value))}

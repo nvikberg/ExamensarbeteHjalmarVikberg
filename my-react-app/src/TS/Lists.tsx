@@ -1,18 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../Data/firebase';
-import { doc, getDoc, updateDoc } from 'firebase/firestore'; 
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import styles from "../CSS/Lists.module.css"
 import CardsComponent from './Cards';
 import AddCards from './AddCard';
 import { getAuth } from 'firebase/auth';
 
+interface CardData {
+  id: string;
+  cardtext: string;
+  boardID: string;
+  listtitle: string;
+  estimatedHours?: number | null;
+  estimatedMinutes?: number | null;
+  actualHours?: number | null;
+  actualMinutes?: number | null;
+}
+
 interface BoardData {
   id: string;
   listTitle: string;
+  cards: CardData[];
 }
 
 interface BoardProps {
-  boardId: string; 
+  boardId: string;
 }
 
 const Lists: React.FC<BoardProps> = ({ boardId }) => {
@@ -26,19 +38,17 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
 
     const fetchLists = async () => {
       try {
-        const boardDocRef = doc(db, 'Boards', boardId); 
+        const boardDocRef = doc(db, 'Boards', boardId);
         const boardDoc = await getDoc(boardDocRef);
 
         if (boardDoc.exists()) {
-          console.log("Fetched Board Document:", boardDoc.data());
-
           const boardData = boardDoc.data();
-          const listTitles = boardData?.listTitle || []; 
-          console.log("List Titles:", listTitles);
+          const listTitles = boardData?.listTitle || [];
 
           const fetchedLists: BoardData[] = listTitles.map((title: string, index: number) => ({
             id: `${boardId}-list-${index}`,
             listTitle: title,
+            cards: [],
           }));
 
           setLists(fetchedLists);
@@ -57,67 +67,104 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
     return <p>Loading user information...</p>;
   }
 
-  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault(); // Allow the drop
-    event.currentTarget.classList.add("drag-over"); // Add the visual indicator
+  const handleListDragStart = (event: React.DragEvent<HTMLDivElement>, listId: string) => {
+    event.stopPropagation();
+    event.dataTransfer.setData("draggedListId", listId);
   };
-  
-  const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
-    event.currentTarget.classList.remove("drag-over"); // Remove the visual indicator
-  };
-  
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>, newListTitle: string) => {
-    event.preventDefault(); // Allow the drop
-    event.currentTarget.classList.remove("drag-over"); // Remove the visual indicator after drop
-    handleDropCard(event, newListTitle); // Your existing logic for handling the drop
-  };
-  
 
-  const handleDropCard = async (event: React.DragEvent<HTMLDivElement>, newListTitle: string) => {
+  const handleListDrop = (event: React.DragEvent<HTMLDivElement>, targetListId: string) => {
     event.preventDefault();
+    const draggedListId = event.dataTransfer.getData("draggedListId");
+
+    if (!draggedListId) return;
+
+    const newOrder = [...lists];
+    const draggedIndex = newOrder.findIndex((list) => list.id === draggedListId);
+    const targetIndex = newOrder.findIndex((list) => list.id === targetListId);
+
+    if (draggedIndex !== -1 && targetIndex !== -1) {
+      const [draggedItem] = newOrder.splice(draggedIndex, 1);
+      newOrder.splice(targetIndex, 0, draggedItem);
+
+      setLists(newOrder);
+    }
+  };
+
+  const handleCardDrop = async (event: React.DragEvent<HTMLDivElement>, newListTitle: string) => {
+    event.preventDefault();
+    event.stopPropagation();
   
     const cardId = event.dataTransfer.getData("cardId");
-  
     if (!cardId) {
-      console.error("Card ID not found in drag event.");
+      console.error("No cardId found in dataTransfer");
       return;
     }
   
     try {
+      // Update Firestore
       const cardDocRef = doc(db, "Cards", cardId);
       await updateDoc(cardDocRef, {
         listtitle: newListTitle,
       });
   
-      alert("Card moved successfully!");
+      // Update local state
+      setLists((prevLists) => {
+        return prevLists.map((list) => {
+          if (list.cards.some((card) => card.id === cardId)) {
+            // Remove card from the old list
+            return {
+              ...list,
+              cards: list.cards.filter((card) => card.id !== cardId),
+            };
+          }
+  
+          if (list.listTitle === newListTitle) {
+            // Add card to the new list
+            const cardToMove = prevLists
+              .flatMap((list) => list.cards)
+              .find((card) => card.id === cardId);
+  
+            if (cardToMove) {
+              return {
+                ...list,
+                cards: [...list.cards, cardToMove],
+              };
+            }
+          }
+  
+          return list;
+        });
+      });
+  
+      console.log(`Card ${cardId} successfully moved to list ${newListTitle}`);
     } catch (error) {
-      console.error("Error updating card listtitle:", error);
-      alert("Failed to move the card.");
+      console.error("Error updating card:", error);
     }
   };
   
 
-  const enableDropping = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
+  if (lists.length === 0) {
+    return <p>Loading lists...</p>;
   }
-
 
   return (
     <div className={styles.listsContainer}>
       {lists.map((list) => (
         <div
-          className={styles.listCard}
           key={list.id}
-          onDragOver={(event) => {
-            enableDropping(event); 
-            handleDragOver(event); 
-          }}
-          onDragLeave={handleDragLeave} 
-          onDrop={(event) => handleDrop(event, list.listTitle)}
+          className={styles.listCard}
+          draggable="true"
+          onDragStart={(event) => handleListDragStart(event, list.id)}
+          onDrop={(event) => handleListDrop(event, list.id)}
+          onDragOver={(event) => event.preventDefault()}
         >
           <h3 className={styles.listTitle}>{list.listTitle}</h3>
-          <div className={styles.cardContainer}>
-            <CardsComponent boardId={boardId} listTitle={list.listTitle} />
+          <div
+            className={styles.cardContainer}
+            onDragOver={(event) => event.preventDefault()}
+            onDrop={(event) => handleCardDrop(event, list.listTitle)}
+          >
+            <CardsComponent boardId={boardId} listTitle={list.listTitle} cards={list.cards} />
             <AddCards boardId={boardId} listTitle={list.listTitle} userId={userId} />
           </div>
         </div>
@@ -127,4 +174,3 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
 };
 
 export default Lists;
-  
