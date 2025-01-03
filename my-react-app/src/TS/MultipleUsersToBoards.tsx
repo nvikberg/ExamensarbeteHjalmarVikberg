@@ -30,9 +30,9 @@ const MultipleUsersToBoards: React.FC<MultipleUsersToBoardsProps> = ({ onSelectM
 
                 const emails: string[] = [];
                 querySnapshot.forEach((doc) => {
-                    const userEmail = doc.data().userEmail;
-                    if (userEmail && userEmail !== currentUserEmail) {
-                        emails.push(userEmail); //lägger email i arrayen
+                    const email = doc.data().email;
+                    if (email && email !== currentUserEmail) {
+                        emails.push(email); //lägger email i arrayen
                     }
                 });
 

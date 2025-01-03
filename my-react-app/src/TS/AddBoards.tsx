@@ -62,7 +62,7 @@ const AddBoards: React.FC = () => {
       const docRef = await addDoc(collection(db, "Boards"), {
         boardname: boardname,
         userID: user.uid,
-        members: [...selectedMembers, user.email], // Sparar usern som skapade baorden och inbjudna usern i ny row i dbn
+        members: [user.email], // Sparar usern som skapade baorden och inbjudna usern i ny row i dbn
       });
 
       console.log("Board created with ID", docRef.id);
@@ -72,13 +72,13 @@ const AddBoards: React.FC = () => {
       for (const memberEmail of selectedMembers) {
         console.log("sending invitation to", memberEmail);
 
-        const memberQuery = query(collection(db, "Users"), where("userEmail", "==", memberEmail));
+        const memberQuery = query(collection(db, "Users"), where("email", "==", memberEmail));
         const memberSnapshot = await getDocs(memberQuery);
 
         // Hämtar informationen om inbjudna usern för att använda i invitation doc
         if (!memberSnapshot.empty) {
           const memberDoc = memberSnapshot.docs[0];
-          const memberData = memberDoc.data();
+          // const memberData = memberDoc.data();
           const memberID = memberDoc.id;
 
           // Skapar invitation för varje medlem

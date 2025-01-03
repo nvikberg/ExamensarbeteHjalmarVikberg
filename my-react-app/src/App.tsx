@@ -10,7 +10,7 @@ import FetchBoard from './TS/FetchBoards';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';  // Import routing components
 import Logout from './TS/Logout';
 import { getAuth } from 'firebase/auth';
-import Inbox from './TS/Inbox';
+import Inbox from './TS/Invitations';
 
 function App(): JSX.Element {
 

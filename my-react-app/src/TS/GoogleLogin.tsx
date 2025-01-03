@@ -37,31 +37,32 @@ const GoogleLogin: React.FC = () => {
 
                     //signed-in user info
                     const user = result.user;
-                    const userEmail = result.user.email
+                    const email = result.user.email
 
                     console.log("user info", user);
-                    console.log("user email", userEmail);
+                    console.log("user email", email);
 
 
                     //kollar om användaren redan finns i databasen i Users, om inte så skapas en NY user
-                    if (userEmail) {
+                    if (email) {
                         const usersRef = collection(firestore, 'Users');
-                        const q = query(usersRef, where("userEmail", "==", userEmail));
+                        const q = query(usersRef, where("email", "==", email));
                         const querySnapshot = await getDocs(q);
 
-                        if (querySnapshot.empty) {
-                            // If no user document is found with this email, create a new document
-                            const userRef = doc(db, 'Users', user.uid);
-                            await setDoc(userRef, {
-                                userEmail,
-                            }, { merge: true }); // merga för att inte skriva över
-
-                            console.log('New user document created with id ', userRef.id);
-
-                            // else loggar in utan att skapa nått
-                        } else {
+                        //loggar in utan att skapa nått
+                        if (!querySnapshot.empty) {
                             console.log('user id ' + user.uid)
                             navigate('/homepage');
+
+                        } else {
+                            // If no user document is found with this email, it creates a new document
+                            const userRef = doc(db, 'Users', user.uid);
+                            await setDoc(userRef, {
+                                email,
+                            }, { merge: true }); // merga för att inte skriva över
+                            navigate('/homepage');
+
+                            console.log('New user document created with id ', userRef.id);
                         }
                     } else {
                         console.log('error with query')
@@ -70,14 +71,7 @@ const GoogleLogin: React.FC = () => {
                     console.error("Google credential is null");
                 }
             }).catch((error) => {
-                // Handle Errors here.
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // The email of the user's account used.
-                const email = error.customData.email;
-                // The AuthCredential type that was used.
-                const credential = GoogleAuthProvider.credentialFromError(error);
-                // ...
+              
             });
 
     }
@@ -85,7 +79,6 @@ const GoogleLogin: React.FC = () => {
     return (
         <button onClick={handleGoogleLogin}>
             <FaGoogle></FaGoogle>
-            Login with google
         </button>
 
     );

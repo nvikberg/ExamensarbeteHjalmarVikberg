@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import "../CSS/homepage.css";
 import { db } from "../Data/firebase";
 import { getAuth } from "firebase/auth";
-import { doc, getDoc, query, collection, where, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, query, collection, where, getDocs, onSnapshot } from "firebase/firestore";
 import AddBoards from "./AddBoards";
 import DeleteBoard from "./DeleteBoard";
-import BoardInvitations from "./Inbox";
 
-//Kollar authenticate (om user är inloggad)
+//nu ska invitation funka som det ska, 
+//om en invitation är accepterad så ska boarden visas på homepage
+//board som är skapad av current user ska alltid visas 
 
 interface UserData {
   boardID: string[]; // Array of Firestore references to board documents
@@ -16,98 +17,109 @@ interface UserData {
 
 interface BoardData {
   boardname: string;
-  // members: string[];
+  members: string[];
 }
 
 interface Item {
   id: string;
   title: string;
-  // members: string[];
-
+  members: string[];
 }
 
 const HomePage: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null); // Store the current user
-  const [isInvited, setIsInvited] = useState(true);
   const navigate = useNavigate();
   const auth = getAuth();
 
-  useEffect(() => {
-    const checkUserAndFetchData = async () => {
-      const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
-        if (!user) {
-          console.error("No user is logged in");
-          navigate("/");
-          return;
-        }
+  // Fetch all boards the user is a part of when they log in
+  const fetchBoards = async (user: any) => {
+    try {
+      const userDocRef = doc(db, "Users", user.uid);
+      const userDoc = await getDoc(userDocRef);
 
-        try {
+      if (userDoc.exists()) {
+        const userData = userDoc.data() as UserData;
+        const boardIDs = userData.boardID || []; // Array of DocumentReferences
 
-          setUser(user); // Set the user state
+        const boardsData: Item[] = [];
 
-          const userDocRef = doc(db, "Users", user.uid);
-          const userDoc = await getDoc(userDocRef);
+        // Iterate over the boardRefs, which are DocumentReferences
+        for (const boardID of boardIDs) {
+          // Check if user has accepted the invitation for boards they are invited to
+          const invitationQuery = query(
+            collection(db, "Invitations"),
+            where("receiverID", "==", user.uid),
+            where("boardID", "==", boardID),
+            where("status", "==", "accepted") // Only consider accepted invitations
+          );
+          const invitationSnapshot = await getDocs(invitationQuery);
 
-          if (userDoc.exists()) {
-            const userData = userDoc.data() as UserData;
-            const boardIDs = userData.boardID || []; // Array of DocumentReferences
+          if (!invitationSnapshot.empty) {
+            // If accepted invitation exists, fetch the board data
+            const boardRef = doc(db, "Boards", boardID);
+            const boardDoc = await getDoc(boardRef);
 
-            console.log("User Data:", userData);
-            console.log("Board ids", boardIDs);
-
-            //skapar array för att hålla boardseen
-            const boardsData: Item[] = [];
-
-            // Iterate over the boardRefs, which are DocumentReferences
-            for (const boardID of boardIDs) {
-              // Use getDoc() to fetch the document data from Firestore
-              const boardRef = doc(db, "Boards", boardID);  //Behövde lägga till doc för att få ut datan ur referensen 
-              const boardDoc = await getDoc(boardRef);
-
-              console.log("Board Ref2", boardRef); //debugging
-
-              if (boardDoc.exists()) {
-                const boardData = boardDoc.data() as BoardData;
-                console.log("Board Data:", boardData);
-
-                //lägger till board datan till den tomma arrayen
-                boardsData.push({
-                  id: boardDoc.id,
-                  title: boardData.boardname || "", // Use the board name
-                });
-              } else {
-                console.warn(`Board with reference ${boardRef.id} does not exist.`);
-              }
+            if (boardDoc.exists()) {
+              const boardData = boardDoc.data();
+              boardsData.push({
+                id: boardDoc.id,
+                title: boardData?.boardname || "",
+                members: boardData?.members || [],
+              });
             }
-
-            // Set the boards data into state
-            setItems(boardsData);
-          } else {
-            console.error("User document does not exist.");
           }
-        } catch (error) {
-          console.error("Error fetching boards:", error);
-        } finally {
-          setLoading(false);
         }
-      });
 
-      return () => unsubscribeAuth();
-    };
+        // Fetch boards the user is the creator of, regardless of invitation status
+        const boardsCreatedByUserQuery = query(
+          collection(db, "Boards"),
+          where("userID", "==", user.uid) // Fetch boards where the user is the creator
+        );
+        const createdBoardsSnapshot = await getDocs(boardsCreatedByUserQuery);
 
-    // Call the function to check user and fetch data
-    checkUserAndFetchData();
-  }, [navigate]); // Add navigate and auth.currentUser as dependencies
+        createdBoardsSnapshot.forEach((doc) => {
+          const boardData = doc.data() as BoardData;
+          boardsData.push({
+            id: doc.id,
+            title: boardData?.boardname || "",
+            members: boardData?.members || [],
+          });
+        });
 
+        // Set the boards data into state
+        setItems(boardsData);
+      } else {
+        console.error("User document does not exist.");
+      }
+    } catch (error) {
+      console.error("Error fetching boards:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  //lyssnar efter updateringar på bords collection (För att ny board ska synas direkt utan uppdatera) 
+  useEffect(() => {
+    const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        console.error("No user is logged in");
+        navigate("/"); // Redirect to login page if no user is logged in
+        return;
+      }
+
+      setUser(user); // Set the user state
+      fetchBoards(user); // Fetch the boards for the user when authenticated
+    });
+
+    return () => unsubscribeAuth();
+  }, [auth, navigate]);
+
   useEffect(() => {
     if (user) {
       const boardsCollectionRef = collection(db, "Boards");
 
-      // Subscribe to changes in the boards collection
+      // Subscribe to changes in the boards collection for real-time updates
       const q = query(boardsCollectionRef, where("userID", "==", user.uid));
 
       const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -117,6 +129,7 @@ const HomePage: React.FC = () => {
           updatedBoards.push({
             id: doc.id,
             title: boardData.boardname || "",
+            members: boardData.members,
           });
         });
 
@@ -131,14 +144,11 @@ const HomePage: React.FC = () => {
 
   const handleAccept = () => {
     alert("You have accepted the invitation.");
-    setIsInvited(true);
   };
 
   const handleDeny = () => {
     alert("You have denied the invitation.");
-    setIsInvited(false);
   };
-
 
   return (
     <div className="main">
@@ -158,12 +168,12 @@ const HomePage: React.FC = () => {
                 >
                   <h3>{item.title}</h3>
                   <p>Members: </p>
-                  {/* <p>{item.members}</p> */}
+                  <p>{item.members.join(", ")}</p>
                 </div>
 
                 {/* Delete Button below each card */}
                 <div className="delete-button-container">
-                  <DeleteBoard boardID={item.id} userID={user.uid} />
+                  <DeleteBoard boardID={item.id} userID={user?.uid} />
                 </div>
               </div>
             ))}
@@ -174,18 +184,6 @@ const HomePage: React.FC = () => {
       </div>
     </div>
   );
-}
-
-{/* <div>
-      {isInvited && (
-        <BoardInvitations
-        boardID=""
-          boardname={user.uid}
-          onAccept={handleAccept}
-          onDeny={handleDeny}
-        />
-      )}
-    </div> */}
-
+};
 
 export default HomePage;

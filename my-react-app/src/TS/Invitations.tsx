@@ -3,7 +3,7 @@ import { db } from "../Data/firebase";
 import { getDocs, collection, query, where, updateDoc, doc, arrayUnion } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 //ATT GÖRA MAN SKA INTE KUNNA SKCKA INBJUDAN TILL SIG SJÄLV
-
+//NU funkar det som det ska förutom att man sparas som en member i Board collection direct man blir inbjuden till en board
 
 //användare kan ta emot och hantera inbjudning till en board
 //den hämtar från invitations colleciton i db "reciever id" som matchar userID 
@@ -18,7 +18,7 @@ interface Invitation {
   timestamp: string;
 }
 
-const Inbox: React.FC = () => {
+const Invitations: React.FC = () => {
   const [invitations, setInvitations] = useState<Invitation[]>([]);
   const [user, setUser] = useState<any>(null);
   const auth = getAuth();
@@ -46,6 +46,7 @@ const Inbox: React.FC = () => {
     //loopar igenom docs och uppdaterar listan med inbjudningar
     const querySnapshot = await getDocs(invitationsQuery);
     const invitationsList: Invitation[] = [];
+    
     querySnapshot.forEach(doc => {
       const invitation = doc.data();
       invitationsList.push({
@@ -123,4 +124,4 @@ const Inbox: React.FC = () => {
   );
 };
 
-export default Inbox;
+export default Invitations;

@@ -69,12 +69,14 @@ const LogIn: React.FC = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <GoogleLogin></GoogleLogin>
         </div>
         {error && <p className="errorMessage">{error}</p>}
         <button type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Log In"}
         </button>
+              <div>
+        <GoogleLogin></GoogleLogin>
+        </div>
       </form>
       <p>
         Don't have an account?
