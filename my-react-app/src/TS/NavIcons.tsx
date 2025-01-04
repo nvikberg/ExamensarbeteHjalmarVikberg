@@ -38,18 +38,19 @@ const NavIcons: React.FC<{}> = () => {
     }
 }
   
-    // Funktion för att hantera klick på varukorgs-ikon
+    // Funktion för att hantera klick på varukorogs-ikon
     const handleEnvelopeIconClick = () => {
       navigate("/inbox");
     };
 
   
     return (
-      <div className={styles.topRightIcons}>
-        <FontAwesomeIcon icon={faEnvelope} onClick={handleEnvelopeIconClick} className={styles.envelopeIcon} />
-        <FontAwesomeIcon icon={faUser} onClick={handleProfileIconClick} className={styles.userIcon} />
-        {/* <FontAwesomeIcon icon={faShoppingCart} onClick={handleCartIconClick} /> */}
-      </div>
+        <div className={styles.rightSideIcons}>
+          <div className={styles.topRightIcons}>
+          <FontAwesomeIcon icon={faEnvelope} onClick={handleEnvelopeIconClick} className={`${styles.icon} ${styles.envelopeIcon}`} />
+            <FontAwesomeIcon icon={faUser} onClick={handleProfileIconClick} className={`${styles.icon} ${styles.userIcon}`} />
+          </div>
+          </div>
     );
 }
   

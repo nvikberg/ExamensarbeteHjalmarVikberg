@@ -31,28 +31,33 @@ useEffect(() => {
 
 
 
-  return (
-    <div className={styles.navBar}> 
-      <div className={styles.logoContainer}>
-    {/* vi lägger loggan här */}
-      </div>
-      <div className={styles.linksContainer}>
-        <ul className={styles.navLinks}>
-          {!user && (
-          <li><Link to="/" className={styles.navLink}>Login</Link></li>
-          )}
-          <li><Link to="/homepage" className={styles.navLink}>My Boards</Link></li>
-          {user && (
-            <li><Link to="/logout" className={styles.navLink}>Log Out</Link></li>
-          )}
-        </ul>
-        <div className={styles.topRightIcons}>
-        <NavIcons></NavIcons>
-
-        </div>
-      </div>
+return (
+  <div className={styles.navBar}> 
+    <div className={styles.logoContainer}>
+      {/* Place your logo here */}
     </div>
-  );
-};
+
+    <div className={styles.navLinks}>
+      {!user && (
+        <li><Link to="/" className={styles.navLink}>Login</Link></li>
+      )}
+      <li><Link to="/homepage" className={styles.navLink}>My Boards</Link></li>
+      {user && (
+        <li><Link to="/logout" className={styles.navLink}>Log Out</Link></li>
+      )}
+    </div>
+
+    {/* Right side container for icons */}
+    <div className={styles.rightSideIcons}>
+      {user && (
+        <div className={styles.topRightIcons}>
+          {/* Include the NavIcons component here */}
+          <NavIcons />
+        </div>
+      )}
+    </div>
+  </div>
+);
+}
 
 export default Nav;
