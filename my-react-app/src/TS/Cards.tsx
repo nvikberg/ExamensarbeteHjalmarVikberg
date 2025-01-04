@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../Data/firebase';
-import { collection, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
+import { getDoc, collection, query, where, getDocs, updateDoc, doc, arrayUnion, arrayRemove} from 'firebase/firestore';
 import styles from '../CSS/Card.module.css'; 
 import BoardMembers from './BoardMembers';
 
@@ -19,7 +19,7 @@ interface CardData {
   estimatedMinutes?: number | null;
   actualHours?: number | null;
   actualMinutes?: number | null;
-  assignedMember?: string | null;
+  assignedMember?: string[];
 
 }
 
@@ -57,7 +57,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
           cardtext: doc.data().cardtext,
           boardID: doc.data().boardID,
           listtitle: doc.data().listtitle,
-          assignedMember: doc.data().assignedMember ?? null,
+          assignedMember: Array.isArray(doc.data().assignedMember) ? doc.data().assignedMember : [], //ser till att assignedMember alltid är en array
           estimatedHours: doc.data().estimatedHours ?? null,
           estimatedMinutes: doc.data().estimatedMinutes ?? null,
           actualHours: doc.data().actualHours ?? null,
@@ -132,24 +132,38 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
     event.dataTransfer.effectAllowed = "move";
   };
 
-
   const handleAssignMember = async (cardId: string) => {
     if (selectedMember) {
       try {
         const cardDocRef = doc(db, 'Cards', cardId);
-        await updateDoc(cardDocRef, { assignedMember: selectedMember });
+        await updateDoc(cardDocRef, {
+          assignedMember: arrayUnion(selectedMember), 
+        });
         alert('Member assigned to card!');
-        setSelectedMember(null);  // Clear selection after assigning
+        setSelectedMember(null); 
       } catch (error) {
         console.error('Error assigning member:', error);
         alert('Failed to assign member.');
       }
     }
   };
+  
+  const handleRemoveMember = async (cardId: string, memberToRemove: string) => {
+    try {
+      const cardDocRef = doc(db, 'Cards', cardId);
+      await updateDoc(cardDocRef, {
+        assignedMember: arrayRemove(memberToRemove), // Removes the member from the array
+      });
+      alert('Member removed from card!');
+    } catch (error) {
+      console.error('Error removing member:', error);
+      alert('Failed to remove member.');
+    }
+  };
+  
 
   return (
     <>
-    
       {cards.length > 0 && (
         <div className={styles.cardContainer}>
           <ul className={styles.cardList}>
@@ -161,23 +175,32 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                 draggable="true"
                 onDragStart={(event) => handleDragCardStart(event, card.id)}
               >
-
                 <p>{card.cardtext}</p>
-                {card.assignedMember && <p>Assigned to: {card.assignedMember}</p>}
-                
-                {/* Render the BoardMembers component and pass the callback */}
+  
+                {/* Render the BoardMembers component only when the card has members */}
                 <BoardMembers boardId={boardId} onMemberSelect={setSelectedMember} />
-
                 <button onClick={() => handleAssignMember(card.id)}>
-                  Assign Selected Member to Card
+                  Assign Member
                 </button>
-
-                <p>{card.cardtext}</p>
-                {card.estimatedHours != null && <p>{card.estimatedHours} h</p>}
-                {card.estimatedMinutes != null && <p>{card.estimatedMinutes} min</p>}
-                {card.actualHours != null && <p>{card.actualHours} h</p>}
-                {card.actualMinutes != null && <p>{card.actualMinutes} min</p>}
-
+  
+                {/* Assigned members lis, Array.isArray för att "tvinga" programmet attt alltid läsa assingMember som array */}
+                {Array.isArray(card.assignedMember) && card.assignedMember.length > 0 && (
+                  <div>
+                    <p>Assigned members:</p>
+                    <ul>
+                      {card.assignedMember.map((member, index) => (
+                        <li key={index}>
+                          {member}
+                          <button onClick={() => handleRemoveMember(card.id, member)}>
+                            Remove
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+  
+                {/* Time estimation and actual time input */}
                 <div className={styles.timeEstimation}>
                   <p>Estimated time for task:</p>
                   <input
@@ -197,6 +220,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                   <button onClick={() => handleSaveTimeEstimation(card.id)}>
                     Save time estimation
                   </button>
+  
                   <p>Actual time:</p>
                   <input
                     type="number"
@@ -222,7 +246,8 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
         </div>
       )}
     </>
-  );
-};
+  );  
+}
+    
 
 export default CardsComponent;
