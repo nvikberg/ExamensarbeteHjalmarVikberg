@@ -63,24 +63,57 @@ body {
   text-align: center;
 }
 
-/* button {
-  width: 30%;
-  padding: 2%;
-  background-color: var(--dark-green);
-  color: #fff;
-  font-size: 1rem;
+.loginButton {
+  width: 50%;
+  padding: 12px;
+  font-size: 1.1rem;
+  color: white;
+  background-color: #4a92df; /* Blue color for the button */
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-top: 0.3rem;
 }
 
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-} */
+/* Button hover effect */
+.loginButton:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
 
-/* button:hover:not(:disabled) {
-  background-color: var(--light-orange)
-} */
+
+/* Google-like login button styling */
+.googleLoginButton {
+  width: 50%; /* Button width */
+  padding: 12px;
+  font-size: 1.1rem;
+  background-color: #4285f4; /* Google Blue */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+/* Styling for Google icon (optional) */
+.googleLoginButton img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  object-fit: contain;
+}
+
+/* Adding Google colors to the button background */
+.googleLoginButton {
+  background: linear-gradient(90deg, #4285f4 20%, #ea4335 40%, #fbbc05 60%, #34a853 80%);
+}
+
+/* Google button hover effect */
+.googleLoginButton:hover {
+  background-color: #357ae8; /* Slightly darker blue for hover */
+}
+

@@ -5,6 +5,7 @@ import { getFirestore, doc, updateDoc, query, where, getDocs, collection, setDoc
 import { db } from "../Data/firebase";
 import { useState } from "react";
 import React from 'react';
+import styles from '../CSS/Login.module.css'
 
 //Google login öppnar ett pop up fönster onClick, sedan signas man in med en token som generas genom firebase
 //ditt google konto blir sparat i authentication, och en ny Users läggs till i databasen (bara med email just nu)
@@ -77,7 +78,7 @@ const GoogleLogin: React.FC = () => {
     }
 
     return (
-        <button onClick={handleGoogleLogin}>
+        <button onClick={handleGoogleLogin} className={styles.googleLoginButton}>
             <FaGoogle></FaGoogle>
         </button>
 

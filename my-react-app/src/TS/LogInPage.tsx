@@ -71,12 +71,10 @@ const LogIn: React.FC = () => {
           />
         </div>
         {error && <p className="errorMessage">{error}</p>}
-        <button type="submit" disabled={loading}>
+        <button type="submit" disabled={loading} className={styles.loginButton}>
           {loading ? "Logging in..." : "Log In"}
         </button>
-              <div>
         <GoogleLogin></GoogleLogin>
-        </div>
       </form>
       <p>
         Don't have an account?
