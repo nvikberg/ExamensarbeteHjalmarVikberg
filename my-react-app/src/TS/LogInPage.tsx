@@ -77,8 +77,8 @@ const LogIn: React.FC = () => {
         <GoogleLogin></GoogleLogin>
       </form>
       <p>
-        Don't have an account?
-        <button onClick={toggleForm}>Sign up</button>
+        Don't have an account? <br></br>
+        <button onClick={toggleForm} className={styles.loginButton}>Sign up</button>
       </p>
       </>
     )}
