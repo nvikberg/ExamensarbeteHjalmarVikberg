@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../Data/firebase';
 import { collection, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
 import styles from '../CSS/Card.module.css'; 
+import BoardMembers from './BoardMembers';
+
+
+//hämtar och hanterar kort (tasks) för ett specifikt board och listtitel. 
+//Den hämtar kortdata från db och visar dessa i en lista. 
+//för varje kort kan användaren ange uppskattad tid och faktisk tid, 
+//samt tilldela en medlem från en lista av medlemmar som hämtas via BoardMembers-komponenten.
 
 interface CardData {
   id: string;
@@ -12,6 +19,8 @@ interface CardData {
   estimatedMinutes?: number | null;
   actualHours?: number | null;
   actualMinutes?: number | null;
+  assignedMember?: string | null;
+
 }
 
 interface CardsComponentProps {
@@ -27,6 +36,8 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
   const [estMin, setEstMin] = useState<number | null>(null);
   const [actHour, setActHour] = useState<number | null>(null);
   const [actMin, setActMin] = useState<number | null>(null);
+  const [selectedMember, setSelectedMember] = useState<string | null>(null);  // Track selected member
+
 
   useEffect(() => {
     const fetchCards = async () => {
@@ -46,6 +57,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
           cardtext: doc.data().cardtext,
           boardID: doc.data().boardID,
           listtitle: doc.data().listtitle,
+          assignedMember: doc.data().assignedMember ?? null,
           estimatedHours: doc.data().estimatedHours ?? null,
           estimatedMinutes: doc.data().estimatedMinutes ?? null,
           actualHours: doc.data().actualHours ?? null,
@@ -120,8 +132,24 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
     event.dataTransfer.effectAllowed = "move";
   };
 
+
+  const handleAssignMember = async (cardId: string) => {
+    if (selectedMember) {
+      try {
+        const cardDocRef = doc(db, 'Cards', cardId);
+        await updateDoc(cardDocRef, { assignedMember: selectedMember });
+        alert('Member assigned to card!');
+        setSelectedMember(null);  // Clear selection after assigning
+      } catch (error) {
+        console.error('Error assigning member:', error);
+        alert('Failed to assign member.');
+      }
+    }
+  };
+
   return (
     <>
+    
       {cards.length > 0 && (
         <div className={styles.cardContainer}>
           <ul className={styles.cardList}>
@@ -133,11 +161,23 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                 draggable="true"
                 onDragStart={(event) => handleDragCardStart(event, card.id)}
               >
+
+                <p>{card.cardtext}</p>
+                {card.assignedMember && <p>Assigned to: {card.assignedMember}</p>}
+                
+                {/* Render the BoardMembers component and pass the callback */}
+                <BoardMembers boardId={boardId} onMemberSelect={setSelectedMember} />
+
+                <button onClick={() => handleAssignMember(card.id)}>
+                  Assign Selected Member to Card
+                </button>
+
                 <p>{card.cardtext}</p>
                 {card.estimatedHours != null && <p>{card.estimatedHours} h</p>}
                 {card.estimatedMinutes != null && <p>{card.estimatedMinutes} min</p>}
                 {card.actualHours != null && <p>{card.actualHours} h</p>}
                 {card.actualMinutes != null && <p>{card.actualMinutes} min</p>}
+
                 <div className={styles.timeEstimation}>
                   <p>Estimated time for task:</p>
                   <input

@@ -7,7 +7,7 @@ import { getAuth } from 'firebase/auth';
 
 //användare kan ta emot och hantera inbjudning till en board
 //den hämtar från invitations colleciton i db "reciever id" som matchar userID 
-// och sedan displayar dem som har status "pending"
+// och sedan displayar dem som har status "pending" i inbox
 
 interface Invitation {
   id: string;

@@ -170,6 +170,7 @@ const HomePage: React.FC = () => {
                   <p>Members: </p>
                   <p>{item.members.join(", ")}</p>
                 </div>
+                
 
                 {/* Delete Button below each card */}
                 <div className="delete-button-container">
