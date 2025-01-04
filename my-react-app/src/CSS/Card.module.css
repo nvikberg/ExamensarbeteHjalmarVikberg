@@ -1,54 +1,162 @@
+/* Main container for the list of cards */
 .cardContainer {
   display: flex;
   flex-direction: column;
+  padding: 10px;
+  width: 100%;
+  overflow-y: auto;
 }
 
+/* List containing the individual cards */
 .cardList {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
+/* Individual card styling */
 .card {
   background-color: #ffffff;
-  border: 1px solid #ddd;
+  border: 1px solid #e2e4e6;
   border-radius: 6px;
-  padding: 10px;
-  margin-bottom: 10px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  padding: 15px;
   cursor: grab;
-  transition: box-shadow 0.2s ease-in-out;
+  width: 250px;
+  transition: all 0.2s ease;
 }
 
 .card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
+.card:active {
+  cursor: grabbing;
+}
+
+/* Button styles */
+.assignBtn, .removeBtn, .saveBtn {
+  background-color: #0079bf;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 3px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.assignBtn:hover, .removeBtn:hover, .saveBtn:hover {
+  background-color: #005c77;
+}
+
+.removeBtn {
+  background-color: #d9534f;
+}
+
+.removeBtn:hover {
+  background-color: #c9302c;
+}
+
+/* Assigned members styling */
+.assignedMembers ul {
+  padding-left: 20px;
+  list-style-type: none;
+}
+
+.assignedMembers li {
+  margin-bottom: 5px;
+}
+
+/* Time estimation section styling */
 .timeEstimation {
+  margin-top: 15px;
+}
+
+.timeEstimation p {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.estInput, .actInput {
+  width: 50px;
+  padding: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+.saveBtn {
+  background-color: #28a745;
+}
+
+.saveBtn:hover {
+  background-color: #218838;
+}
+
+
+/* Main container for the member selection */
+.memberSelectionContainer {
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Heading for the member selection */
+.memberSelectionContainer p {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* Unordered list for the member buttons */
+.memberSelectionContainer ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Each list item (member button) styling */
+.memberSelectionContainer li {
+  margin: 5px 0;
+}
+
+/* Style for each member button */
+.memberSelectionContainer button {
+  background-color: #0079bf;
+  color: white;
+  font-size: 14px;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease;
+}
+
+/* Change background color when hovering over the button */
+.memberSelectionContainer button:hover {
+  background-color: #026aa7;
+}
+
+/* Message when no members are available */
+.memberSelectionContainer p.noMembersMessage {
+  font-size: 14px;
+  color: #666;
   margin-top: 10px;
 }
 
-.estHour,
-.estMin,
-.actHour,
-.actMin {
-  width: 60px;
-  margin-right: 5px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+/* For the selected member button */
+.memberSelectionContainer button.active {
+  background-color: #026aa7; /* Darker blue */
+  border: 1px solid #025a8a; /* Slightly darker border */
+  cursor: not-allowed; /* Disable cursor when active */
 }
 
-.button {
-  padding: 5px 10px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 5px;
-}
-
-.button:hover {
-  background-color: #218838;
-}

@@ -179,19 +179,22 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
   
                 {/* Render the BoardMembers component only when the card has members */}
                 <BoardMembers boardId={boardId} onMemberSelect={setSelectedMember} />
-                <button onClick={() => handleAssignMember(card.id)}>
+                <button className={styles.assignBtn} onClick={() => handleAssignMember(card.id)}>
                   Assign Member
                 </button>
   
-                {/* Assigned members lis, Array.isArray för att "tvinga" programmet attt alltid läsa assingMember som array */}
+                {/* Assigned members list */}
                 {Array.isArray(card.assignedMember) && card.assignedMember.length > 0 && (
-                  <div>
+                  <div className={styles.assignedMembers}>
                     <p>Assigned members:</p>
                     <ul>
                       {card.assignedMember.map((member, index) => (
                         <li key={index}>
                           {member}
-                          <button onClick={() => handleRemoveMember(card.id, member)}>
+                          <button
+                            className={styles.removeBtn}
+                            onClick={() => handleRemoveMember(card.id, member)}
+                          >
                             Remove
                           </button>
                         </li>
@@ -205,38 +208,38 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                   <p>Estimated time for task:</p>
                   <input
                     type="number"
-                    className={styles.estHour}
+                    className={styles.estInput}
                     placeholder="Hours"
                     value={estHour ?? ''}
                     onChange={(e) => setEstHour(Number(e.target.value))}
                   />
                   <input
                     type="number"
-                    className={styles.estMin}
+                    className={styles.estInput}
                     placeholder="Minutes"
                     value={estMin ?? ''}
                     onChange={(e) => setEstMin(Number(e.target.value))}
                   />
-                  <button onClick={() => handleSaveTimeEstimation(card.id)}>
+                  <button className={styles.saveBtn} onClick={() => handleSaveTimeEstimation(card.id)}>
                     Save time estimation
                   </button>
   
                   <p>Actual time:</p>
                   <input
                     type="number"
-                    className={styles.actHour}
+                    className={styles.actInput}
                     placeholder="Hours"
                     value={actHour ?? ''}
                     onChange={(e) => setActHour(Number(e.target.value))}
                   />
                   <input
                     type="number"
-                    className={styles.actMin}
+                    className={styles.actInput}
                     placeholder="Minutes"
                     value={actMin ?? ''}
                     onChange={(e) => setActMin(Number(e.target.value))}
                   />
-                  <button onClick={() => handleSaveActualTime(card.id)}>
+                  <button className={styles.saveBtn} onClick={() => handleSaveActualTime(card.id)}>
                     Save actual time
                   </button>
                 </div>
@@ -246,8 +249,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
         </div>
       )}
     </>
-  );  
+  );
 }
-    
 
 export default CardsComponent;

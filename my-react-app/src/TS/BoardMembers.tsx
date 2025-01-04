@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../Data/firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import styles from '../CSS/Card.module.css'; 
+
 
 //BoardMembers hämtar data från db med hjälp av boardId som skickas som en prop, och lagrar information om boarden och medlemmarna i komponentens state
 //när datan har hämtats visar den en lista med medlemmar, där varje medlem representeras av en knapp. 
@@ -52,22 +54,21 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId, onMemberSelect }) 
     }
 
     return (
-        <div>
-            <p>Select member to assign to card:</p>
-            <ul>
-                {boardData && boardData.members?.length > 0 ? (
-                    boardData.members.map((member, index) => (
-                        <li key={index}>
-                            <button onClick={() => onMemberSelect(member)}>{member}</button>
-                        </li>
-                    ))
-                ) : (
-                    <p>No members available or no members added to this board yet.</p>
-                )}
-
-            </ul>
+        <div className={styles.memberSelectionContainer}>
+          <p>Select member to assign to card:</p>
+          <ul>
+            {boardData && boardData.members?.length > 0 ? (
+              boardData.members.map((member, index) => (
+                <li key={index}>
+                  <button onClick={() => onMemberSelect(member)}>{member}</button>
+                </li>
+              ))
+            ) : (
+              <p className={styles.noMembersMessage}>No members available or no members added to this board yet.</p>
+            )}
+          </ul>
         </div>
-    );
-};
+      );
+    }
 
 export default BoardMembers;

@@ -63,7 +63,7 @@ body {
   text-align: center;
 }
 
-button {
+/* button {
   width: 30%;
   padding: 2%;
   background-color: var(--dark-green);
@@ -79,8 +79,8 @@ button {
 button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
-}
+} */
 
-button:hover:not(:disabled) {
+/* button:hover:not(:disabled) {
   background-color: var(--light-orange)
-}
+} */
