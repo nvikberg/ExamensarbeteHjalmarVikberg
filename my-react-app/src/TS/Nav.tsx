@@ -5,6 +5,7 @@ import FetchBoard from './FetchBoards';
 import Logout from './Logout';
 import { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged} from 'firebase/auth';
+import NavIcons from './NavIcons';
 
 const Nav: React.FC<{}> = () => {
 
@@ -41,13 +42,14 @@ useEffect(() => {
           <li><Link to="/" className={styles.navLink}>Login</Link></li>
           )}
           <li><Link to="/homepage" className={styles.navLink}>My Boards</Link></li>
-          <li><Link to="/inbox" className={styles.navLink}>Inbox</Link></li>
-
-          {/* <li><Link to="/boards" className={styles.navLink}>Boards</Link></li> */}
           {user && (
             <li><Link to="/logout" className={styles.navLink}>Log Out</Link></li>
           )}
         </ul>
+        <div className={styles.topRightIcons}>
+        <NavIcons></NavIcons>
+
+        </div>
       </div>
     </div>
   );

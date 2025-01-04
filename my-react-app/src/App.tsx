@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';  // I
 import Logout from './TS/Logout';
 import { getAuth } from 'firebase/auth';
 import Inbox from './TS/Invitations';
+import ProfilePage from './TS/ProfilePage';
 
 function App(): JSX.Element {
 
@@ -30,6 +31,7 @@ const auth = getAuth();
         <Route path="/homepage" element={<Homepage />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/inbox" element={<Inbox />} />
+        <Route path="/profilepage" element={<ProfilePage />} />
 
         <Route path="/boards" element={<FetchBoard />} />
 
