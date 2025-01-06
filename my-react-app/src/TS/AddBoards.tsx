@@ -4,8 +4,9 @@ import { getDocs, doc, collection, addDoc, updateDoc, arrayUnion, query, where }
 import styles from '../CSS/AddBoard.module.css';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import MultipleUsersToBoards from './MultipleUsersToBoards';
-
+//kolla igenom denna är kaos (pga medlemmar grejen)
 //ATT GÖRA, EFFEKTIVISERA HUR MAN LÄGGER IN board id hos USERS (loopen rad 78)
+//SKAPA INVITATION finns i denna komponenten
 
 interface Board {
   boardname: string;
@@ -82,7 +83,7 @@ const AddBoards: React.FC = () => {
           const memberID = memberDoc.id;
 
           // Skapar invitation för varje medlem
-          await createInvitation(docRef.id, user.uid, memberID);
+          await createInvitation(docRef.id, boardname, user.uid, user.email, memberID); // Pass correct params here
         }
       }
 
@@ -110,12 +111,14 @@ const AddBoards: React.FC = () => {
   };
 
   // Function to create an invitation document for a member
-  const createInvitation = async (boardID: string, senderID: string, receiverID: string) => {
+  const createInvitation = async (boardID: string, boardname: string, senderID: string, senderEmail: string, receiverID: string) => {
     try {
       // Skapar invitations i db
       await addDoc(collection(db, "Invitations"), {
         boardID: boardID,
+        boardname: boardname,
         senderID: senderID,
+        senderEmail: senderEmail,
         receiverID: receiverID,
         status: "pending", // Initial status is pending
         timestamp: new Date(),

@@ -17,10 +17,16 @@ interface BoardProps {
 
 const AddCards: React.FC<BoardProps> = ({ boardId, listTitle, userId }) => {
   const [cardText, setCardText] = useState('');
-
+   const [alertMessage, setAlertMessage] = useState<string>('');
+  
+        
   const handleAddCard = async () => {
     if (!cardText) {
-      alert('Please enter card text!');
+      setAlertMessage(`Enter card text`);
+      setTimeout(() => {
+        setAlertMessage('');
+      }, 3000);
+
       return;
     }
 

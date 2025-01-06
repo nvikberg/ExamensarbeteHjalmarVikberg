@@ -142,14 +142,6 @@ const HomePage: React.FC = () => {
     }
   }, [user]);
 
-  const handleAccept = () => {
-    alert("You have accepted the invitation.");
-  };
-
-  const handleDeny = () => {
-    alert("You have denied the invitation.");
-  };
-
   return (
     <div className="main">
       <AddBoards />

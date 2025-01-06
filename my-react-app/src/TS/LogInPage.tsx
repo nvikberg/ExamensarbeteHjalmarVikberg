@@ -25,7 +25,7 @@ const LogIn: React.FC = () => {
     try {
       // Firebase authentication
       await signInWithEmailAndPassword(auth, email, password);
-      alert('Welcome welcome ' + email); 
+      // alert('Welcome welcome ' + email); 
       navigate("/homepage"); // Redirect to homepage on successful login
     } catch (err: any) {
       setError(err.message); // Display error message

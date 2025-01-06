@@ -30,7 +30,7 @@ const Logout: React.FC = () => {
 const handleLogout = async () => {
     try{
         await signOut(auth);
-        alert("logged out")
+        // alert("logged out")
         // console.log(auth + "logge dout")
         navigate('/')
     } catch (error){

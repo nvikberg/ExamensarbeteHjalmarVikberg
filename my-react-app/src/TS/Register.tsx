@@ -52,7 +52,7 @@ const Register: React.FC = () => {
        
 
       setLoading(false); 
-      alert('Welcome welcome ' + user.email); 
+      // alert('Welcome ' + user.email); 
       console.log('Document written with ID: ', userRef.id);
       navigate('/homepage');
     } catch (error) {

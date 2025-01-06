@@ -19,6 +19,7 @@ interface Props {
 
 const DeleteBoard: React.FC<Props> = ({ boardID, userID }) => {
     const [isVisible, setVisible] = useState<boolean>(false);
+    const [alertMessage, setAlertMessage] = useState<string>('')
     const navigate = useNavigate();
 
     const handleDelete = async (): Promise<void> => {
@@ -58,11 +59,19 @@ const DeleteBoard: React.FC<Props> = ({ boardID, userID }) => {
             });
 
             console.log(`Board with ID ${boardID} has been deleted.`);
-            alert('Board was deleted')
+            
+            setAlertMessage('Board was deleted');
+            setTimeout(() => {
+              setAlertMessage('');
+            }, 3000);             
             navigate('/homepage')
 
         } catch (error) {
             console.error("Error deleting board:", error);
+            setAlertMessage('Board was not deleted');
+            setTimeout(() => {
+              setAlertMessage('');
+            }, 3000);  
         }
     };
 

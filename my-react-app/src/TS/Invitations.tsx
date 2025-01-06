@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { db } from "../Data/firebase";
-import { getDocs, collection, query, where, updateDoc, doc, arrayUnion } from 'firebase/firestore';
+import { getDocs, getDoc, collection, query, where, updateDoc, doc, arrayUnion } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
+import Board from './BoardPage';
 //ATT GÖRA MAN SKA INTE KUNNA SKCKA INBJUDAN TILL SIG SJÄLV
 //NU funkar det som det ska förutom att man sparas som en member i Board collection direct man blir inbjuden till en board
+//ps. faktiska Skapa invitation doc till firebase ligger i AddBoards komponenten
 
 //användare kan ta emot och hantera inbjudning till en board
 //den hämtar från invitations colleciton i db "reciever id" som matchar userID 
@@ -12,7 +14,9 @@ import { getAuth } from 'firebase/auth';
 interface Invitation {
   id: string;
   boardID: string;
+  boardname: string;
   senderID: string;
+  senderEmail: string;
   receiverID: string;
   status: string;
   timestamp: string;
@@ -21,6 +25,7 @@ interface Invitation {
 const Invitations: React.FC = () => {
   const [invitations, setInvitations] = useState<Invitation[]>([]);
   const [user, setUser] = useState<any>(null);
+  const [alertMessage, setAlertMessage] = useState<string>('');
   const auth = getAuth();
 
   useEffect(() => {
@@ -47,17 +52,32 @@ const Invitations: React.FC = () => {
     const querySnapshot = await getDocs(invitationsQuery);
     const invitationsList: Invitation[] = [];
     
-    querySnapshot.forEach(doc => {
-      const invitation = doc.data();
+    for (const docSnap of querySnapshot.docs) {
+      const invitation = docSnap.data();
+
+      //hämtar board name från boards
+      const boardRef = doc(db, "Boards", invitation.boardID);
+      const boardSnap = await getDoc(boardRef);
+      const boardname = boardSnap.exists() ? boardSnap.data().boardname : 'No Board';
+
+      
+      //hämtar email från senderID (userID)
+      const senderRef = doc(db, "Users", invitation.senderID);
+      const senderSnap = await getDoc(senderRef);
+      const senderEmail = senderSnap.exists() ? senderSnap.data().email : 'Unknown sender';
+
+
       invitationsList.push({
-        id: doc.id,
+        id: docSnap.id,
         boardID: invitation.boardID,
+        boardname: boardname,
         senderID: invitation.senderID,
+        senderEmail: senderEmail,
         receiverID: invitation.receiverID, 
         status: invitation.status,
         timestamp: invitation.timestamp,
       });
-    });
+    };
     setInvitations(invitationsList);
   };
 
@@ -85,10 +105,13 @@ const Invitations: React.FC = () => {
       });
 
       console.log("Invitation accepted!");
+      setAlertMessage('You accepted the invitation to board' + invitation.senderEmail);
+      setTimeout(() => { setAlertMessage(''); } , 3000);  
       fetchInvitations(user.uid); //refresh inbox
     } catch (error) {
       console.error("Error accepting invitation:", error);
     }
+
   };
 
   const handleDeny = async (invitationID: string) => {
@@ -97,7 +120,10 @@ const Invitations: React.FC = () => {
       await updateDoc(invitationRef, {
         status: "denied",
       });
-
+      setAlertMessage('You denied the invitation to board' );
+      setTimeout(() => {
+        setAlertMessage('');
+      }, 3000);  
       console.log("Invitation denied!");
       fetchInvitations(user.uid); //refresh inbox
     } catch (error) {
@@ -111,8 +137,8 @@ const Invitations: React.FC = () => {
       {invitations.length > 0 ? (
         invitations.map((invitation) => (
           <div key={invitation.id}>
-            <h3>Invitation to join board {invitation.boardID}</h3>
-            <p>From: {invitation.senderID}</p>
+            <h3>Invitation to join board: {invitation.boardname}</h3>
+            <p>Sent from: {invitation.senderEmail}</p>
             <button onClick={() => handleAccept(invitation, invitation.boardID)}>Accept</button>
             <button onClick={() => handleDeny(invitation.id)}>Deny</button>
           </div>

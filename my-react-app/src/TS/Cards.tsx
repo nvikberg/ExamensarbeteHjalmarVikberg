@@ -37,6 +37,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
   const [actHour, setActHour] = useState<number | null>(null);
   const [actMin, setActMin] = useState<number | null>(null);
   const [selectedMember, setSelectedMember] = useState<string | null>(null);  // Track selected member
+  const [alertMessage, setAlertMessage] = useState<string>('')
 
 
   useEffect(() => {
@@ -78,7 +79,10 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
 
   const handleSaveTimeEstimation = async (cardId: string) => {
     if (estHour === null && estMin === null) {
-      alert('Please provide either hours or minutes');
+      setAlertMessage(`Please provide either hours or minutes`);
+      setTimeout(() => {
+        setAlertMessage('');
+      }, 3000);      
       return;
     }
 
@@ -90,19 +94,26 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
         estimatedMinutes: estMin,
       });
 
-      alert('Time estimation saved successfully!');
-      setEstHour(null);
+      setAlertMessage(`Time estimastion saved`);
+      setTimeout(() => {
+        setAlertMessage('');
+      }, 3000);       setEstHour(null);
       setEstMin(null);
     } catch (error) {
       console.error('Error adding time estimate:', error);
-      alert('Failed to save time estimation. Please try again.');
+      setAlertMessage(`Failed to save time estimation. Please try again`);
+      setTimeout(() => {
+        setAlertMessage('');
+      }, 3000); 
     }
   };
 
   const handleSaveActualTime = async (cardId: string) => {
     if (actHour === null && actMin === null) {
-      alert('Please provide either hours or minutes');
-      return;
+      setAlertMessage(`Please provide either hours or minutes`);
+      setTimeout(() => {
+        setAlertMessage('');
+      }, 3000);       return;
     }
 
     try {
@@ -113,12 +124,18 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
         actualMinutes: actMin,
       });
 
-      alert('Actual time saved successfully!');
+      setAlertMessage(`Actual time saved`);
+      setTimeout(() => {
+        setAlertMessage('');
+      }, 3000);  
       setActHour(null);
       setActMin(null);
     } catch (error) {
       console.error('Error adding actual time:', error);
-      alert('Failed to save actual time. Please try again.');
+      setAlertMessage('Failed to save actual time. Please try again.');
+      setTimeout(() => {
+        setAlertMessage('');
+      }, 3000);  
     }
   };
 
@@ -139,12 +156,17 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
         await updateDoc(cardDocRef, {
           assignedMember: arrayUnion(selectedMember), 
         });
-        alert('Member assigned to card!');
+        setAlertMessage('Member assigned to card!');
+        setTimeout(() => {
+          setAlertMessage('');
+        }, 3000); 
         setSelectedMember(null); 
       } catch (error) {
         console.error('Error assigning member:', error);
-        alert('Failed to assign member.');
-      }
+        setAlertMessage('Member assigned to card!');
+        setTimeout(() => {
+          setAlertMessage('');
+        }, 3000);       }
     }
   };
   
@@ -154,10 +176,16 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
       await updateDoc(cardDocRef, {
         assignedMember: arrayRemove(memberToRemove), // Removes the member from the array
       });
-      alert('Member removed from card!');
+      setAlertMessage('Member assigned from card!');
+      setTimeout(() => {
+        setAlertMessage('');
+      }, 3000); 
     } catch (error) {
       console.error('Error removing member:', error);
-      alert('Failed to remove member.');
+      setAlertMessage('Failed assigned remove card!');
+      setTimeout(() => {
+        setAlertMessage('');
+      }, 3000); 
     }
   };
   

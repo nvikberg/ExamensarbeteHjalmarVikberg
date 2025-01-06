@@ -10,11 +10,14 @@ interface ListProps {
 const AddLists: React.FC<ListProps> = ({ boardId }) => {
   const [newListTitle, setNewListTitle] = useState('');
   const [loading, setLoading] = useState(false);
+  const [alertMessage, setAlertMessage] = useState<string>('')
 
   const handleAddList = async () => {
     if (!newListTitle.trim()) {
-      alert('Please fill in a list title');
-      return;
+      setAlertMessage(`Please enter list title`);
+      setTimeout(() => {
+        setAlertMessage('');
+      }, 3000);      return;
     }
 
     setLoading(true);

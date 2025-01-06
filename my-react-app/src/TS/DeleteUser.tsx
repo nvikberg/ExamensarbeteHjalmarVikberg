@@ -57,7 +57,6 @@ const DeleteUser: React.FC<Props> = ({ userID, userEmail }) => {
     
           //loggar ut usern och navigera till login
         await signOut(auth);
-          alert('User was deleted and logged out');
           navigate('/');
         }else{
         console.error("error finding user")
