@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import { getFirestore, addDoc, setDoc, collection, doc } from 'firebase/firestore';
+import { getFirestore, addDoc, setDoc, collection, doc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../Data/firebase'; 
 import React from 'react';
 import styles from '../CSS/Login.module.css';
@@ -46,6 +46,8 @@ const Register: React.FC = () => {
           lastName,
           email,
           status, // kommer alltid vara user just nu 
+          created: serverTimestamp(),
+
         });
        
 
