@@ -59,31 +59,20 @@
 /* Styling for each FontAwesome icon */
 .topRightIcons .icon {
   font-size: 24px; /* Adjust the icon size */
-  color: #555; /* Default icon color */
+  /* color: #555; Default icon color */
   cursor: pointer;
   transition: transform 0.3s ease, color 0.3s ease; /* Smooth transitions */
 }
 
 /* Hover effect for icons */
 .topRightIcons .icon:hover {
-  color: #ff6347; /* Change color on hover */
+  /* color: #ff6347; Change color on hover */
   transform: scale(1.2); /* Slightly enlarge the icon */
 }
 
-/* HÄR SKA VI LÄGGA TILL STYLE NÄR MAN FÅTT EN INVITATION TILL EN BOARD */
-.notificationBadge {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  font-size: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* mail icon röd */
+.red {
+  color: rgb(252, 74, 74);
 }
 
 /* Styling for user icon */
