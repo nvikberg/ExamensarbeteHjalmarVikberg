@@ -1,4 +1,11 @@
 /* Profile Page Container */
+.logoutContainer {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-top: 100px;
+  }
+
 .profileContainer {
     width: 100%;
     max-width: 800px;

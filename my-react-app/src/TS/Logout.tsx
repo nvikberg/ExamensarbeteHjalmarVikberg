@@ -2,7 +2,7 @@ import React, { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../Data/firebase"; // Import Firebase Auth
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-
+import styles from '../CSS/Logout.module.css'
  
 
 //OBSSS funkar inte helt än
@@ -40,7 +40,7 @@ const handleLogout = async () => {
 
     return (  
 <>
-<button onClick={handleLogout}>Log out</button>
+<button className={styles.logoutButton} onClick={handleLogout}>Log out</button>
 </>
 
     );
