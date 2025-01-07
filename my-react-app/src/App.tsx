@@ -12,7 +12,6 @@ import Logout from './TS/Logout';
 import { getAuth } from 'firebase/auth';
 import Inbox from './TS/Invitations';
 import ProfilePage from './TS/ProfilePage';
-import CollectionFetcher from './TS/API';
 
 function App(): JSX.Element {
 

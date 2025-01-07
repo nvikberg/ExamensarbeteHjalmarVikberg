@@ -40,7 +40,7 @@ const SeasonalPhoto: React.FC<SeasonPhotoDataProp> = ({ onPhotoFetched }) => {
 
     return (
         <div>
-            <p>Currently showing: <strong>{seasonalTitle}</strong></p>
+            
         </div>
     );
 };

@@ -32,8 +32,11 @@
 }
 
 /* Logo container styling */
-.logoContainer {
+.logoContainer a img{
   margin-left: 5%;
+  width: auto;  
+  height: 60px;
+  padding: 10%;
 }
 
 .logoContainer span {

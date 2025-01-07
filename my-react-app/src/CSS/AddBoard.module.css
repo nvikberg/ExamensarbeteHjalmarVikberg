@@ -84,10 +84,15 @@
     }
   
     .sidebar {
-        height: 100%;
-      width: 100%; /* Sidebar takes full width on tablets and below */
-      padding-left: 10%;
-      padding-right: 10%;
+      height: 100%;
+      width: 20%;  /* Sidebar takes full width on small screens */
+      background-color: var(--light-turquoise);
+      border-right: 1px solid #e1e4e8;
+      padding: 3%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
     }
   
     .input {

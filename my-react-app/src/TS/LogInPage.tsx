@@ -5,11 +5,13 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import Register from "./Register";
 import styles from '../CSS/Login.module.css';
 import GoogleLogin from "./GoogleLogin";
+import SeasonalPhoto from "./API";
 
 // 25/12 jag la till toggle mellan login och registering.. bråkat med css på register sidan för det bir lite dubblett, måste fixas sen
 // Det ser inte så bra ut men logiken fungerar :)
 
 const LogIn: React.FC = () => {
+  const [backgroundImage, setBackgroundImage] = useState<string>("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +43,11 @@ const LogIn: React.FC = () => {
   };
 
   return (
-    <div className={styles.main}>
+    <div className={styles.main}style={{
+      backgroundImage: backgroundImage ? `url("${encodeURI(backgroundImage)}")` : 'none',
+    }} >
+      <SeasonalPhoto onPhotoFetched={setBackgroundImage} />
+
     <div className={styles.loginContainer}>
       {isRegistering ? (
         <Register></Register>
