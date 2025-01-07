@@ -5,11 +5,13 @@ import { collection, query, where, getDocs, getDoc, doc } from "firebase/firesto
 import Lists from "./Lists";
 import AddLists from "./AddList";
 import styles from "../CSS/BoardPage.module.css"
+import SeasonalPhoto from "./API";
 
 const Board: React.FC = () => {
   const { boardId } = useParams<{ boardId: string }>();
   const [boardName, setBoardName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [backgroundImage, setBackgroundImage] = useState<string>("");
   const [estimatedTotal, setEstimatedTotal] = useState<{ hours: number; minutes: number }>({
     hours: 0,
     minutes: 0,
@@ -78,9 +80,10 @@ const Board: React.FC = () => {
     return <p>Board not found</p>;
   }
 
+
   return (
     <div className={styles.board}>
-      <header>
+      <header className={styles.header}>
         <h1>{boardName}</h1>
         <h2 className="estimatedTotal">
           Estimated time: {estimatedTotal.hours} h and {estimatedTotal.minutes} minutes
@@ -89,12 +92,15 @@ const Board: React.FC = () => {
           Actual time: {actualTotal.hours} h and {actualTotal.minutes} minutes
         </h2>
       </header>
-      <div className={styles.boardMainContent}>
+      <div className={styles.boardMainContent} style={{
+        backgroundImage: backgroundImage ? `url("${encodeURI(backgroundImage)}")` : 'none',
+      }} >
         <ol className={styles.listWrapper}>
-        <div className={styles.lists} content="width=device-width, initial-scale=1">
-          <AddLists boardId={boardId} />
-          <Lists boardId={boardId} />
-        </div>
+          <div className={styles.lists} content="width=device-width, initial-scale=1">
+            <AddLists boardId={boardId} />
+            <Lists boardId={boardId} />
+          </div>
+          <SeasonalPhoto onPhotoFetched={setBackgroundImage} />
         </ol>
       </div>
     </div>

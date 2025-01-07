@@ -12,6 +12,7 @@ import Logout from './TS/Logout';
 import { getAuth } from 'firebase/auth';
 import Inbox from './TS/Invitations';
 import ProfilePage from './TS/ProfilePage';
+import CollectionFetcher from './TS/API';
 
 function App(): JSX.Element {
 
@@ -35,7 +36,7 @@ const auth = getAuth();
 
         <Route path="/boards" element={<FetchBoard />} />
 
-        <Route path="/board/:boardId" element={<Board/>} />
+        <Route path="/board/:boardId" element={<Board />} />
 
         </Routes>
       </Router>

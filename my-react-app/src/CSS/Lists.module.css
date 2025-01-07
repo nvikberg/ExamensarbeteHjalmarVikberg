@@ -2,7 +2,6 @@
   display: flex;
   gap: 20px;
   padding: 20px;
-  background-color: #F6F4E8;
   overflow-x: auto; /* Allow horizontal scrolling if cards overflow */
 }
 

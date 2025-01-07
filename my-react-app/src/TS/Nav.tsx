@@ -59,7 +59,7 @@ const Nav: React.FC<{}> = () => {
       return (
         <div className={styles.navBar}>
           <div className={styles.logoContainer}>
-            {/* Place your logo here */}
+            {'Logo'}
           </div>
 
           <div className={styles.navLinks}>

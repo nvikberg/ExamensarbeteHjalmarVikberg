@@ -5,7 +5,7 @@
   justify-content: space-between;
   width: 100%;
   height: 50px;
-  background-color: #F6F4E8;
+  background-color: #2d292a;
   border-bottom: 1px solid #555;
   padding: 1 80px;
 }
@@ -22,7 +22,7 @@
 }
 
 .navLinks li a {
-  color: #555;
+  color: #ffff;
   text-decoration: none;
   font-size: 16px;
 }
@@ -58,6 +58,7 @@
 
 /* Styling for each FontAwesome icon */
 .topRightIcons .icon {
+  color: #ffff;
   font-size: 24px; /* Adjust the icon size */
   /* color: #555; Default icon color */
   cursor: pointer;
@@ -73,9 +74,10 @@
 /* mail icon röd */
 .red {
   color: rgb(252, 74, 74);
+  
 }
 
 /* Styling for user icon */
 .userIcon {
-  color: #555;
+  color: #ffff;
 }
