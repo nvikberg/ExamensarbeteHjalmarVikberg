@@ -37,6 +37,7 @@
   width: auto;  
   height: 60px;
   padding: 10%;
+  border-radius: 8px;
 }
 
 .logoContainer span {
@@ -44,11 +45,27 @@
   cursor: pointer;
 }
 
+.logoutButton {
+  background-color: white;
+  color: #2d292a;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.logoutButton:hover {
+  filter: brightness(0.9);
+  transform: scale(1.05);
+}
+
 /* Container for the right side (icons) */
 .rightSideIcons {
-  padding: 1rem;
+  padding-left: 10%;
   display: flex;
-  align-items: center;
+  align-items: right;
   gap: 20px; /* Space between icons */
 }
 
@@ -56,7 +73,6 @@
 .topRightIcons {
   display: flex;
   gap: 20px; /* Space between the icons */
-  align-items: center;
 }
 
 /* Styling for each FontAwesome icon */

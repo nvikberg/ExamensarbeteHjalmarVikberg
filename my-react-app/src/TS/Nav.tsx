@@ -1,11 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { collection, query, where, getDocs, onSnapshot } from 'firebase/firestore'
 import { db } from '../Data/firebase';
 import NavIcons from './NavIcons';
-import FetchBoard from './FetchBoards';
-import Logout from './Logout';
 import styles from '../CSS/Nav.module.css';
 
 
@@ -15,6 +13,7 @@ const Nav: React.FC<{}> = () => {
   const [user, setUser] = useState<any>('');
   const [invitations, setInvitations] = useState<any[]>([]); // Store invitations
   const auth = getAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Listen for changes in the user's authentication state
@@ -56,6 +55,17 @@ const Nav: React.FC<{}> = () => {
     return () => unsubscribeInvitations();
   };
 
+  const handleLogout = async () => {
+      try{
+          await signOut(auth);
+          // alert("logged out")
+          // console.log(auth + "logge dout")
+          navigate('/')
+      } catch (error){
+          console.error("error logging out", error)
+      }
+  }
+
       return (
         <div className={styles.navBar}>
           <div className={styles.logoContainer}>
@@ -69,9 +79,6 @@ const Nav: React.FC<{}> = () => {
               <li><Link to="/" className={styles.navLink}>Login</Link></li>
             )}
             <li><Link to="/homepage" className={styles.navLink}>My Boards</Link></li>
-            {user && (
-              <li><Link to="/logout" className={styles.navLink}>Log Out</Link></li>
-            )}
           </div>
 
           {/* Right side container for icons */}
@@ -83,6 +90,7 @@ const Nav: React.FC<{}> = () => {
               </div>
             )}
           </div>
+          <button className={styles.logoutButton} onClick={handleLogout}>Log out</button>
         </div>
       );
     }
