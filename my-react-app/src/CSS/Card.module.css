@@ -14,6 +14,11 @@
   margin: 0;
 }
 
+.closedCardInfo {
+  display: flex;
+  gap: 10px;
+}
+
 /* Individual card styling */
 .card {
   background-color: #ffffff;
