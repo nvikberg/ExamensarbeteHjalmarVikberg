@@ -194,9 +194,7 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
         >
         <div>
           <h3 className={styles.listTitle}>{list.listTitle}</h3>
-          <DeleteLists boardId={boardId} listtitle={list.listTitle} onListDeleted={function (): void {
-              throw new Error('Function not implemented.');
-            } } />
+          <DeleteLists boardId={boardId} listtitle={list.listTitle} />
           </div>
           <div
           className={`${styles.cardContainer} ${cardIsDraggedOver ? styles.cardHighlight : ''}`}

@@ -6,11 +6,11 @@ import '../CSS/DeleteBoard.css';
 interface DeleteListsProps {
     boardId: string;
     listtitle: string;
-    onListDeleted: () => void;  // Callback to trigger updates after deletion
+    // onListDeleted: () => void;  // Callback to trigger updates after deletion
 }
 
 
-const DeleteLists: React.FC<DeleteListsProps> = ({ boardId, listtitle, onListDeleted }) => {
+const DeleteLists: React.FC<DeleteListsProps> = ({ boardId, listtitle }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [isShown, setIsShown] = useState(false);
 
@@ -47,7 +47,7 @@ const DeleteLists: React.FC<DeleteListsProps> = ({ boardId, listtitle, onListDel
             alert(`List "${listtitle}" and its cards deleted successfully!`);
             setIsVisible(false);
             setIsShown(false);
-            onListDeleted();  // Trigger re-render after deletion
+            // onListDeleted();  // Trigger re-render after deletion
         } catch (error) {
             console.error("Error deleting list and cards:", error);
         }
