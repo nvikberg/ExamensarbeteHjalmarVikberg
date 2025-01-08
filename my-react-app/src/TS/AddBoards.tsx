@@ -95,19 +95,21 @@ const AddBoards: React.FC = () => {
       });
 
       setLoading(false); // Set loading to false once the operation is complete
-      setSuccessMessage(`Board added with ID ${docRef.id}`); // Set success message
+      setSuccessMessage(`Board added with ID ${docRef.id}`);
       setTimeout(() => {
-        setSuccessMessage(''); // Clear the success message after 3 seconds
+        setSuccessMessage('');
       }, 3000);
 
-      // Clear the form fields after the board has been added to the DB
       setBoardname('');
       setSelectedMembers([]);
 
     } catch (error) {
-      setLoading(false); // Set loading to false in case of error
+      setLoading(false);
       console.error("Error adding document: ", error);
-      alert("An error occurred while adding the board.");
+      setSuccessMessage('An error occurred while adding the board')
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, 3000);
     }
   };
 

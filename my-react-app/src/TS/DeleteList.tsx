@@ -48,7 +48,7 @@ const DeleteLists: React.FC<DeleteListsProps> = ({ boardId, listtitle }) => {
             await Promise.all(deletePromises);
         }
 
-            alert(`List "${listtitle}" and its cards deleted successfully!`);
+            // alert(`List "${listtitle}" and its cards deleted successfully!`);
             setIsVisible(false);
             setIsShown(false);
             // onListDeleted();  // Trigger re-render after deletion
