@@ -34,6 +34,7 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
   const [userId, setUserId] = useState<string | null>(null);
   const [cardIsDraggedOver, setCardIsDraggedOver] = useState<boolean>(false);
   const [listIsDraggedOver, setListIsDraggedOver] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string>('');
   // const [isListBeingDragged, setIsListBeingDragged] = useState<boolean>(false); //denna hör att inte korten ska bli highlightade när man drar listan
 
 

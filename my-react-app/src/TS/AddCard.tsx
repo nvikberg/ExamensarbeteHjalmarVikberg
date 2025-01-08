@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { db } from '../Data/firebase';
 import { collection, addDoc } from 'firebase/firestore';
+import styles from '../CSS/AddBoard.module.css'
 
 interface CardData {
   boardID: string;
@@ -17,15 +18,15 @@ interface BoardProps {
 
 const AddCards: React.FC<BoardProps> = ({ boardId, listTitle, userId }) => {
   const [cardText, setCardText] = useState('');
-   const [alertMessage, setAlertMessage] = useState<string>('');
+   const [successMessage, setSuccessMessage] = useState<string>('');
   
         
   const handleAddCard = async () => {
     if (!cardText) {
-      setAlertMessage(`Enter card text`);
+      setSuccessMessage(`Please enter card text`);
       setTimeout(() => {
-        setAlertMessage('');
-      }, 3000);
+        setSuccessMessage('');
+      }, 3000);    
 
       return;
     }
@@ -57,6 +58,7 @@ const AddCards: React.FC<BoardProps> = ({ boardId, listTitle, userId }) => {
         onChange={(e) => setCardText(e.target.value)}
       />
       <button onClick={handleAddCard}>Add Card</button>
+      {successMessage && <p className={successMessage}>{successMessage}</p>}
     </div>
   );
 };

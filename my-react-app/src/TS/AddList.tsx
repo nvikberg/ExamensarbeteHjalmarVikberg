@@ -10,14 +10,15 @@ interface ListProps {
 const AddLists: React.FC<ListProps> = ({ boardId }) => {
   const [newListTitle, setNewListTitle] = useState('');
   const [loading, setLoading] = useState(false);
-  const [alertMessage, setAlertMessage] = useState<string>('')
+  const [successMessage, setSuccessMessage] = useState<string>('')
 
   const handleAddList = async () => {
     if (!newListTitle.trim()) {
-      setAlertMessage(`Please enter list title`);
+      setSuccessMessage(`Please enter list title`);
       setTimeout(() => {
-        setAlertMessage('');
-      }, 3000);      return;
+        setSuccessMessage('');
+      }, 3000);      
+      return;
     }
 
     setLoading(true);
@@ -30,7 +31,8 @@ const AddLists: React.FC<ListProps> = ({ boardId }) => {
       setNewListTitle(''); 
     } catch (error) {
       console.error('Error adding list:', error);
-      alert('Could not add list. Please try again later.');
+      setSuccessMessage('Could not add list. Please try again later.');
+      // alert('Could not add list. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -50,6 +52,8 @@ const AddLists: React.FC<ListProps> = ({ boardId }) => {
       <button className={styles.addBoardButton} onClick={handleAddList} disabled={loading}>
         {loading ? 'Adding...' : 'Add List'}
       </button>
+      {successMessage && <p className={successMessage}>{successMessage}</p>}
+
     </div>
   );
 };
