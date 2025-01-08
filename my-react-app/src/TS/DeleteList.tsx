@@ -14,20 +14,10 @@ const DeleteLists: React.FC<DeleteListsProps> = ({ boardId, listtitle, onListDel
     const [isVisible, setIsVisible] = useState(false);
     const [isShown, setIsShown] = useState(false);
 
-    const showDeleteList = () => {
-        setIsShown(true);
-    }
-    const hideDeleteList = () => {
-        setIsShown(false);
-    }
-
-    const showOptionList = () => {
-        setIsVisible(true);
-    };
-
-    const hideDelete = () => {
-        setIsVisible(false);
-    };
+    const showDeleteList = () => setIsShown(true);
+    const hideDeleteList = () => setIsShown(false);
+    const showOptionList = () => setIsVisible(true);
+    const hideDelete = () => setIsVisible(false);
 
     const handleDelete = async () => {
         if (!boardId) {
@@ -41,15 +31,13 @@ const DeleteLists: React.FC<DeleteListsProps> = ({ boardId, listtitle, onListDel
                 listTitle: arrayRemove(listtitle)
             });
 
-            if (!cardsSnapshot.empty) {
+            
             // Delete all cards associated with this list
             const cardsRef = collection(db, "Cards");
             const cardsQuery = query(cardsRef, where("boardID", "==", boardId), where("listtitle", "==", listtitle));
             const cardsSnapshot = await getDocs(cardsQuery);
 
-            
-            
-
+            if (!cardsSnapshot.empty) {
             // Batch delete cards
             const deletePromises = cardsSnapshot.docs.map((cardDoc) => 
                 deleteDoc(cardDoc.ref));
@@ -62,7 +50,6 @@ const DeleteLists: React.FC<DeleteListsProps> = ({ boardId, listtitle, onListDel
             onListDeleted();  // Trigger re-render after deletion
         } catch (error) {
             console.error("Error deleting list and cards:", error);
-            alert("Failed to delete list. Please try again.");
         }
     };
 
