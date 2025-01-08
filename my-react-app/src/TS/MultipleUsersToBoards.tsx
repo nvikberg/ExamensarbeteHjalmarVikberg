@@ -62,9 +62,9 @@ const MultipleUsersToBoards: React.FC<MultipleUsersToBoardsProps> = ({ onSelectM
 
     return (
         <div>
-            <p>Invite members to join your board</p>
+            {/* <p>Invite members to join your board</p> */}
             <select value={selectedMembers[selectedMembers.length - 1] || ""} onChange={handleSelectChange} className={styles.input}>
-                <option value="">Select Members</option>
+                <option value="">Invite Members</option>
                 {userEmails.length > 0 ? (
                     // Mappar över user emails och skaparen option för varje
                     userEmails.map((email, index) => (
@@ -79,12 +79,13 @@ const MultipleUsersToBoards: React.FC<MultipleUsersToBoardsProps> = ({ onSelectM
             {/* visar vilken email som valts */}
             {selectedMembers.length > 0 && (
                 <div>
-                    <strong>Selected Members:</strong>
+                    <strong>Invited Members:</strong>
                     <ul>
                         {selectedMembers.map((member, index) => (
+
                             <li key={index}>
+                                <button className={styles.removeButton} onClick={() => handleRemoveMember(member)}>-</button>
                                 {member}
-                                <button onClick={() => handleRemoveMember(member)} style={{ marginLeft: "10px" }}>Remove</button>
                             </li>
                         ))}
                     </ul>

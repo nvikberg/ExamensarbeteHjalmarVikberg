@@ -49,7 +49,7 @@ const AddBoards: React.FC = () => {
   // Lägg till en ny anslagstavla i firestore
   const addBoard = async (): Promise<void> => {
     if (!boardname.trim()) {
-      alert('Please enter a valid board name!');
+      setSuccessMessage('Please enter a valid board name!');
       return;
     }
     if (!user) {
@@ -146,11 +146,7 @@ const AddBoards: React.FC = () => {
           onChange={handleInputChange}
           placeholder="Enter board name"
         />
-        <button
-          className={styles.addBoardButton}
-          onClick={addBoard} disabled={loading}>
-          {loading ? "Adding Board..." : "+"}
-        </button>
+
       </div>
       <div>
         <MultipleUsersToBoards
@@ -158,7 +154,12 @@ const AddBoards: React.FC = () => {
           onSelectMembers={handleSelectMembers}
         />
       </div>
-      {successMessage && <p>{successMessage}</p>}
+      <button
+          className={styles.addBoardButton}
+          onClick={addBoard} disabled={loading}>
+          {loading ? "Adding Board..." : "+"}
+        </button>
+      {successMessage && <p className={successMessage}>{successMessage}</p>}
     </div>
 
     // </div>
