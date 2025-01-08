@@ -249,7 +249,13 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                 draggable="true"
                 onDragStart={(event) => handleDragCardStart(event, card.id)}
               >
+                <div className={styles.closedCardInfo}>
                 <p>{card.cardtext}</p>
+                {card.estimatedHours != null && <p>est: {card.estimatedHours} h</p>}
+                {card.estimatedMinutes != null && <p>{card.estimatedMinutes} min</p>}
+                {card.actualHours != null && <p> act: {card.actualHours} h</p>}
+                {card.actualMinutes != null && <p>{card.actualMinutes} min</p>}
+                </div>
                 {editButtonShown && (
                 <button className={styles.editCardBtn} onClick={showEditCard}>Edit Card</button>
                 )}

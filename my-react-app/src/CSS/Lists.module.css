@@ -2,7 +2,7 @@
   display: flex;
   gap: 20px;
   padding: 20px;
-  overflow-x: auto; /* Allow horizontal scrolling if cards overflow */
+  overflow-x: scroll; /* Allow horizontal scrolling if cards overflow */
 }
 
 .listCard {
@@ -15,6 +15,7 @@
   transition: box-shadow 0.3s ease;
   border: 2px dashed transparent;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .listCard.drag-over {
@@ -65,3 +66,33 @@
     width: 100%;
   }
 }
+
+/* Styling the scrollbar track (the part the thumb slides within) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px; /* For horizontal scrollbar */
+}
+
+/* Styling the scrollbar track itself */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+/* Styling the draggable part of the scrollbar */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+  transition: background 0.3s;
+}
+
+/* Styling the scrollbar thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* For vertical scrollbar */
+::-webkit-scrollbar-corner {
+  background: #f1f1f1;
+}
+
