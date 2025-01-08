@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../Data/firebase';
-import { onSnapshot, getDoc, collection, query, where, getDocs, updateDoc, doc, arrayUnion, arrayRemove} from 'firebase/firestore';
-import styles from '../CSS/Card.module.css'; 
+import { onSnapshot, getDoc, collection, query, where, getDocs, updateDoc, doc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import styles from '../CSS/Card.module.css';
 import BoardMembers from './BoardMembers';
 import DeleteCards from './DeleteCard';
 
@@ -27,10 +27,12 @@ interface CardData {
 interface CardsComponentProps {
   boardId: string;
   listTitle: string;
-  cards: CardData[]; 
+  cards: CardData[];
 }
 
 const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, boardId, listTitle }) => {
+  const [infoIsVisable, setInfoIsVisable] = useState(false);
+  const [editButtonShown, setEditButtonShown] = useState(true);
   const [cards, setCards] = useState<CardData[]>(initialCards); // Initializing state with the passed prop
   const [loading, setLoading] = useState(true);
   const [estHour, setEstHour] = useState<number | null>(null);
@@ -77,8 +79,8 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
     };
 
     fetchCards();
-     // Set up the real-time listener
-     const unsubscribe = onSnapshot(
+    // Set up the real-time listener
+    const unsubscribe = onSnapshot(
       query(collection(db, 'Cards'), where('boardID', '==', boardId), where('listtitle', '==', listTitle)),
       (snapshot) => {
         const updatedCards: CardData[] = snapshot.docs.map((doc) => ({
@@ -102,14 +104,14 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
     // Clean up the listener on component unmount
     return () => unsubscribe();
   }, [boardId, listTitle]); // Dependency array includes `boardId` and `listTitle`
-  
-  
+
+
   const handleSaveTimeEstimation = async (cardId: string) => {
     if (estHour === null && estMin === null) {
       setAlertMessage(`Please provide either hours or minutes`);
       setTimeout(() => {
         setAlertMessage('');
-      }, 3000);      
+      }, 3000);
       return;
     }
 
@@ -123,7 +125,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
       setAlertMessage(`Time estimation saved`);
       setTimeout(() => {
         setAlertMessage('');
-      }, 3000);  
+      }, 3000);
       setEstHour(null);
       setEstMin(null);
     } catch (error) {
@@ -131,7 +133,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
       setAlertMessage(`Failed to save time estimation. Please try again`);
       setTimeout(() => {
         setAlertMessage('');
-      }, 3000); 
+      }, 3000);
     }
   };
 
@@ -140,7 +142,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
       setAlertMessage(`Please provide either hours or minutes`);
       setTimeout(() => {
         setAlertMessage('');
-      }, 3000);       return;
+      }, 3000); return;
     }
 
     try {
@@ -154,7 +156,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
       setAlertMessage(`Actual time saved`);
       setTimeout(() => {
         setAlertMessage('');
-      }, 3000);  
+      }, 3000);
       setActHour(null);
       setActMin(null);
     } catch (error) {
@@ -162,7 +164,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
       setAlertMessage('Failed to save actual time. Please try again.');
       setTimeout(() => {
         setAlertMessage('');
-      }, 3000);  
+      }, 3000);
     }
   };
 
@@ -182,22 +184,23 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
       try {
         const cardDocRef = doc(db, 'Cards', cardId);
         await updateDoc(cardDocRef, {
-          assignedMember: arrayUnion(selectedMember), 
+          assignedMember: arrayUnion(selectedMember),
         });
         setAlertMessage(selectedMember + ' was assigned to card!');
         setTimeout(() => {
           setAlertMessage('');
-        }, 3000); 
-        setSelectedMember(null); 
+        }, 3000);
+        setSelectedMember(null);
       } catch (error) {
         console.error('Error assigning member:', error);
         setAlertMessage('Member was not assigned to card!');
         setTimeout(() => {
           setAlertMessage('');
-        }, 3000);       }
+        }, 3000);
+      }
     }
   };
-  
+
   const handleRemoveMember = async (cardId: string, memberToRemove: string) => {
     try {
       const cardDocRef = doc(db, 'Cards', cardId);
@@ -207,23 +210,34 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
       setAlertMessage(memberToRemove + ' was removed from card!');
       setTimeout(() => {
         setAlertMessage('');
-      }, 3000); 
+      }, 3000);
     } catch (error) {
       console.error('Error removing member:', error);
       setAlertMessage('Failed assigned remove card!');
       setTimeout(() => {
         setAlertMessage('');
-      }, 3000); 
+      }, 3000);
     }
   };
-  
+
+
+  function showEditCard() {
+    setInfoIsVisable(true);
+    setEditButtonShown(false);
+  }
+
+  function closeEditCard() {
+    setInfoIsVisable(false);
+    setEditButtonShown(true);
+  }
+
 
   return (
     <>
-    {alertMessage && (
-      <div className={styles.alertMessage}>{alertMessage}
-      </div>
-    )}
+      {alertMessage && (
+        <div className={styles.alertMessage}>{alertMessage}</div>
+      )}
+  
       {cards.length > 0 && (
         <div className={styles.cardContainer}>
           <ul className={styles.cardList}>
@@ -236,77 +250,86 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                 onDragStart={(event) => handleDragCardStart(event, card.id)}
               >
                 <p>{card.cardtext}</p>
-                <DeleteCards id={card.id || ""} />
-
-                {/* <div className={`${styles.wrapper} ${cardIsDraggedOver ? styles.highlight : ''}`}  */}
-
+                {editButtonShown && (
+                <button className={styles.editCardBtn} onClick={showEditCard}>Edit Card</button>
+                )}
+                {infoIsVisable && (
+                  <div>
+                    <button onClick={closeEditCard}>x</button>
+                    <DeleteCards id={card.id || ""} />
   
-                {/* Render the BoardMembers component only when the card has members */}
-                <BoardMembers boardId={boardId} onMemberSelect={setSelectedMember} />
-                <button className={styles.assignBtn} onClick={() => handleAssignMember(card.id)}>
-                  Assign Member
-                </button>
+                    {/* Render the BoardMembers component only when the card has members */}
+                    <BoardMembers boardId={boardId} onMemberSelect={setSelectedMember} />
+                    <button 
+                      className={styles.assignBtn} 
+                      onClick={() => handleAssignMember(card.id)}
+                    >
+                      Assign Member
+                    </button>
   
-                {/* Assigned members list */}
-                {Array.isArray(card.assignedMember) && card.assignedMember.length > 0 && (
-                  <div className={styles.assignedMembers}>
-                    <p>Assigned members:</p>
-                    <ul>
-                      {card.assignedMember.map((member, index) => (
-                        <li key={index}>
-                          {member}
-                          <button
-                            className={styles.removeBtn}
-                            onClick={() => handleRemoveMember(card.id, member)}
-                          >
-                            Remove
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
+                    {/* Assigned members list */}
+                    {Array.isArray(card.assignedMember) && card.assignedMember.length > 0 && (
+                      <div className={styles.assignedMembers}>
+                        <p>Assigned members:</p>
+                        <ul>
+                          {card.assignedMember.map((member, index) => (
+                            <li key={index}>
+                              {member}
+                              <button
+                                className={styles.removeBtn}
+                                onClick={() => handleRemoveMember(card.id, member)}
+                              >
+                                Remove
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+  
+                    {/* Time estimation and actual time input */}
+                    <div className={styles.timeEstimation}>
+                      <p>Estimated time for task:</p>
+                      <input
+                        type="number"
+                        className={styles.estInput}
+                        placeholder="Hours"
+                        value={estHour ?? ''}
+                        onChange={(e) => setEstHour(Number(e.target.value))}
+                      />
+                      <input
+                        type="number"
+                        className={styles.estInput}
+                        placeholder="Minutes"
+                        value={estMin ?? ''}
+                        onChange={(e) => setEstMin(Number(e.target.value))}
+                      />
+                      <button
+                        className={styles.saveBtn}
+                        onClick={() => handleSaveTimeEstimation(card.id)}
+                      >
+                        Save time estimation
+                      </button>
+  
+                      <p>Actual time:</p>
+                      <input
+                        type="number"
+                        className={styles.actInput}
+                        placeholder="Hours"
+                        value={actHour ?? ''}
+                        onChange={(e) => setActHour(Number(e.target.value))}
+                      />
+                      <input
+                        type="number"
+                        className={styles.actInput}
+                        placeholder="Minutes"
+                        value={actMin ?? ''}
+                        onChange={(e) => setActMin(Number(e.target.value))}
+                      />
+                      <button className={styles.saveBtn} onClick={() => handleSaveActualTime(card.id)}>Save actual time</button>
+                    </div>
                   </div>
                 )}
-  
-                {/* Time estimation and actual time input */}
-                <div className={styles.timeEstimation}>
-                  <p>Estimated time for task:</p>
-                  <input
-                    type="number"
-                    className={styles.estInput}
-                    placeholder="Hours"
-                    value={estHour ?? ''}
-                    onChange={(e) => setEstHour(Number(e.target.value))}
-                  />
-                  <input
-                    type="number"
-                    className={styles.estInput}
-                    placeholder="Minutes"
-                    value={estMin ?? ''}
-                    onChange={(e) => setEstMin(Number(e.target.value))}
-                  />
-                  <button className={styles.saveBtn} onClick={() => handleSaveTimeEstimation(card.id)}>
-                    Save time estimation
-                  </button>
-  
-                  <p>Actual time:</p>
-                  <input
-                    type="number"
-                    className={styles.actInput}
-                    placeholder="Hours"
-                    value={actHour ?? ''}
-                    onChange={(e) => setActHour(Number(e.target.value))}
-                  />
-                  <input
-                    type="number"
-                    className={styles.actInput}
-                    placeholder="Minutes"
-                    value={actMin ?? ''}
-                    onChange={(e) => setActMin(Number(e.target.value))}
-                  />
-                  <button className={styles.saveBtn} onClick={() => handleSaveActualTime(card.id)}>
-                    Save actual time
-                  </button>
-                </div>
               </div>
             ))}
           </ul>
@@ -314,6 +337,6 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
       )}
     </>
   );
-}
+}  
 
 export default CardsComponent;
