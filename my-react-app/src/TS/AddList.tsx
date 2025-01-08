@@ -27,8 +27,6 @@ const AddLists: React.FC<ListProps> = ({ boardId }) => {
       await updateDoc(boardDocRef, {
         listTitle: arrayUnion(newListTitle),
       });
-
-      alert('List added successfully!');
       setNewListTitle(''); 
     } catch (error) {
       console.error('Error adding list:', error);
