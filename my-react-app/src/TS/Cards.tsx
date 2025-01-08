@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../Data/firebase';
-import { getDoc, collection, query, where, getDocs, updateDoc, doc, arrayUnion, arrayRemove} from 'firebase/firestore';
+import { onSnapshot, getDoc, collection, query, where, getDocs, updateDoc, doc, arrayUnion, arrayRemove} from 'firebase/firestore';
 import styles from '../CSS/Card.module.css'; 
 import BoardMembers from './BoardMembers';
 
@@ -76,8 +76,33 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
     };
 
     fetchCards();
-  }, [boardId, listTitle]); // Dependency array includes `boardId` and `listTitle`
+     // Set up the real-time listener
+     const unsubscribe = onSnapshot(
+      query(collection(db, 'Cards'), where('boardID', '==', boardId), where('listtitle', '==', listTitle)),
+      (snapshot) => {
+        const updatedCards: CardData[] = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          cardtext: doc.data().cardtext,
+          boardID: doc.data().boardID,
+          listtitle: doc.data().listtitle,
+          assignedMember: Array.isArray(doc.data().assignedMember) ? doc.data().assignedMember : [],
+          estimatedHours: doc.data().estimatedHours ?? null,
+          estimatedMinutes: doc.data().estimatedMinutes ?? null,
+          actualHours: doc.data().actualHours ?? null,
+          actualMinutes: doc.data().actualMinutes ?? null,
+        }));
+        setCards(updatedCards); // Update the cards state with the latest data
+      },
+      (error) => {
+        console.error("Error fetching real-time updates:", error);
+      }
+    );
 
+    // Clean up the listener on component unmount
+    return () => unsubscribe();
+  }, [boardId, listTitle]); // Dependency array includes `boardId` and `listTitle`
+  
+  
   const handleSaveTimeEstimation = async (cardId: string) => {
     if (estHour === null && estMin === null) {
       setAlertMessage(`Please provide either hours or minutes`);
@@ -89,16 +114,16 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
 
     try {
       const cardDocRef = doc(db, 'Cards', cardId);
-
       await updateDoc(cardDocRef, {
         estimatedHours: estHour,
         estimatedMinutes: estMin,
       });
 
-      setAlertMessage(`Time estimastion saved`);
+      setAlertMessage(`Time estimation saved`);
       setTimeout(() => {
         setAlertMessage('');
-      }, 3000);       setEstHour(null);
+      }, 3000);  
+      setEstHour(null);
       setEstMin(null);
     } catch (error) {
       console.error('Error adding time estimate:', error);

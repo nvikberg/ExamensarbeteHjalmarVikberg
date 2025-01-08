@@ -166,7 +166,6 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
       };
 
       await fetchCards();
-
       console.log(`Card ${cardId} successfully moved to list ${newListTitle}`);
     } catch (error) {
       console.error("Error updating card:", error);
@@ -189,21 +188,19 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
           onDragStart={(event) => handleListDragStart(event, list.id)}
           onDrop={(event) => handleListDrop(event, list.id)}
           onDragLeave={handleListDragLeave} // Remove the highlight when card leaves
-
           onDragOver={(event) => handleListDragOver(event, list.id)}
         >
-          <div
-            className={`${styles.wrapper} ${cardIsDraggedOver ? styles.cardHighlight : ''}`}
-            onDragOver={handleCardDragOver} // Set the highlight when card is dragged over
-            onDragLeave={handleCardDragLeave} // Remove the highlight when card leaves
-            onDrop={(event) => handleCardDrop(event, list.listTitle)}
-          >
+        
           <h3 className={styles.listTitle}>{list.listTitle}</h3>
-          <div className={styles.cardContainer}>
+          <div
+          className={`${styles.cardContainer} ${cardIsDraggedOver ? styles.cardHighlight : ''}`}
+          onDragOver={handleCardDragOver} // Set the highlight when card is dragged over
+          onDragLeave={handleCardDragLeave} // Remove the highlight when card leaves
+          onDrop={(event) => handleCardDrop(event, list.listTitle)}
+          >
             <CardsComponent boardId={boardId} listTitle={list.listTitle} cards={list.cards} />
             <AddCards boardId={boardId} listTitle={list.listTitle} userId={userId} />
           </div>
-        </div>
         </div>
       ))}
     </div>
