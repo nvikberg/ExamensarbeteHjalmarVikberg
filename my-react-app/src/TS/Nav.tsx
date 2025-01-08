@@ -5,6 +5,7 @@ import { collection, query, where, getDocs, onSnapshot } from 'firebase/firestor
 import { db } from '../Data/firebase';
 import NavIcons from './NavIcons';
 import styles from '../CSS/Nav.module.css';
+import Logout from './Logout';
 
 
 const Nav: React.FC<{}> = () => {
@@ -87,10 +88,11 @@ const Nav: React.FC<{}> = () => {
               <div className={styles.topRightIcons}>
                 {/* Include the NavIcons component here */}
                 <NavIcons invitations={invitations} />
+                <Logout />
               </div>
+            
             )}
           </div>
-          <button className={styles.logoutButton} onClick={handleLogout}>Log out</button>
         </div>
       );
     }

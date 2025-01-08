@@ -41,6 +41,7 @@ const handleLogout = async () => {
     try{
         await signOut(auth);
         navigate('/')
+        setVisible(false);
     } catch (error){
         console.error("error logging out", error)
     }
