@@ -14,6 +14,7 @@
   width: 300px;
   transition: box-shadow 0.3s ease;
   border: 2px dashed transparent;
+  overflow-y: scroll;
 }
 
 .listCard.drag-over {

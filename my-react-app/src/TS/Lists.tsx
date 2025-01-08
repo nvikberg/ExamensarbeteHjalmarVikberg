@@ -5,6 +5,8 @@ import styles from "../CSS/Lists.module.css"
 import CardsComponent from './Cards';
 import AddCards from './AddCard';
 import { getAuth } from 'firebase/auth';
+import DeleteLists from './DeleteList';
+import Board from './BoardPage';
 
 interface CardData {
   id: string;
@@ -179,7 +181,7 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
   }
 
   return (
-    <div className={styles.listsContainer}>
+    <div className={styles.listsContainer} >
       {lists.map((list) => (
         <div
           key={list.id}
@@ -190,8 +192,12 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
           onDragLeave={handleListDragLeave} // Remove the highlight when card leaves
           onDragOver={(event) => handleListDragOver(event, list.id)}
         >
-        
+        <div>
           <h3 className={styles.listTitle}>{list.listTitle}</h3>
+          <DeleteLists boardId={boardId} listtitle={list.listTitle} onListDeleted={function (): void {
+              throw new Error('Function not implemented.');
+            } } />
+          </div>
           <div
           className={`${styles.cardContainer} ${cardIsDraggedOver ? styles.cardHighlight : ''}`}
           onDragOver={handleCardDragOver} // Set the highlight when card is dragged over
