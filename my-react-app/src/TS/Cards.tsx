@@ -38,6 +38,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
   const [actMin, setActMin] = useState<number | null>(null);
   const [selectedMember, setSelectedMember] = useState<string | null>(null);  // Track selected member
   const [alertMessage, setAlertMessage] = useState<string>('')
+  const [cardIsDraggedOver, setCardIsDraggedOver] = useState<boolean>(false);
 
 
   useEffect(() => {
@@ -147,6 +148,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
     event.stopPropagation(); // Prevent interference with list dragging
     event.dataTransfer.setData("cardId", cardId);
     event.dataTransfer.effectAllowed = "move";
+    setCardIsDraggedOver(true);
   };
 
   const handleAssignMember = async (cardId: string) => {
@@ -208,6 +210,9 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                 onDragStart={(event) => handleDragCardStart(event, card.id)}
               >
                 <p>{card.cardtext}</p>
+
+                {/* <div className={`${styles.wrapper} ${cardIsDraggedOver ? styles.highlight : ''}`}  */}
+
   
                 {/* Render the BoardMembers component only when the card has members */}
                 <BoardMembers boardId={boardId} onMemberSelect={setSelectedMember} />

@@ -30,6 +30,10 @@ interface BoardProps {
 const Lists: React.FC<BoardProps> = ({ boardId }) => {
   const [lists, setLists] = useState<BoardData[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
+  const [cardIsDraggedOver, setCardIsDraggedOver] = useState<boolean>(false);
+  const [listIsDraggedOver, setListIsDraggedOver] = useState<string | null>(null);
+  // const [isListBeingDragged, setIsListBeingDragged] = useState<boolean>(false); //denna hör att inte korten ska bli highlightade när man drar listan
+
 
   useEffect(() => {
     const auth = getAuth();
@@ -67,14 +71,31 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
     return <p>Loading user information...</p>;
   }
 
+
+  //lists drag events (listan med id highlightas när man drag and drop)
   const handleListDragStart = (event: React.DragEvent<HTMLDivElement>, listId: string) => {
     event.stopPropagation();
     event.dataTransfer.setData("draggedListId", listId);
+    setListIsDraggedOver(listId);
+    // setIsListBeingDragged(true);
+  };
+
+  const handleListDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+    setListIsDraggedOver(null);
+  };
+
+  const handleListDragOver = (event: React.DragEvent<HTMLDivElement>, listId: string) => {
+    event.preventDefault();
+    setListIsDraggedOver(listId);
   };
 
   const handleListDrop = (event: React.DragEvent<HTMLDivElement>, targetListId: string) => {
     event.preventDefault();
     const draggedListId = event.dataTransfer.getData("draggedListId");
+    setListIsDraggedOver(null);
+    // setIsListBeingDragged(false); 
+
 
     if (!draggedListId) return;
 
@@ -90,9 +111,24 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
     }
   };
 
+  //card drag events
+  const handleCardDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();  // Necessary to allow drop
+    // if (!isListBeingDragged) { //bara highlighta korten om en lista inte blir dragged
+    setCardIsDraggedOver(true); 
+    // }
+  };
+
+  const handleCardDragLeave = () => {
+    setCardIsDraggedOver(false); 
+  };
+
   const handleCardDrop = async (event: React.DragEvent<HTMLDivElement>, newListTitle: string) => {
     event.preventDefault();
     event.stopPropagation();
+    setCardIsDraggedOver(false);  // Set state to true when dragged over
+    setListIsDraggedOver(null)
+
 
     const cardId = event.dataTransfer.getData("cardId");
     if (!cardId) {
@@ -148,21 +184,26 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
       {lists.map((list) => (
         <div
           key={list.id}
-          className={styles.listCard}
+          className={`${styles.listCard} ${listIsDraggedOver === list.id ? styles.listHighlight : ''}`}
           draggable="true"
           onDragStart={(event) => handleListDragStart(event, list.id)}
           onDrop={(event) => handleListDrop(event, list.id)}
-          onDragOver={(event) => event.preventDefault()}
+          onDragLeave={handleListDragLeave} // Remove the highlight when card leaves
+
+          onDragOver={(event) => handleListDragOver(event, list.id)}
         >
-          <h3 className={styles.listTitle}>{list.listTitle}</h3>
           <div
-            className={styles.cardContainer}
-            onDragOver={(event) => event.preventDefault()}
+            className={`${styles.wrapper} ${cardIsDraggedOver ? styles.cardHighlight : ''}`}
+            onDragOver={handleCardDragOver} // Set the highlight when card is dragged over
+            onDragLeave={handleCardDragLeave} // Remove the highlight when card leaves
             onDrop={(event) => handleCardDrop(event, list.listTitle)}
           >
+          <h3 className={styles.listTitle}>{list.listTitle}</h3>
+          <div className={styles.cardContainer}>
             <CardsComponent boardId={boardId} listTitle={list.listTitle} cards={list.cards} />
             <AddCards boardId={boardId} listTitle={list.listTitle} userId={userId} />
           </div>
+        </div>
         </div>
       ))}
     </div>

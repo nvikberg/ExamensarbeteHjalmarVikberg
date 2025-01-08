@@ -37,6 +37,20 @@
   flex-direction: column;
 }
 
+.wrapper{
+  padding: 1px;
+}
+
+.listHighlight {
+  background-color: rgba(219, 119, 52, 0.2); 
+}
+
+.cardHighlight {
+  border: 2px dashed #3498db;
+  background-color: #469f5ca1 ; 
+}
+
+
 /* Responsive Layout */
 @media (max-width: 600px) {
   .listsContainer {

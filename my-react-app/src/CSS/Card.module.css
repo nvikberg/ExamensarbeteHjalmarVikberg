@@ -164,3 +164,9 @@
 color: red;
 padding: 10px;
 }
+
+.highlight {
+  border: 2px dashed #3498db; 
+  background-color: rgba(52, 152, 219, 0.2); 
+}
+
