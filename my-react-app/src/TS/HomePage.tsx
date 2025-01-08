@@ -160,7 +160,7 @@ const HomePage: React.FC = () => {
                 >
                   <h3>{item.title}</h3>
                   <p>Members: </p>
-                  <p>{item.members.join(", ")}</p>
+                  <p>{Array.isArray(item.members) ? item.members.join(", ") : 'No members'}</p>
                 </div>
                 
 
