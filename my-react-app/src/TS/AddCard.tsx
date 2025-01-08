@@ -43,7 +43,6 @@ const AddCards: React.FC<BoardProps> = ({ boardId, listTitle, userId }) => {
 
       // Clear the input field
       setCardText('');
-      alert('Card added successfully!');
     } catch (error) {
       console.error('Error adding card:', error);
     }

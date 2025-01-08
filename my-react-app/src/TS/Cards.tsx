@@ -3,6 +3,7 @@ import { db } from '../Data/firebase';
 import { onSnapshot, getDoc, collection, query, where, getDocs, updateDoc, doc, arrayUnion, arrayRemove} from 'firebase/firestore';
 import styles from '../CSS/Card.module.css'; 
 import BoardMembers from './BoardMembers';
+import DeleteCards from './DeleteCard';
 
 
 //hämtar och hanterar kort (tasks) för ett specifikt board och listtitel. 
@@ -235,6 +236,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                 onDragStart={(event) => handleDragCardStart(event, card.id)}
               >
                 <p>{card.cardtext}</p>
+                <DeleteCards id={card.id || ""} />
 
                 {/* <div className={`${styles.wrapper} ${cardIsDraggedOver ? styles.highlight : ''}`}  */}
 

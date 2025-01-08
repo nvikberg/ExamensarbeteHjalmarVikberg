@@ -3,6 +3,10 @@ import { doc, deleteDoc, collection, query, where, getDocs, updateDoc, arrayRemo
 import { db } from "../Data/firebase";
 import '../CSS/DeleteBoard.css';
 
+
+//MÅSTE KOLLA PÅ!
+//Delete fungerear men man får upp error att delete failed 
+
 interface DeleteListsProps {
     boardId: string;
     listtitle: string;
