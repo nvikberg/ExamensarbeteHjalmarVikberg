@@ -15,7 +15,7 @@
   /* Sidebar styling */
   .sidebar {
     height: 100%;
-    width: 20%;  /* Sidebar takes full width on small screens */
+    width:auto; 
     background-color: var(--light-turquoise);
     border-right: 1px solid #e1e4e8;
     padding: 3%;
@@ -40,7 +40,7 @@
   
   /* Input field styling */
   .input {
-    width: 80%;
+    width: 100%;
     padding: 5% 5%;
     font-size: 1vw;
     border: 1px solid #ddd;
@@ -54,11 +54,30 @@
     border-color: var(--light-orange);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
+
+  ul {
+    list-style-type: none; 
+    padding: 0;
+  }
+  
+  li{
+  display: flex; 
+  align-items: center; 
+  padding: 8px 12px; 
+  margin-bottom: 8px; 
+  /* background-color: #f0f0f0;  */
+  border-radius: 5px; 
+  /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);  */
+  /* transition: background-color 0.3s ease; */
+}
+
+li:hover {
+  color: #490303;
+}
   
   /* Button styling */
   .addBoardButton {
     width: auto;
-    /* min-width: 15%; */
     text-align: center;
     background-color: var(--dark-green);
     color: white;
@@ -73,6 +92,29 @@
   .addBoardButton:hover {
     background-color: var(--light-turquoise);
     color: var(--dark-green);
+  }
+
+  .removeButton {
+    background-color: #f44336; /* Red background for remove button */
+    color: white;
+    border: none;
+    border-radius: 50%; /* Round button */
+    width: 20px; /* Small width */
+    height: 20px; /* Small height */
+    font-size: 14px; /* Smaller font size */
+    display: flex;
+    align-items: center; /* Vertically center the text */
+    justify-content: center; /* Horizontally center the text */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+    margin-right: 5px;
+  }
+  
+  .removeButton:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+  }
+  .successMessage {
+    color: red;
   }
   
   /* Media Queries for responsive design */
