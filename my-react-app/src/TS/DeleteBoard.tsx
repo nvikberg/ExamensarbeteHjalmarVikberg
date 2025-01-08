@@ -7,13 +7,13 @@ import { useNavigate } from "react-router-dom";
 //Hämtar props från homepage, delete knappen är kopplad till varje board.
 //Den deletar på 3 ställen
 //1. Invitations - Alla invitations som har det boardID
-//2. Boards - Hela boarden, 
-//3. Users - 'boardId' (alla users som har det specifika boardID i sin array)
+//2. Cards - alla cards associerade med boardid
+//3. Boards - Hela boarden, 
+//4. Users - 'boardId' (alla users som har det specifika boardID i sin array)
 
 interface Props {
     boardID: string;
     userID: string;
-
 }
 
 
@@ -23,19 +23,19 @@ const DeleteBoard: React.FC<Props> = ({ boardID, userID }) => {
     const navigate = useNavigate();
 
     const handleDelete = async (): Promise<void> => {
+
+        await deleteInvitations(boardID);
+
         try {
-            //kollar vilka invitations som har det boardID
-            const invitationsQuery = query(
-                collection(db, "Invitations"),
+            //deletar alla cards associeraded med boarden
+            const cardsQuery = query(
+                collection(db, "Cards"),
                 where("boardID", "==", boardID)
             );
-
-            const querySnapshot = await getDocs(invitationsQuery);
-
-            //raderar dom invitations 
-            querySnapshot.forEach(async (docSnapshot) => {
-                await deleteDoc(doc(db, "Invitations", docSnapshot.id)); // Delete each invitation
-                console.log(`Invitation with ID: ${docSnapshot.id} deleted.`);
+            const cardsSnapshot = await getDocs(cardsQuery);
+            cardsSnapshot.forEach(async (docSnapshot) => {
+                await deleteDoc(doc(db, "Cards", docSnapshot.id)); // Delete each card
+                console.log(`Card with ID: ${docSnapshot.id} deleted.`);
             });
 
             //deletar board doc
@@ -59,19 +59,19 @@ const DeleteBoard: React.FC<Props> = ({ boardID, userID }) => {
             });
 
             console.log(`Board with ID ${boardID} has been deleted.`);
-            
+
             setAlertMessage('Board was deleted');
             setTimeout(() => {
-              setAlertMessage('');
-            }, 3000);             
+                setAlertMessage('');
+            }, 3000);
             navigate('/homepage')
 
         } catch (error) {
             console.error("Error deleting board:", error);
             setAlertMessage('Board was not deleted');
             setTimeout(() => {
-              setAlertMessage('');
-            }, 3000);  
+                setAlertMessage('');
+            }, 3000);
         }
     };
 
@@ -83,6 +83,29 @@ const DeleteBoard: React.FC<Props> = ({ boardID, userID }) => {
     const hideDelete = () => {
         setVisible(false);
     };
+
+    const deleteInvitations = async (boardID: string): Promise<void> => {
+        try {
+            //kollar vilka invitations som har det boardID
+            const invitationsQuery = query(
+                collection(db, "Invitations"),
+                where("boardID", "==", boardID)
+            );
+
+            const invitationsSnapshot = await getDocs(invitationsQuery);
+
+            //raderar dom invitations 
+            invitationsSnapshot.forEach(async (docSnapshot) => {
+                await deleteDoc(doc(db, "Invitations", docSnapshot.id)); // Delete each invitation
+                console.log(`Invitation with ID: ${docSnapshot.id} deleted.`);
+            });
+
+            console.log(`All invitations associated with board ID ${boardID} have been deletd`);
+        } catch (error) {
+            console.error("error deleting invitations", error);
+        }
+    };
+
 
 
 
