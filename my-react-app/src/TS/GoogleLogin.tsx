@@ -34,7 +34,7 @@ const GoogleLogin: React.FC = () => {
                 if (credential) {
 
                     const token = credential.accessToken;
-                    console.log("Google Access token", token);
+                    // console.log("Google Access token", token);
 
                     //signed-in user info
                     const user = result.user;

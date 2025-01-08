@@ -160,3 +160,7 @@
   cursor: not-allowed; /* Disable cursor when active */
 }
 
+.alertMessage {
+color: red;
+padding: 10px;
+}

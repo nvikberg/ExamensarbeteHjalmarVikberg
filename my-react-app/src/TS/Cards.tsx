@@ -156,14 +156,14 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
         await updateDoc(cardDocRef, {
           assignedMember: arrayUnion(selectedMember), 
         });
-        setAlertMessage('Member assigned to card!');
+        setAlertMessage(selectedMember + ' was assigned to card!');
         setTimeout(() => {
           setAlertMessage('');
         }, 3000); 
         setSelectedMember(null); 
       } catch (error) {
         console.error('Error assigning member:', error);
-        setAlertMessage('Member assigned to card!');
+        setAlertMessage('Member was not assigned to card!');
         setTimeout(() => {
           setAlertMessage('');
         }, 3000);       }
@@ -176,7 +176,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
       await updateDoc(cardDocRef, {
         assignedMember: arrayRemove(memberToRemove), // Removes the member from the array
       });
-      setAlertMessage('Member assigned from card!');
+      setAlertMessage(memberToRemove + ' was removed from card!');
       setTimeout(() => {
         setAlertMessage('');
       }, 3000); 
@@ -192,6 +192,10 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
 
   return (
     <>
+    {alertMessage && (
+      <div className={styles.alertMessage}>{alertMessage}
+      </div>
+    )}
       {cards.length > 0 && (
         <div className={styles.cardContainer}>
           <ul className={styles.cardList}>
