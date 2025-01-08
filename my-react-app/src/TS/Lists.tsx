@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../Data/firebase';
-import { collection, doc, getDoc, getDocs, query, updateDoc, where } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, query, updateDoc, where, onSnapshot } from 'firebase/firestore';
 import styles from "../CSS/Lists.module.css"
 import CardsComponent from './Cards';
 import AddCards from './AddCard';
@@ -35,52 +35,44 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
   const [cardIsDraggedOver, setCardIsDraggedOver] = useState<boolean>(false);
   const [listIsDraggedOver, setListIsDraggedOver] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string>('');
-  // const [isListBeingDragged, setIsListBeingDragged] = useState<boolean>(false); //denna hör att inte korten ska bli highlightade när man drar listan
-
 
   useEffect(() => {
     const auth = getAuth();
     const user = auth.currentUser;
     setUserId(user ? user.uid : null);
 
-    const fetchLists = async () => {
-      try {
-        const boardDocRef = doc(db, 'Boards', boardId);
-        const boardDoc = await getDoc(boardDocRef);
+    const boardDocRef = doc(db, 'Boards', boardId);
 
-        if (boardDoc.exists()) {
-          const boardData = boardDoc.data();
-          const listTitles = boardData?.listTitle || [];
+    //lyssnare på uppdateringar om en ny lista är addad på db 
+    const unsubscribe = onSnapshot(boardDocRef, (boardDoc) => {
+      if (boardDoc.exists()) {
+        const boardData = boardDoc.data();
+        const listTitles = boardData?.listTitle || [];
 
-          const fetchedLists: BoardData[] = listTitles.map((title: string, index: number) => ({
-            id: `${boardId}-list-${index}`,
-            listTitle: title,
-            cards: [],
-          }));
+        const fetchedLists: BoardData[] = listTitles.map((title: string, index: number) => ({
+          id: `${boardId}-list-${index}`,
+          listTitle: title,
+          cards: [],
+        }));
 
-          setLists(fetchedLists);
-        } else {
-          console.error("Board not found");
-        }
-      } catch (error) {
-        console.error('Error fetching lists:', error);
+        setLists(fetchedLists);
+      } else {
+        console.error("Board not found");
       }
-    };
+    });
 
-    fetchLists();
+    //stoppa lyssnaren
+    return () => unsubscribe();
   }, [boardId]);
 
   if (!userId) {
     return <p>Loading user information...</p>;
   }
 
-
-  //lists drag events (listan med id highlightas när man drag and drop)
   const handleListDragStart = (event: React.DragEvent<HTMLDivElement>, listId: string) => {
     event.stopPropagation();
     event.dataTransfer.setData("draggedListId", listId);
     setListIsDraggedOver(listId);
-    // setIsListBeingDragged(true);
   };
 
   const handleListDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
@@ -97,8 +89,6 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
     event.preventDefault();
     const draggedListId = event.dataTransfer.getData("draggedListId");
     setListIsDraggedOver(null);
-    // setIsListBeingDragged(false); 
-
 
     if (!draggedListId) return;
 
@@ -114,24 +104,20 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
     }
   };
 
-  //card drag events
   const handleCardDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();  // Necessary to allow drop
-    // if (!isListBeingDragged) { //bara highlighta korten om en lista inte blir dragged
-    setCardIsDraggedOver(true); 
-    // }
+    event.preventDefault();
+    setCardIsDraggedOver(true);
   };
 
   const handleCardDragLeave = () => {
-    setCardIsDraggedOver(false); 
+    setCardIsDraggedOver(false);
   };
 
   const handleCardDrop = async (event: React.DragEvent<HTMLDivElement>, newListTitle: string) => {
     event.preventDefault();
     event.stopPropagation();
-    setCardIsDraggedOver(false);  // Set state to true when dragged over
-    setListIsDraggedOver(null)
-
+    setCardIsDraggedOver(false);
+    setListIsDraggedOver(null);
 
     const cardId = event.dataTransfer.getData("cardId");
     if (!cardId) {
@@ -175,14 +161,12 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
     }
   };
 
-
-
   if (lists.length === 0) {
     return <p>Create a list!</p>;
   }
 
   return (
-    <div className={styles.listsContainer} >
+    <div className={styles.listsContainer}>
       {lists.map((list) => (
         <div
           key={list.id}
@@ -190,18 +174,18 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
           draggable="true"
           onDragStart={(event) => handleListDragStart(event, list.id)}
           onDrop={(event) => handleListDrop(event, list.id)}
-          onDragLeave={handleListDragLeave} // Remove the highlight when card leaves
+          onDragLeave={handleListDragLeave}
           onDragOver={(event) => handleListDragOver(event, list.id)}
         >
-        <div>
-          <h3 className={styles.listTitle}>{list.listTitle}</h3>
-          <DeleteLists boardId={boardId} listtitle={list.listTitle} />
+          <div>
+            <h3 className={styles.listTitle}>{list.listTitle}</h3>
+            <DeleteLists boardId={boardId} listtitle={list.listTitle} />
           </div>
           <div
-          className={`${styles.cardContainer} ${cardIsDraggedOver ? styles.cardHighlight : ''}`}
-          onDragOver={handleCardDragOver} // Set the highlight when card is dragged over
-          onDragLeave={handleCardDragLeave} // Remove the highlight when card leaves
-          onDrop={(event) => handleCardDrop(event, list.listTitle)}
+            className={`${styles.cardContainer} ${cardIsDraggedOver ? styles.cardHighlight : ''}`}
+            onDragOver={handleCardDragOver}
+            onDragLeave={handleCardDragLeave}
+            onDrop={(event) => handleCardDrop(event, list.listTitle)}
           >
             <CardsComponent boardId={boardId} listTitle={list.listTitle} cards={list.cards} />
             <AddCards boardId={boardId} listTitle={list.listTitle} userId={userId} />
@@ -213,4 +197,3 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
 };
 
 export default Lists;
-
