@@ -57,9 +57,6 @@ const ProfilePage: React.FC = ({ }) => {
 
     return (
         <>
-            <div className={styles.logOutContainer}>
-                <Logout></Logout>
-            </div>
             <div className={styles.profileContainer}>
 
                 <div className={styles.profileHeader}>

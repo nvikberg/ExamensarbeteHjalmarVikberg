@@ -27,21 +27,19 @@ const Logout: React.FC = () => {
 }, [auth]);
 
 
-const showDelete = () => {
+const showLogout = () => {
     setVisible(true);
     console.log('show delete funk')
 };
 
 // Function to hide the confirmation modal
-const hideDelete = () => {
+const hideLogout = () => {
     setVisible(false);
 };
 
 const handleLogout = async () => {
     try{
         await signOut(auth);
-        // alert("logged out")
-        // console.log(auth + "logge dout")
         navigate('/')
     } catch (error){
         console.error("error logging out", error)
@@ -49,25 +47,21 @@ const handleLogout = async () => {
 }
 
 return (
-    <>
-        <button className={styles.logoutButton} onClick={showDelete}>Log out</button>
+    <div>
+        <button className={styles.logoutButton} onClick={showLogout} aria-haspopup="true">Log out</button>
         {/* Confirmation Modal */}
         {isVisible && (
             <div className={styles.confirmationModal}>
                 <div className={styles.modalContent}>
                     <h2>Are you sure you want to log out?</h2>
                     <div className={styles.modalButtons}>
-                        <button onClick={handleLogout} className={styles.confirmBtn}>
-                            Yes, Logout
-                        </button>
-                        <button onClick={hideDelete} className={styles.cancelBtn}>
-                            Cancel
-                        </button>
+                        <button onClick={handleLogout} className={styles.confirmBtn}>Yes, Logout </button>
+                        <button onClick={hideLogout} className={styles.cancelBtn}> Cancel </button>
                     </div>
                 </div>
             </div>
         )}
-    </>
+    </div>
 );
 };
  
