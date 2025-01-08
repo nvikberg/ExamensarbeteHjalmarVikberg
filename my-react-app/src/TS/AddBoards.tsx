@@ -11,6 +11,7 @@ import MultipleUsersToBoards from './MultipleUsersToBoards';
 interface Board {
   boardname: string;
   userID: string;
+  members?: string[];
 }
 
 const AddBoards: React.FC = () => {

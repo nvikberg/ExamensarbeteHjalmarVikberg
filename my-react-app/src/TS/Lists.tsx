@@ -140,7 +140,7 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
 
 
   if (lists.length === 0) {
-    return <p>Loading lists...</p>;
+    return <p>Create a list!</p>;
   }
 
   return (
