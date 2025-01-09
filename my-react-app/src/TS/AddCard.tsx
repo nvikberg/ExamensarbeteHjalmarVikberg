@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { db } from '../Data/firebase';
 import { collection, addDoc } from 'firebase/firestore';
-import styles from '../CSS/AddBoard.module.css'
+import styles from "../CSS/AddCard.module.css";
 
 interface CardData {
   boardID: string;
@@ -50,7 +50,7 @@ const AddCards: React.FC<BoardProps> = ({ boardId, listTitle, userId }) => {
   };
 
   return (
-    <div>
+    <div className={styles.addCardDiv}>
       <input
         type="text"
         placeholder="Enter card text"

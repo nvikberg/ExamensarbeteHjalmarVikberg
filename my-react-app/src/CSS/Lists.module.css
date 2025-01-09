@@ -23,7 +23,7 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 15px;
+  padding: 15px;  
   transition: box-shadow 0.3s ease;
   border: 2px dashed transparent;
 }
@@ -34,7 +34,6 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 15px;
   height: auto;
   width: auto;
   transition: box-shadow 0.3s ease;
@@ -45,7 +44,26 @@
   max-height: calc(100vh - 20%);
   box-sizing: border-box;
   word-wrap: break-word;
-  white-space: normal;
+  white-space: normal;  
+  min-width: 300px;
+}
+
+.input {
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 2px;
+  
+}
+
+.addBoardButton {
+  padding: 5px;
+  background-color: #7d9f7e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
 .listCard.drag-over {
@@ -62,6 +80,7 @@
   font-weight: bold;
   margin-bottom: 10px;
   color: #333333;
+  top: 0;
 }
 
 .cardContainer {
@@ -71,15 +90,27 @@
 
 }
 
-.wrapper {
-  padding: 1px;
-}
-
 .listHeader {
+  position: sticky;
+  top: 0;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  z-index: 10;
+  background-color: white;
+  padding: 15px;
+  border-bottom: 1px solid #ccc;
+  height: 25px;
+}
+
+.listFooter {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  background: white;
+  padding: 20px;
+  border-top: 1px solid #ccc;
 }
 
 .listHighlight {
@@ -100,6 +131,10 @@
   cursor: pointer;
   border-radius: 5px;
   /* z-index: 9999;  */
+}
+
+.smallDeleteButton:hover {
+    filter: brightness(0.9);
 }
 
 

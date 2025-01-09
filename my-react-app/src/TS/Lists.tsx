@@ -190,7 +190,9 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
               onDrop={(event) => handleCardDrop(event, list.listTitle)}
             >
               <CardsComponent boardId={boardId} listTitle={list.listTitle} cards={list.cards} />
+              <div className={styles.listFooter}>
               <AddCards boardId={boardId} listTitle={list.listTitle} userId={userId} />
+              </div>
             </div>
           </div>
         </div>
