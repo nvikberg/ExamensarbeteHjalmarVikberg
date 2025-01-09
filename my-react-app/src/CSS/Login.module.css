@@ -1,6 +1,7 @@
+
 body {
   font-family: Arial, sans-serif;
-  background-color: #F6F4E8;
+  background-color: #E0DCD3;
   margin: 0;
   padding: 0;
 }
@@ -11,6 +12,7 @@ body {
   justify-content: center;
   align-items: center;
   margin-top: 5%;
+  background-color: #E0DCD3;
 }
 
 .loginContainer {
@@ -61,6 +63,12 @@ body {
   font-size: 0.9rem;
   margin-bottom: 15px;
   text-align: center;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .loginButton {
