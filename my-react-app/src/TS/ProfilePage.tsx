@@ -4,20 +4,19 @@ import { getAuth, updateCurrentUser } from 'firebase/auth';
 import { getDoc, collection, query, where, doc, updateDoc, setDoc } from 'firebase/firestore';
 import styles from '../CSS/ProfilePage.module.css';
 import DeleteUser from './DeleteUser';
-import Logout from './Logout';
 
 interface User {
     uid: string;
     email: any;
-    fName: string;
-    lName: string;
+    firstName: string;
+    lastName: string;
     created: any;
     profilePic?: string;
     bio?: string;
 }
 
 const ProfilePage: React.FC = ({ }) => {
-    const [newFirstName, setNewListTitle] = useState('');
+    const [newFirstName, setNewFirstName] = useState('');
     const [newLastName, setNewLastName] = useState('');
     const [user, setUser] = useState<User | null>(null);
     const [successMessage, setSuccessMessage] = useState<string>('')
@@ -56,39 +55,44 @@ const ProfilePage: React.FC = ({ }) => {
         return date.toLocaleDateString();
     };
 
-    async function handleSaveName() {
-        if (!newFirstName.trim() && newLastName.trim()) {
-            setSuccessMessage(`Please enter your name`);
-            setTimeout(() => setSuccessMessage(''), 3000);
+    //Spara Namn till databasen 
+    async function handleSaveName(event: React.FormEvent) {
+        event.preventDefault();
+        const auth = getAuth();
+        const currentUser = auth.currentUser;        
+
+        if (!currentUser) {
+            setSuccessMessage("User not logged in.")
+            return;
+        }
+
+        if (!newFirstName.trim() || !newLastName.trim()) {
+            setSuccessMessage(`Please enter your full name`);
             return;
         }
 
         setLoading(true);
-        try {    
-            if (!currentUser || !currentUser.uid) {
-                throw new Error("User not logged in.");
-            }        
+        try {
             const userRef = doc(db, "Users", currentUser.uid);
             const userSnap = await getDoc(userRef);
             
-            if (userSnap.exists()){
-                await updateDoc(userRef, {
+            const updatUserData = {
+                firstName: newFirstName.trim(),
+                lastName: newLastName.trim(),
+            };
+
+            if (userSnap.exists()) {
+                await updateDoc(userRef, updatUserData);
+            } else {
+                await setDoc(userRef, {
                     firstName: newFirstName.trim(),
                     lastName: newLastName.trim(),
                 });
-            }else {
-                await setDoc(userRef, {
-                    firstName: newFirstName.trim(),
-                    newLastName: newLastName.trim(),
-                })
             }
             setSuccessMessage('Name updated successfully!');
-            setTimeout(() => {
-                setSuccessMessage('');
-            }, 3000);
         } catch (error) {
-            console.error('Error updating name:', error);
-            setSuccessMessage('An error occurred. Please try again.');
+            console.error("Error updating name:", error);
+            setSuccessMessage("An error occurred. Please try again.");
         } finally {
             setLoading(false);
         }
@@ -114,12 +118,13 @@ const ProfilePage: React.FC = ({ }) => {
                     <h3>Contact Information</h3>
                     <form className={styles.saveNameForm}>
                         <p>Add your name to your profile:</p>
-                        <input type="text" value={newFirstName} placeholder='Firstname' />
-                        <input type="text" value={newLastName} placeholder='Lastname' />
+                        <input type="text" value={newFirstName} placeholder='Firstname' onChange={(e) => setNewFirstName(e.target.value)} required />
+                        <input type="text" value={newLastName} placeholder='Lastname' onChange={(e) => setNewLastName(e.target.value)} required />
                         <button onClick={handleSaveName}>Save name</button>
                     </form>
                     <h4 className={styles.toDo}>Att göra i kod - Lägga till så användare kan ändra email och lösen?  </h4>
                     <p><strong>Your Email</strong> {user?.email}</p>
+                    <p><strong>Name:</strong> {newFirstName} {newLastName}</p>
                     <p><strong>Your account was created on</strong> {user?.created && formatDate(user.created)}</p>
                 </div>
                 {currentUser && <DeleteUser userID={currentUser.uid} userEmail={currentUser.email} />}
