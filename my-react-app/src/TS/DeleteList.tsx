@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { doc, deleteDoc, collection, query, where, getDocs, updateDoc, arrayRemove } from "firebase/firestore";
 import { db } from "../Data/firebase";
-import '../CSS/DeleteBoard.css';
+import styles from '../CSS/DeleteBoard.module.css';
+import listStyles from '../CSS/Lists.module.css'
 
 
 //MÅSTE KOLLA PÅ!
@@ -59,26 +60,24 @@ const DeleteLists: React.FC<DeleteListsProps> = ({ boardId, listtitle }) => {
 
     return (
         <div>
-            <button onClick={showDeleteList} aria-haspopup="true">...</button>
-            {isShown && (
+            <button className={listStyles.smallDeleteButton} onClick={showOptionList} aria-haspopup="true">Delete List</button>
+            {/* {isShown && (
                 <div className="deleteQuestion">
                     <h2>Delete this list and its cards?</h2>
-                    <button onClick={showOptionList} className="confirm-btn">Yes, Delete</button>
-                    <button onClick={hideDeleteList} className="cancel-btn">Cancel</button>
+                    <button onClick={showOptionList} className={styles.confirmBtn}>Yes, Delete</button>
+                    <button onClick={hideDeleteList} className={styles.cancelBtn}>Cancel</button> */}
                     {isVisible && (
-                    <div className="confirmation-modal">
-                        <div className="modal-content">
+                    <div className={styles.confirmationModal}>
+                        <div className={styles.modalContent}>
                             <h2>Are you sure you want to delete this list and all its cards?</h2>
-                            <div className="modal-buttons">
-                                <button onClick={handleDelete} className="confirm-btn">Yes, Delete</button>
-                                <button onClick={hideDelete} className="cancel-btn">Cancel</button>
+                            <div className={styles.modalButtons}>
+                                <button onClick={handleDelete} className={styles.confirmBtn}>Yes, Delete</button>
+                                <button onClick={hideDelete} className={styles.cancelBtn}>Cancel</button>
                             </div>
                         </div>
                     </div>
                     )}
                 </div>
-            )}
-        </div>
     );
 }
 

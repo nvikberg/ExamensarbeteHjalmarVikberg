@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { doc, deleteDoc, deleteField, collection, query, where, getDocs, updateDoc, arrayRemove } from "firebase/firestore";
 import { db } from "../Data/firebase";
-import '../CSS/DeleteBoard.css';
+import styles from '../CSS/DeleteBoard.module.css';
 import { useNavigate } from "react-router-dom";
 
 //Hämtar props från homepage, delete knappen är kopplad till varje board.
@@ -115,12 +115,12 @@ const DeleteBoard: React.FC<Props> = ({ boardID, userID }) => {
 
             {/* Confirmation Modal */}
             {isVisible && (
-                <div className="confirmation-modal">
-                    <div className="modal-content">
+                <div className="confirmationModal">
+                    <div className="modalContent">
                         <h2>Are you sure you want to delete this board?</h2>
-                        <div className="modal-buttons">
-                            <button onClick={handleDelete} className="confirm-btn">Yes, Delete</button>
-                            <button onClick={hideDelete} className="cancel-btn">Cancel</button>
+                        <div className="modalButtons">
+                            <button onClick={handleDelete} className="confirmBtn">Yes, Delete</button>
+                            <button onClick={hideDelete} className="cancelBtn">Cancel</button>
                         </div>
                     </div>
                 </div>

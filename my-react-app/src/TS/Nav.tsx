@@ -70,7 +70,7 @@ const Nav: React.FC<{}> = () => {
       return (
         <div className={styles.navBar}>
           <div className={styles.logoContainer}>
-                <a href="/">
+                <a href="/homepage">
                     <img src="/nilo-logo.png" alt="Nilo Logo" />
                 </a>
           </div>

@@ -1,5 +1,5 @@
 /* Confirmation Modal */
-.confirmation-modal {
+.confirmationModal {
     position: fixed;
     top: 0;
     left: 0;
@@ -12,7 +12,7 @@
     z-index: 9999; /* Ensure modal appears above other content */
   }
   
-  .modal-content {
+  .modalContent {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
@@ -20,26 +20,26 @@
     width: 300px;
   }
   
-  .modal-buttons {
+  .modalButtons {
     display: flex;
     justify-content: space-around;
     margin-top: 20px;
   }
   
-  .confirm-btn,
-  .cancel-btn {
+  .confirmBtn,
+  .cancelBtn {
     padding: 10px 20px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
   }
   
-  .confirm-btn {
+  .confirmBtn {
     background-color: red;
     color: white;
   }
   
-  .cancel-btn {
+  .cancelBtn {
     background-color: gray;
     color: white;
   }
@@ -53,4 +53,3 @@
     border-radius: 5px;
     z-index: 9999; 
   }
-  

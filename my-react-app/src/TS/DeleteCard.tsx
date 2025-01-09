@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { doc, deleteDoc, collection, query, where, getDocs, updateDoc, arrayRemove } from "firebase/firestore";
 import { db } from "../Data/firebase";
-import '../CSS/DeleteBoard.css';
+import styles from '../CSS/DeleteBoard.module.css';
 
 interface DeleteCardProps {
     id: string;
@@ -48,8 +48,8 @@ const DeleteCards: React.FC<DeleteCardProps> = ({ id }) => {
             {isShown && (
                 <div className="deleteQuestion">
                     <h2>Delete this card?</h2>
-                    <button onClick={handleDelete} className="confirm-btn" disabled={isDeleting}>Yes, Delete</button>
-                    <button onClick={hideDeleteCard} className="cancel-btn">Cancel</button>
+                    <button onClick={handleDelete} className={styles.confirmBtn} disabled={isDeleting}>Yes, Delete</button>
+                    <button onClick={hideDeleteCard} className={styles.cancelBtn}>Cancel</button>
                 </div>
             )}
         </div>
