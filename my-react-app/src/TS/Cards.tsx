@@ -34,6 +34,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
   const [infoIsVisable, setInfoIsVisable] = useState(false);
   const [editButtonShown, setEditButtonShown] = useState(true);
   const [cards, setCards] = useState<CardData[]>(initialCards); // Initializing state with the passed prop
+  const [clickedCardId, setClickedCardId] = useState<string | null>(null);  //Check clicked card ID
   const [loading, setLoading] = useState(true);
   const [estHour, setEstHour] = useState<number | null>(null);
   const [estMin, setEstMin] = useState<number | null>(null);
@@ -221,12 +222,20 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
   };
 
 
-  function showEditCard() {
-    setInfoIsVisable(true);
-    setEditButtonShown(false);
+  const showEditCard = (cardId: string) => {
+    if (clickedCardId === cardId) {
+      setClickedCardId(null);
+      setInfoIsVisable(true);
+      setEditButtonShown(false);
+    } else {
+      setClickedCardId(cardId);
+      setInfoIsVisable(false);
+      setEditButtonShown(true);
+    }
   }
 
-  function closeEditCard() {
+  const closeEditCard = () => {
+    setClickedCardId(null); // Reset the clicked card ID when closing
     setInfoIsVisable(false);
     setEditButtonShown(true);
   }
@@ -256,9 +265,9 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                   {card.actualHours != null && <p> act: {card.actualHours} h</p>}
                   {card.actualMinutes != null && <p>{card.actualMinutes} min</p>}
                 </div>
-                {editButtonShown && (
+                {clickedCardId !== card.id && (
                   <div>
-                    <button className={styles.editCardBtn} onClick={showEditCard}>Edit Card</button>
+                    <button className={styles.editCardBtn} onClick={() => showEditCard(card.id)}>Edit Card</button>
                     <div>
                       <ul>
                         {card.assignedMember?.map((member, index) => (
@@ -270,7 +279,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                     </div>
                   </div>
                 )}
-                {infoIsVisable && (
+                {clickedCardId === card.id && (
                   <div>
                     <button onClick={closeEditCard}>x</button>
                     <DeleteCards id={card.id || ""} />
