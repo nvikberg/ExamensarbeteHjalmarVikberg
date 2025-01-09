@@ -1,7 +1,7 @@
 // BoardMembers.tsx
 import React, { useState, useEffect } from 'react';
 import { db } from '../Data/firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import styles from '../CSS/Card.module.css'; 
 
 
@@ -18,6 +18,10 @@ interface BoardData {
     members: string[];  // Assuming members are emails or user IDs
 }
 
+interface UserData {
+  firstName: string;
+}
+
 interface BoardMembersProps {
     boardId: string;
     onMemberSelect: (member: string) => void; // Callback to pass the selected member to parent
@@ -26,32 +30,57 @@ interface BoardMembersProps {
 const BoardMembers: React.FC<BoardMembersProps> = ({ boardId, onMemberSelect }) => {
     const [boardData, setBoardData] = useState<BoardData | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [memberNames, setMemberNames] = useState<{ [key: string]: string }>({});
+    
+    const fetchUserName = async (email: string): Promise<string> => {
+      try {
+          const userQuery = query(collection(db, "Users"), where("email", "==", email));
+          const querySnapshot = await getDocs(userQuery);
+  
+          if (!querySnapshot.empty) {
+              const userData = querySnapshot.docs[0].data();
+              return userData.firstName;
+          } else {
+              return "Unknown User";
+          }
+      } catch (error) {
+          console.error('Error fetching user data:', error);
+          return "Unknown User";
+      }
+  };
 
     useEffect(() => {
-        const fetchBoardData = async () => {
-            try {
-                const boardDocRef = doc(db, 'Boards', boardId);
-                const boardDoc = await getDoc(boardDocRef);
-
-                if (boardDoc.exists()) {
-                    const boardData = boardDoc.data() as BoardData;
-                    setBoardData(boardData);
-                } else {
-                    console.error("Board not found");
-                }
-            } catch (error) {
-                console.error('Error fetching board data:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchBoardData();
-    }, [boardId]);
+      const fetchBoardData = async () => {
+          try {
+              const boardDocRef = doc(db, 'Boards', boardId);
+              const boardDoc = await getDoc(boardDocRef);
+  
+              if (boardDoc.exists()) {
+                  const boardData = boardDoc.data() as BoardData;
+                  
+                  // Fetch names for all members
+                  const memberNames = await Promise.all(
+                      boardData.members.map((email) => fetchUserName(email))
+                  );
+  
+                  setBoardData({ ...boardData, members: memberNames });
+              } else {
+                  console.error("Board not found");
+              }
+          } catch (error) {
+              console.error('Error fetching board data:', error);
+          } finally {
+              setLoading(false);
+          }
+      };
+  
+      fetchBoardData();
+  }, [boardId]);  
 
     if (loading) {
         return <p>Loading members...</p>;
     }
+
 
     return (
         <div className={styles.memberSelectionContainer}>
@@ -60,7 +89,9 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId, onMemberSelect }) 
             {boardData && boardData.members?.length > 0 ? (
               boardData.members.map((member, index) => (
                 <li key={index}>
-                  <button onClick={() => onMemberSelect(member)}>{member}</button>
+                  <button onClick={() => onMemberSelect(memberNames[member] ||member)}>
+                  {memberNames[member] || member}
+                  </button>
                 </li>
               ))
             ) : (
