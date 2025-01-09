@@ -90,10 +90,10 @@ const Board: React.FC = () => {
     <div className={styles.board}>
       <header className={styles.header}>
         <h1>{boardName}</h1>
-        <h2 className="estimatedTotal">
+        <h2 className={styles.estimatedTotal}>
           Estimated time: {estimatedTotal.hours} h and {estimatedTotal.minutes} minutes
         </h2>
-        <h2 className="actualTotal">
+        <h2 className={styles.actualTotal}>
           Actual time: {actualTotal.hours} h and {actualTotal.minutes} minutes
         </h2>
       </header>
@@ -102,7 +102,7 @@ const Board: React.FC = () => {
       }} >
         <ol className={styles.listWrapper}>
           <div className={styles.lists} content="width=device-width, initial-scale=1">
-            <AddLists boardId={boardId} />
+          <AddLists boardId={boardId} />
             <Lists boardId={boardId} />
           </div>
           <SeasonalPhoto onPhotoFetched={setBackgroundImage} />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { db } from '../Data/firebase';
 import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
-import styles from'../CSS/AddBoard.module.css'
+import styles from'../CSS/Lists.module.css'
 
 interface ListProps {
   boardId: string;
@@ -39,8 +39,8 @@ const AddLists: React.FC<ListProps> = ({ boardId }) => {
   };
 
   return (
-    <div className={styles.sidebar}>
-      <h3 className={styles.boardHeader}>Add a New List</h3>
+    <div className={styles.listCard}>
+      <h3 className={styles.header}>Add a New List</h3>
       <input
         type="text"
         className={styles.input}
