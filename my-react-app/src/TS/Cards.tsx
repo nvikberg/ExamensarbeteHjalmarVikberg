@@ -257,7 +257,18 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                   {card.actualMinutes != null && <p>{card.actualMinutes} min</p>}
                 </div>
                 {editButtonShown && (
-                  <button className={styles.editCardBtn} onClick={showEditCard}>Edit Card</button>
+                  <div>
+                    <button className={styles.editCardBtn} onClick={showEditCard}>Edit Card</button>
+                    <div>
+                      <ul>
+                        {card.assignedMember?.map((member, index) => (
+                          <li key={index}>
+                            {member}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
                 )}
                 {infoIsVisable && (
                   <div>
