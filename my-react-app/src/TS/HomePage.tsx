@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../CSS/homepage.css";
+import styles from "../CSS/Homepage.module.css";
 import { db } from "../Data/firebase";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc, query, collection, where, getDocs, onSnapshot } from "firebase/firestore";
@@ -143,19 +143,19 @@ const HomePage: React.FC = () => {
   }, [user]);
 
   return (
-    <div className="main">
+    <div className={styles.main}>
       <AddBoards />
-      <div className="homepage-container">
+      <div className={styles.homepageContainer}>
         <h1>Your Boards</h1>
         {loading ? (
           <p>Loading boards...</p>
         ) : items.length > 0 ? (
-          <div className="grid-container">
+          <div className={styles.gridContainer}>
             {items.map((item) => (
-              <div key={item.id} className="grid-item-wrapper">
+              <div key={item.id} className={styles.gridItemWrapper}>
                 {/* Card Container */}
                 <div
-                  className="grid-item"
+                  className={styles.gridItem}
                   onClick={() => navigate(`/board/${item.id}`)}
                 >
                   <h3>{item.title}</h3>
@@ -165,7 +165,7 @@ const HomePage: React.FC = () => {
                 
 
                 {/* Delete Button below each card */}
-                <div className="delete-button-container">
+                <div className={styles.deleteButtonContainer}>
                   <DeleteBoard boardID={item.id} userID={user?.uid} />
                 </div>
               </div>
