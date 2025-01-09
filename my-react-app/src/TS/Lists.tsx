@@ -177,9 +177,9 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
             onDragLeave={handleListDragLeave}
             onDragOver={(event) => handleListDragOver(event, list.id)}
           >
-            <div>
-              <DeleteLists boardId={boardId} listtitle={list.listTitle} />
+            <div className={styles.listHeader}>
               <h3 className={styles.listTitle}>{list.listTitle}</h3>
+              <DeleteLists boardId={boardId} listtitle={list.listTitle} />
             </div>
             <div
               className={`${styles.cardContainer} ${cardIsDraggedOver ? styles.cardHighlight : ''}`}

@@ -1,15 +1,22 @@
+
+
 .listsContainer {
   display: flex;
   gap: 20px;
   padding-left: 20px;
   flex-wrap: nowrap; /* Keep the lists aligned horizontally */
-
-  /* overflow-x: scroll; */
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 10 px;
+  border-bottom: 2px solid #dddd;
+  max-width: 100vw;
+  white-space: nowrap;
+  max-height: calc(100vh - 20px);
+  box-sizing: border-box;
 }
 
 .listCard {
-  position: relative;
-  /* Make this container relative to allow absolute positioning of the delete button */
+  position: relative; /* Make this container relative to allow absolute positioning of the delete button */
   background-color: #ffffff;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -19,10 +26,13 @@
   width: auto;
   transition: box-shadow 0.3s ease;
   border: 2px dashed transparent;
-  overflow-y: scroll;
+  overflow-y: auto; /*scroll if exceed max height*/
   overflow-x: hidden;
-  max-height: fit-content;
-
+  scroll-behavior: smooth;
+  max-height: calc(100vh - 20%);
+  box-sizing: border-box;
+  word-wrap: break-word;
+  white-space: normal;
 }
 
 .listCard.drag-over {
@@ -52,6 +62,13 @@
   padding: 1px;
 }
 
+.listHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .listHighlight {
   background-color: rgba(219, 119, 52, 0.2);
 }
@@ -63,15 +80,12 @@
 
 
 .smallDeleteButton {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: red;
+  background-color: rgb(218, 131, 131);
   color: white;
-  padding: 2px 4px;
+  padding: 4px 8px;
   border: none;
   cursor: pointer;
-  border-radius: 2px;
+  border-radius: 5px;
   /* z-index: 9999;  */
 }
 
