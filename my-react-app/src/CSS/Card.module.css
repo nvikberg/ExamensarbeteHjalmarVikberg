@@ -19,6 +19,26 @@
   gap: 10px;
 }
 
+.editCardBtn {
+  padding: 5px;
+  background-color: #7d9f7e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.editCardBtn:hover {
+  filter: brightness(0.8);
+}
+
+.assignedMembers {
+  display: flex;
+  flex-direction: row;
+}
+
 /* Individual card styling */
 .card {
   background-color: #ffffff;
@@ -38,6 +58,27 @@
 
 .card:active {
   cursor: grabbing;
+}
+
+.closeCardBtn {
+  position: static;
+  background-color: #3f7ad2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.deleteCardBtn {
+  background-color: #d5393f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
 /* Button styles */
@@ -61,7 +102,7 @@
 }
 
 .removeBtn:hover {
-  background-color: #c9302c;
+  background-color: #b94f4b;
 }
 
 /* Assigned members styling */
@@ -71,7 +112,7 @@
 }
 
 .assignedMembers li {
-  margin-bottom: 5px;
+  padding: 5px;
 }
 
 /* Time estimation section styling */

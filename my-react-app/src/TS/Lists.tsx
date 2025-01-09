@@ -168,6 +168,7 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
   }
 
   return (
+<<<<<<< HEAD
     <div className={styles.listsContainer}>        
           {/* Render lists only if they exist */}
           {lists.length > 0 ? (
@@ -201,6 +202,38 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
           ) : (
             <p>No lists available. Start by adding a new list.</p>  // This will show when no lists are available
           )}
+=======
+    <div className={styles.listsContainer}> 
+    <AddLists boardId={boardId} /> 
+      {lists.map((list) => (
+        <div key={list.id} className={styles.listItemContainer}> {/* Wrap each list in its own container */}
+          <div
+            className={`${styles.listCard} ${listIsDraggedOver === list.id ? styles.listHighlight : ''}`}
+            draggable="true"
+            onDragStart={(event) => handleListDragStart(event, list.id)}
+            onDrop={(event) => handleListDrop(event, list.id)}
+            onDragLeave={handleListDragLeave}
+            onDragOver={(event) => handleListDragOver(event, list.id)}
+          >
+            <div className={styles.listHeader}>
+              <h3 className={styles.listTitle}>{list.listTitle}</h3>
+              <DeleteLists boardId={boardId} listtitle={list.listTitle} />
+            </div>
+            <div
+              className={`${styles.cardContainer} ${cardIsDraggedOver ? styles.cardHighlight : ''}`}
+              onDragOver={handleCardDragOver}
+              onDragLeave={handleCardDragLeave}
+              onDrop={(event) => handleCardDrop(event, list.listTitle)}
+            >
+              <CardsComponent boardId={boardId} listTitle={list.listTitle} cards={list.cards} />
+              <div className={styles.listFooter}>
+              <AddCards boardId={boardId} listTitle={list.listTitle} userId={userId} />
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+>>>>>>> 0eb939a28fc0942b1dbc0943ac8e5ce5dffc40cd
     </div>
   );
 }

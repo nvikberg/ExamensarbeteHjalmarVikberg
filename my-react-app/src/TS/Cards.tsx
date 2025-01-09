@@ -259,17 +259,16 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                 onDragStart={(event) => handleDragCardStart(event, card.id)}
               >
                 <div className={styles.closedCardInfo}>
-                  <p>{card.cardtext}</p>
-                  {card.estimatedHours != null && <p>est: {card.estimatedHours} h</p>}
+                  <p><strong>{card.cardtext}</strong></p>
+                  <p>est:</p>
+                  {card.estimatedHours != null && <p>{card.estimatedHours} h</p>}
                   {card.estimatedMinutes != null && <p>{card.estimatedMinutes} min</p>}
-                  {card.actualHours != null && <p> act: {card.actualHours} h</p>}
+                  <p>act:</p>
+                  {card.actualHours != null && <p>{card.actualHours} h</p>}
                   {card.actualMinutes != null && <p>{card.actualMinutes} min</p>}
                 </div>
-                {clickedCardId !== card.id && (
-                  <div>
-                    <button className={styles.editCardBtn} onClick={() => showEditCard(card.id)}>Edit Card</button>
-                    <div>
-                      <ul>
+                <div>
+                      <ul className={styles.assignedMembers}>
                         {card.assignedMember?.map((member, index) => (
                           <li key={index}>
                             {member}
@@ -277,11 +276,14 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                         ))}
                       </ul>
                     </div>
+                {clickedCardId !== card.id && (
+                  <div>
+                    <button className={styles.editCardBtn} onClick={() => showEditCard(card.id)}>Edit Card</button>
                   </div>
                 )}
                 {clickedCardId === card.id && (
                   <div>
-                    <button onClick={closeEditCard}>x</button>
+                    <button className={styles.closeCardBtn} onClick={closeEditCard}>X</button>
                     <DeleteCards id={card.id || ""} />
 
                     {/* Render the BoardMembers component only when the card has members */}

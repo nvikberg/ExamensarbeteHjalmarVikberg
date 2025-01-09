@@ -1,0 +1,49 @@
+.addCardDiv {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;/* Space between the input field and button */
+    width: 100%;
+    max-width: 400px; /* Set a max width for the container */
+}
+
+.addCardDiv input {
+    padding: 5px;
+    font-size: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.addCardDiv input:focus {
+    border-color: #007bff;
+    /* Blue border on focus */
+}
+
+.addCardDiv button {
+    padding: 5px;
+    background-color: #849cb5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.addCardDiv button:hover {
+    filter: brightness(0.9);
+    /* Darker blue on hover */
+}
+
+.successMessage {
+    color: #28a745;
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.successMessage.error {
+    color: #e74c3c;
+    /* If there is an error message, display in red */
+}
