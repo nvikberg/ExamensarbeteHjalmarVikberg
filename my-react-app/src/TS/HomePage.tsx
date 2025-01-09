@@ -144,13 +144,13 @@ const HomePage: React.FC = () => {
 
   return (
     <div className={styles.main}>
-      <AddBoards />
       <div className={styles.homepageContainer}>
         <h1>Your Boards</h1>
         {loading ? (
           <p>Loading boards...</p>
         ) : items.length > 0 ? (
           <div className={styles.gridContainer}>
+                  <AddBoards />
             {items.map((item) => (
               <div key={item.id} className={styles.gridItemWrapper}>
                 {/* Card Container */}
@@ -161,13 +161,11 @@ const HomePage: React.FC = () => {
                   <h3>{item.title}</h3>
                   <p>Members: </p>
                   <p>{Array.isArray(item.members) ? item.members.join(", ") : 'No members'}</p>
-                </div>
-                
-
-                {/* Delete Button below each card */}
-                <div className={styles.deleteButtonContainer}>
+                  <div className={styles.deleteButtonContainer}>
                   <DeleteBoard boardID={item.id} userID={user?.uid} />
                 </div>
+                </div>
+                                
               </div>
             ))}
           </div>

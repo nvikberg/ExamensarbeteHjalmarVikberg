@@ -4,6 +4,7 @@ import { getDocs, doc, collection, addDoc, updateDoc, arrayUnion, query, where }
 import styles from '../CSS/AddBoard.module.css';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import MultipleUsersToBoards from './MultipleUsersToBoards';
+import homePageStyle from '../CSS/Homepage.module.css'
 //kolla igenom denna är kaos (pga medlemmar grejen)
 //ATT GÖRA, EFFEKTIVISERA HUR MAN LÄGGER IN board id hos USERS (loopen rad 78)
 //SKAPA INVITATION finns i denna komponenten
@@ -136,7 +137,7 @@ const AddBoards: React.FC = () => {
   return (
     // <div className={styles.main}>
 
-    <div className={styles.sidebar}>
+    <div className={homePageStyle.gridItem}>
       <div className={styles.boardHeader}>
         <h2>Add new board</h2>
       </div>
@@ -159,7 +160,7 @@ const AddBoards: React.FC = () => {
       <button
           className={styles.addBoardButton}
           onClick={addBoard} disabled={loading}>
-          {loading ? "Adding Board..." : "+"}
+          {loading ? "Adding Board..." : "Create new board"}
         </button>
       {successMessage && <p className={successMessage}>{successMessage}</p>}
     </div>

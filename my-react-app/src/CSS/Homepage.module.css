@@ -1,131 +1,180 @@
-/* 
-colors 
-#ABC3C9 (LIGHT BLUE)
-#E0DCD3 (LIGHT GRAY)
-#CCBE9F (BEIGE)
-#382119 (DARK BROWN)
-*/
-
-
+/* Main Layout */
 .main {
-background-color: #E0DCD3;
-display: flex;
-width: 100%;
-justify-content: space-between; 
+  background-color: #E0DCD3;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding-bottom: 40px; /* Added space for button */
 }
 
+/* Homepage container */
 .homepageContainer {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .homepageContainer h1 {
-    font-size: 2.5rem;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  /* Grid Layout */
-  .gridContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    margin-top: 30px;
-    padding: 0 10px;
-    flex: 1;
-  }
-  
-  /* Grid Item Styling */
-  .gridItem {
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    cursor: pointer;
-    overflow: hidden;
-    text-align: center;
-    position: relative;
-  }
-  
-  /* Hover Effect for Grid Items */
-  .gridItem:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  .gridItem img {
-    width: 100%;
-    height: auto;
-    max-width: 150px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-  }
-  
-  /* Grid Item Title */
-  .gridItem h3 {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #333;
-    margin: 10px 0;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  /* Grid Item Description */
-  .gridItem p {
-    font-size: 1rem;
-    color: #666;
-    line-height: 1.5;
-    margin: 10px 0;
-    font-family: 'Arial', sans-serif;
-  }
-  .deleteButtonContainer {
-    width: 100%;
-    text-align: center;
-  }
-  
-  /* Adjust the delete button */
-  .deleteButton {
-    background-color: red;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 10px; /* Space above the delete button */
-  }
-  
-  .deleteButton:hover {
-    background-color: darkred;
-  }
-  
-  /* Responsive Design for Smaller Screens */
-  @media (max-width: 768px) {
-    .homepageContainer h1 {
-      font-size: 2rem;
-      text-align: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers content horizontally */
+}
 
-    }
-  
-    .gridContainer {
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
-  
-    .gridItem {
-      padding: 15px;
-    }
-  
-    .gridItem h3 {
-      font-size: 1.1rem;
-    }
-  
-    .gridItem p {
-      font-size: 0.9rem;
-    }
+.homepageContainer h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Grid Layout */
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 250px); /* Fixed width for each item */
+  gap: 20px;
+  margin-top: 30px;
+  flex: 1;
+  justify-content: space-between;
+  grid-auto-rows: 1fr; /* Ensures consistent row height */
+  width: 100%;
+  max-width: 1200px; /* Keeps the grid container within max-width */
+}
+
+/* Add Button Container */
+.addButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+/* Add Button Styling */
+.addButton {
+  background-color: #ABC3C9; /* Light Blue */
+  color: #382119; /* Dark Brown */
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 20px;
+}
+
+.addButton:hover {
+  background-color: #CCBE9F; /* Beige */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.addBoardGridItem{
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+  text-align: center;
+  position: relative;
+  width: 100%; /* Ensures items take up 100% of their grid cell */
+  height: 100%;
+}
+
+/* Hover Effect for Grid Items */
+.addBoardGridItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Grid Item Styling */
+.gridItem {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+  text-align: center;
+  position: relative;
+  width: 100%; /* Ensures items take up 100% of their grid cell */
+  height: 100%;
+}
+
+/* Hover Effect for Grid Items */
+.gridItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.gridItem img {
+  width: 100%;
+  height: auto;
+  max-width: 150px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+/* Grid Item Title */
+.gridItem h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #333;
+  margin: 10px 0;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Grid Item Description */
+.gridItem p {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+  margin: 10px 0;
+  font-family: 'Arial', sans-serif;
+}
+
+.deleteButtonContainer {
+  width: 100%;
+  text-align: center;
+}
+
+/* Adjust the delete button */
+.deleteButton {
+  background-color: red;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px; /* Space above the delete button */
+}
+
+.deleteButton:hover {
+  background-color: darkred;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+  .homepageContainer h1 {
+    font-size: 2rem;
+    text-align: center;
   }
-  
+
+  .gridContainer {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .gridItem {
+    padding: 15px;
+  }
+
+  .gridItem h3 {
+    font-size: 1.1rem;
+  }
+
+  .gridItem p {
+    font-size: 0.9rem;
+  }
+}
