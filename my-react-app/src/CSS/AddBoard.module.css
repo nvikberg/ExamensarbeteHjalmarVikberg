@@ -1,59 +1,59 @@
 /* Color palette */
 :root {
-    --beige: #F6F4E8;
-    --light-turquoise: #BACEC1;
-    --light-orange: #E59560;
-    --dark-green: #1D3124;
-  }
+  --beige: #F6F4E8;
+  --light-turquoise: #BACEC1;
+  --light-orange: #E59560;
+  --dark-green: #1D3124;
+}
 
-  .main {
-    background-color: #E0DCD3;
-    display: flex;
-    height: fit-content;
-  }
-  
-  
-  /* Board header styling */
-  .boardHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .boardHeader h2 {
-    font-size: 1.5vw;
-    color: #000000c9;
-  }
-  
-  /* Input field styling */
-  .input {
-    width: 100%;
-    padding: 5% 5%;
-    font-size: 1vw;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    box-sizing: border-box;
-  }
-  
-  .input:focus {
-    outline: none;
-    border-color: var(--light-orange);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
+.main {
+  background-color: #E0DCD3;
+  display: flex;
+  height: fit-content;
+}
 
-  ul {
-    list-style-type: none; 
-    padding: 0;
-  }
-  
-  li{
-  display: flex; 
-  align-items: center; 
-  padding: 8px 12px; 
-  margin-bottom: 8px; 
+
+/* Board header styling */
+.boardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.boardHeader h2 {
+  font-size: 1.5vw;
+  color: #000000c9;
+}
+
+/* Input field styling */
+.input {
+  width: 100%;
+  padding: 5% 5%;
+  font-size: 1vw;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--light-orange);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  margin-bottom: 8px;
   /* background-color: #f0f0f0;  */
-  border-radius: 5px; 
+  border-radius: 5px;
   /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);  */
   /* transition: background-color 0.3s ease; */
 }
@@ -61,103 +61,102 @@
 li:hover {
   color: #490303;
 }
-  
-  /* Button styling */
-  .addBoardButton {
-    width: auto;
-    text-align: center;
-    background-color: #678c95;
-        color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 5%;
-    font-size: 1vw;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .addBoardButton:hover {
-    background-color: var(--light-turquoise);
-    color: var(--dark-green);
+
+/* Button styling */
+.addBoardButton {
+  width: auto;
+  text-align: center;
+  background-color: #678c95;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5%;
+  font-size: 1vw;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.addBoardButton:hover {
+  background-color: var(--light-turquoise);
+  color: var(--dark-green);
+}
+
+.removeButton {
+  background-color: rgb(218, 131, 131);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  /* Round button */
+  width: 20px;
+  /* Small width */
+  height: 20px;
+  /* Small height */
+  font-size: 14px;
+  /* Smaller font size */
+  display: flex;
+  align-items: center;
+  /* Vertically center the text */
+  justify-content: center;
+  /* Horizontally center the text */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  /* Smooth transition on hover */
+  margin-right: 5px;
+}
+
+.removeButton:hover {
+  background-color: #d32f2f;
+  /* Darker red on hover */
+}
+
+.successMessage {
+  color: red;
+}
+
+/* Media Queries for responsive design */
+@media (max-width: 768px) {
+
+  /* On tablet-sized screens, adjust layout */
+  .container {
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .removeButton {
-    background-color: rgb(218, 131, 131);
-    color: white;
-    border: none;
-    border-radius: 50%; /* Round button */
-    width: 20px; /* Small width */
-    height: 20px; /* Small height */
-    font-size: 14px; /* Smaller font size */
-    display: flex;
-    align-items: center; /* Vertically center the text */
-    justify-content: center; /* Horizontally center the text */
-    cursor: pointer;
-    transition: background-color 0.3s ease; /* Smooth transition on hover */
-    margin-right: 5px;
+  .input {
+    width: 100%;
+    font-size: 3.5vw;
+    padding: 4% 6%;
   }
-  
-  .removeButton:hover {
-    background-color: #d32f2f; /* Darker red on hover */
+
+  .addBoardButton {
+    width: 100%;
+    font-size: 3.5vw;
+    padding: 6% 8%;
+    margin-top: 5%;
   }
-  .successMessage {
-    color: red;
+
+  .boardHeader h2 {
+    font-size: 4vw;
   }
-  
-  /* Media Queries for responsive design */
-  @media (max-width: 768px) {
-    /* On tablet-sized screens, adjust layout */
-    .container {
-      flex-direction: column;
-      align-items: stretch;
-    }
-  
-    .sidebar {
-      height: 100%;
-      width: 20%;  /* Sidebar takes full width on small screens */
-      background-color: var(--light-turquoise);
-      border-right: 1px solid #e1e4e8;
-      padding: 3%;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-    }
-  
-    .input {
-      width: 100%;
-      font-size: 3.5vw;
-      padding: 4% 6%;
-    }
-  
-    .addBoardButton {
-      width: 100%;
-      font-size: 3.5vw;
-      padding: 6% 8%;
-      margin-top: 5%;
-    }
-  
-    .boardHeader h2 {
-      font-size: 4vw;
-    }
+}
+
+@media (max-width: 480px) {
+
+  /* On mobile-sized screens, make further adjustments */
+  .input {
+    font-size: 4vw;
+    padding: 6% 10%;
   }
-  
-  @media (max-width: 480px) {
-    /* On mobile-sized screens, make further adjustments */
-    .input {
-      font-size: 4vw;
-      padding: 6% 10%;
-    }
-  
-    .addBoardButton {
-      width: 100%;
-      font-size: 4vw;
-      padding: 8% 10%;
-      margin-top: 10%;
-    }
-  
-    .boardHeader h2 {
-      font-size: 5vw;
-    }
+
+  .addBoardButton {
+    width: 100%;
+    font-size: 4vw;
+    padding: 8% 10%;
+    margin-top: 10%;
   }
-  
+
+  .boardHeader h2 {
+    font-size: 5vw;
+  }
+}

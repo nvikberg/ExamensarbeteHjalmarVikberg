@@ -161,7 +161,9 @@ const HomePage: React.FC = () => {
                   <h3>{item.title}</h3>
                   <p>Members: </p>
                   <p>{Array.isArray(item.members) ? item.members.join(", ") : 'No members'}</p>
-                  <div className={styles.deleteButtonContainer}>
+                  <div 
+                  className={styles.deleteButtonContainer}
+                  onClick={(e) => e.stopPropagation()}>
                   <DeleteBoard boardID={item.id} userID={user?.uid} />
                 </div>
                 </div>
