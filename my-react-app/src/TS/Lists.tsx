@@ -168,32 +168,34 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
   return (
     <div className={styles.listsContainer}>
       {lists.map((list) => (
-        <div
-          key={list.id}
-          className={`${styles.listCard} ${listIsDraggedOver === list.id ? styles.listHighlight : ''}`}
-          draggable="true"
-          onDragStart={(event) => handleListDragStart(event, list.id)}
-          onDrop={(event) => handleListDrop(event, list.id)}
-          onDragLeave={handleListDragLeave}
-          onDragOver={(event) => handleListDragOver(event, list.id)}
-        >
-          <div>
-          <DeleteLists boardId={boardId} listtitle={list.listTitle} />
-            <h3 className={styles.listTitle}>{list.listTitle}</h3>
-          </div>
+        <div key={list.id} className={styles.listItemContainer}> {/* Wrap each list in its own container */}
           <div
-            className={`${styles.cardContainer} ${cardIsDraggedOver ? styles.cardHighlight : ''}`}
-            onDragOver={handleCardDragOver}
-            onDragLeave={handleCardDragLeave}
-            onDrop={(event) => handleCardDrop(event, list.listTitle)}
+            className={`${styles.listCard} ${listIsDraggedOver === list.id ? styles.listHighlight : ''}`}
+            draggable="true"
+            onDragStart={(event) => handleListDragStart(event, list.id)}
+            onDrop={(event) => handleListDrop(event, list.id)}
+            onDragLeave={handleListDragLeave}
+            onDragOver={(event) => handleListDragOver(event, list.id)}
           >
-            <CardsComponent boardId={boardId} listTitle={list.listTitle} cards={list.cards} />
-            <AddCards boardId={boardId} listTitle={list.listTitle} userId={userId} />
+            <div>
+              <DeleteLists boardId={boardId} listtitle={list.listTitle} />
+              <h3 className={styles.listTitle}>{list.listTitle}</h3>
+            </div>
+            <div
+              className={`${styles.cardContainer} ${cardIsDraggedOver ? styles.cardHighlight : ''}`}
+              onDragOver={handleCardDragOver}
+              onDragLeave={handleCardDragLeave}
+              onDrop={(event) => handleCardDrop(event, list.listTitle)}
+            >
+              <CardsComponent boardId={boardId} listTitle={list.listTitle} cards={list.cards} />
+              <AddCards boardId={boardId} listTitle={list.listTitle} userId={userId} />
+            </div>
           </div>
         </div>
       ))}
     </div>
   );
+  
 };
 
 export default Lists;

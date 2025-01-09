@@ -2,6 +2,8 @@
   display: flex;
   gap: 20px;
   padding-left: 20px;
+  flex-wrap: nowrap; /* Keep the lists aligned horizontally */
+
   /* overflow-x: scroll; */
 }
 
@@ -17,8 +19,10 @@
   width: auto;
   transition: box-shadow 0.3s ease;
   border: 2px dashed transparent;
-  /* overflow-y: scroll; */
-  /* overflow-x: hidden; */
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: fit-content;
+
 }
 
 .listCard.drag-over {

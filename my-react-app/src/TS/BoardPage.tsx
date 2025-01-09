@@ -101,9 +101,11 @@ const Board: React.FC = () => {
         backgroundImage: backgroundImage ? `url("${encodeURI(backgroundImage)}")` : 'none',
       }} >
         <ol className={styles.listWrapper}>
-          <div className={styles.lists} content="width=device-width, initial-scale=1">
+          <div className={styles.lists}>
           <AddLists boardId={boardId} />
-            <Lists boardId={boardId} />
+          <div>
+          <Lists boardId={boardId} />
+          </div>
           </div>
           <SeasonalPhoto onPhotoFetched={setBackgroundImage} />
         </ol>

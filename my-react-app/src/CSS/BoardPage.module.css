@@ -76,6 +76,7 @@
     display: grid;
     grid-auto-flow: column;
     align-self: center;
+    max-height: fit-content;
 }
 
 
