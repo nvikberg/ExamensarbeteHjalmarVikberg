@@ -39,6 +39,7 @@ const AddLists: React.FC<ListProps> = ({ boardId }) => {
   };
 
   return (
+    <div>
     <div className={styles.listCard}>
       <h3 className={styles.header}>Add a New List</h3>
       <input
@@ -53,7 +54,7 @@ const AddLists: React.FC<ListProps> = ({ boardId }) => {
         {loading ? 'Adding...' : 'Add List'}
       </button>
       {successMessage && <p className={successMessage}>{successMessage}</p>}
-
+      </div>
     </div>
   );
 };

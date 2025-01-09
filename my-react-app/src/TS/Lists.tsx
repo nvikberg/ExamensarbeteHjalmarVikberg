@@ -7,6 +7,7 @@ import AddCards from './AddCard';
 import { getAuth } from 'firebase/auth';
 import DeleteLists from './DeleteList';
 import Board from './BoardPage';
+import AddLists from "./AddList";
 
 interface CardData {
   id: string;
@@ -166,7 +167,8 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
   }
 
   return (
-    <div className={styles.listsContainer}>
+    <div className={styles.listsContainer}> 
+    <AddLists boardId={boardId} /> 
       {lists.map((list) => (
         <div key={list.id} className={styles.listItemContainer}> {/* Wrap each list in its own container */}
           <div

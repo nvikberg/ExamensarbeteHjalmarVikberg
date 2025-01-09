@@ -3,7 +3,7 @@
 .listsContainer {
   display: flex;
   gap: 20px;
-  padding-left: 20px;
+  padding-left: 6px;
   flex-wrap: nowrap; /* Keep the lists aligned horizontally */
   overflow-x: auto;
   scroll-behavior: smooth;
@@ -13,6 +13,19 @@
   white-space: nowrap;
   max-height: calc(100vh - 20px);
   box-sizing: border-box;
+}
+
+.addListCard{
+  position: absolute; /* Makes this container relative to the .listsContainer */
+  /* top: 0; You can adjust this to align vertically as needed */
+  left: 1; /* This ensures it's always aligned to the left of the .listsContainer */
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  transition: box-shadow 0.3s ease;
+  border: 2px dashed transparent;
 }
 
 .listCard {

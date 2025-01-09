@@ -103,7 +103,6 @@ const Board: React.FC = () => {
       <div className={styles.boardMainContent}>
         <ol className={styles.listWrapper}>
           <div className={styles.lists}>
-          <AddLists boardId={boardId} />
           <Lists boardId={boardId} />
           </div>
           <SeasonalPhoto onPhotoFetched={setBackgroundImage} />
