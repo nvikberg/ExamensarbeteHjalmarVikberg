@@ -1,9 +1,6 @@
 
 
 .boardMainContent {
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
     height: 100vh;
     max-width: 100%;
     transition: background-image 0.5s ease-in-out;
@@ -15,44 +12,62 @@
     /* Ensure the children stretch horizontally */
     padding: 20px;
     position: relative;
+    overflow: hidden;
 
 }
 
 
 /* Main container for the board */
 .board {
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
     display: flex;
     flex-direction: column;
     height: 100vh;
     background-color: #f4f4f4;
     box-sizing: border-box;
 }
-
-/* Header section styling */
 .header {
     padding: 20px;
-    text-align: left;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    font-size: 0.8rem;
-    font-weight: bold;
+    background-color: #dcdcdc49;
+    opacity: 0.90;
+}
+
+.headerText {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    justify-content: space-between; /* Align items on opposite sides */
+    align-items: center; /* Vertically center the items */
+    color: #ffffff;
+
 }
 
 /* Title of the board */
 .header h1 {
     margin: 0;
     font-size: 1.5rem;
+    /* Center the title */
+    flex-grow: 1; /* Allow the title to take up available space */
+    text-align: center; /* Ensure the text is centered within the available space */
 }
 
 /* Estimated time and actual time information */
-.estimatedTotal,
-.actualTotal {
+.estimatedTotal {
+    text-align: right;
+    /* color: rgb(84, 142, 106); */
     font-size: 1rem;
     margin: 0;
+    font-weight: lighter;
 }
+
+.actualTotal {
+    text-align: right;
+    /* color: rgb(192, 93, 68); */
+    font-size: 1rem;
+    margin: 0;
+    font-weight: lighter;
+}
+
 
 
 /* List wrapper (holds the lists) */

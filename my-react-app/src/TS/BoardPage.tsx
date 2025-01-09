@@ -87,25 +87,24 @@ const Board: React.FC = () => {
 
 
   return (
-    <div className={styles.board}>
+    <div className={styles.board} style={{
+      backgroundImage: backgroundImage ? `url("${encodeURI(backgroundImage)}")` : 'none',
+    }} >
       <header className={styles.header}>
+        <div className={styles.headerText}>
         <h1>{boardName}</h1>
-        <h2 className={styles.estimatedTotal}>
-          Estimated time: {estimatedTotal.hours} h and {estimatedTotal.minutes} minutes
-        </h2>
-        <h2 className={styles.actualTotal}>
-          Actual time: {actualTotal.hours} h and {actualTotal.minutes} minutes
-        </h2>
+        <div>
+        <h2 className={styles.estimatedTotal}> Estimated time: {estimatedTotal.hours} h and {estimatedTotal.minutes} minutes</h2>
+        <h2 className={styles.actualTotal}> Actual time: {actualTotal.hours} h and {actualTotal.minutes} minutes </h2>
+        </div>
+        </div>
+       
       </header>
-      <div className={styles.boardMainContent} style={{
-        backgroundImage: backgroundImage ? `url("${encodeURI(backgroundImage)}")` : 'none',
-      }} >
+      <div className={styles.boardMainContent}>
         <ol className={styles.listWrapper}>
           <div className={styles.lists}>
           <AddLists boardId={boardId} />
-          <div>
           <Lists boardId={boardId} />
-          </div>
           </div>
           <SeasonalPhoto onPhotoFetched={setBackgroundImage} />
         </ol>

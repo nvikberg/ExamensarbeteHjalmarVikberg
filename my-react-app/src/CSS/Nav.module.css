@@ -13,6 +13,7 @@
 
 /* Navigation links container (left side) */
 .navLinks {
+  margin-top: 5px;
   display: flex;
   list-style-type: none;
   align-items: center; /* Ensure links are vertically aligned */
@@ -23,13 +24,14 @@
 }
 
 .navLinks li a {
-  color: #382119;
+  color: #000000;
   text-decoration: none;
   font-size: 16px;
+  font-weight: bold;
 }
 
 .navLinks li a:hover {
-  text-decoration: underline;
+  color:#302623c0;
 }
 
 /* Logo container styling */
@@ -51,7 +53,7 @@
   padding: 8px 20px;
   font-size: 14px;
   font-weight: bold;
-  color: #382119;
+  color: #000000;
   background-color: #E0DCD3;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -93,7 +95,7 @@
 
 /* Styling for user icon */
 .userIcon {
-  color: #382119;
+  color: #000000;
 }
 /* Confirmation Modal Styling */
 .confirmationModal {
@@ -141,8 +143,12 @@
   color: white;
 }
 
+.red{
+  color:rgba(255, 0, 0, 0.523);
+}
+
 .deleteButton {
-  background-color: red;
+  background-color: rgba(255, 0, 0, 0.495);
   color: white;
   padding: 10px 20px;
   border: none;
