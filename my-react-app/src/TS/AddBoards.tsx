@@ -5,6 +5,7 @@ import styles from '../CSS/AddBoard.module.css';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import MultipleUsersToBoards from './MultipleUsersToBoards';
 import homePageStyle from '../CSS/Homepage.module.css'
+import SeasonalPhoto from './API';
 //kolla igenom denna är kaos (pga medlemmar grejen)
 //ATT GÖRA, EFFEKTIVISERA HUR MAN LÄGGER IN board id hos USERS (loopen rad 78)
 //SKAPA INVITATION finns i denna komponenten
@@ -22,7 +23,7 @@ const AddBoards: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string>(''); // Success message to show after board creation
   const [boards, setBoards] = useState<Board[]>([]); // Boards associated with the user
   const [selectedMembers, setSelectedMembers] = useState<string[]>([]); // Selected user emails for the task
-
+  const [backgroundImage, setBackgroundImage] = useState<string[]>([]);
   const auth = getAuth();
 
   useEffect(() => {
@@ -47,6 +48,11 @@ const AddBoards: React.FC = () => {
     setSelectedMembers(members); // Update selected members for the board
   };
 
+    // Generate random background image
+    const handleNewBackgroundImage = (imageUrl: string[]) => {
+      setBackgroundImage(imageUrl); // Set background image once fetched
+    };
+
   // Lägg till en ny anslagstavla i firestore
   const addBoard = async (): Promise<void> => {
     if (!boardname.trim()) {
@@ -61,11 +67,16 @@ const AddBoards: React.FC = () => {
     setLoading(true); // Set loading to true while the operation is in progress
 
     try {
+
+      const randomBackgroundImage = backgroundImage[Math.floor(Math.random() * backgroundImage.length)];
+
       // Lägg till nytt doc med namn (user input)
       const docRef = await addDoc(collection(db, "Boards"), {
         boardname: boardname,
         userID: user.uid,
         members: [user.email], // Sparar usern som skapade baorden och inbjudna usern i ny row i dbn
+        backgroundImage: randomBackgroundImage, //spara bara den random bilden till db
+
       });
 
       console.log("Board created with ID", docRef.id);
@@ -157,6 +168,7 @@ const AddBoards: React.FC = () => {
           onSelectMembers={handleSelectMembers}
         />
       </div>
+      <SeasonalPhoto onPhotosFetched={handleNewBackgroundImage} /> 
       <button
           className={styles.addBoardButton}
           onClick={addBoard} disabled={loading}>

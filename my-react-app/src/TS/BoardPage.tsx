@@ -12,7 +12,7 @@ const Board: React.FC = () => {
   const [boardName, setBoardName] = useState<string>("");
   const [lists, setLists] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [backgroundImage, setBackgroundImage] = useState<string>("");
+  const [backgroundImage, setBackgroundImage] = useState<string>('');
   const [estimatedTotal, setEstimatedTotal] = useState<{ hours: number; minutes: number }>({
     hours: 0,
     minutes: 0,
@@ -21,6 +21,8 @@ const Board: React.FC = () => {
     hours: 0,
     minutes: 0,
   });
+
+  
 
   useEffect(() => {
     if (!boardId) return;
@@ -37,6 +39,8 @@ const Board: React.FC = () => {
         const boardData = docSnapshot.data();
         setBoardName(boardData.boardname || "Unnamed Board");
         setLists(boardData.listTitle || []);  // Update both lists and board name
+        setBackgroundImage(boardData.backgroundImage|| ''); //bakgrund från db
+
       }
     }, (error) => {
       console.error("Error fetching board data:", error);
@@ -102,10 +106,11 @@ const Board: React.FC = () => {
       </header>
       <div className={styles.boardMainContent}>
         <ol className={styles.listWrapper}>
+          <AddLists boardId={boardId}></AddLists>
           <div className={styles.lists}>
           <Lists boardId={boardId} />
           </div>
-          <SeasonalPhoto onPhotoFetched={setBackgroundImage} />
+          <SeasonalPhoto onPhotosFetched={(photos: string[]) => setBackgroundImage(photos[0])} />
         </ol>
       </div>
     </div>

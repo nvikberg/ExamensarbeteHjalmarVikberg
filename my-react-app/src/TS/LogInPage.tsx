@@ -5,7 +5,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import Register from "./Register";
 import styles from '../CSS/Login.module.css';
 import GoogleLogin from "./GoogleLogin";
-import SeasonalPhoto from "./API";
+// import SeasonalPhoto from "./API";
 
 // 25/12 jag la till toggle mellan login och registering.. bråkat med css på register sidan för det bir lite dubblett, måste fixas sen
 // Det ser inte så bra ut men logiken fungerar :)

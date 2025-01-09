@@ -1,48 +1,52 @@
-// components/SeasonalPhotoSearcher.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { createClient, Photo, PhotosWithTotalResults, ErrorResponse } from 'pexels';
 
+
+//API från Pexels där vi hämtar 10 random landscape bilder 
 const client = createClient('LPR2D1WWMHOTpJrhx7mxWVvHNCtRyVxHlZbujV3V9NpCkcjqhk6PYDwZ');
 
-const getSeasonalPhotoTitle = (): string => {
-    const month = new Date().getMonth();
-    if (month >= 11 || month <= 1) return 'Winter Landscape';
-    if (month >= 2 && month <= 4) return 'Spring Bloom';
-    if (month >= 5 && month <= 7) return 'Summer Beach';
-    return 'Autumn Leaves';
-};
+const SeasonalPhoto: React.FC<{ onPhotosFetched: (photos: string[]) => void }> = ({ onPhotosFetched }) => {
+  const [photosArray, setPhotosArray] = useState<Photo[]>([]);
 
-interface SeasonPhotoDataProp{
-    onPhotoFetched: (url: string) => void;
-}
+  const fetchPhotos = async () => {
+    try {
+      const response = await client.photos.search({
+        query: 'landscape',  //query specifikationer for att hämta bilderna 
+        orientation: 'landscape',
+        per_page: 10,
+      });
 
+      //kollar om respone med 'PhotosWithTotalResults'
+      if ('photos' in response) {
+        //if response has 'photos', set the photos array
+        setPhotosArray(response.photos);
+      } else {
+        // Handle the error response
+        console.error('Error fetching photos:', response);
+      }
+    } catch (error) {
+      console.error('Error fetching photos:', error);
+    }
+  };
 
-const SeasonalPhoto: React.FC<SeasonPhotoDataProp> = ({ onPhotoFetched }) => {
-    const seasonalTitle = getSeasonalPhotoTitle();
+  const selectRandomPhoto = () => {
+    if (photosArray.length > 0) {
+      //random select a photo and call `onPhotosFetched` with the single image URL
+      const randomPhoto = photosArray[Math.floor(Math.random() * photosArray.length)].src.original;
+      onPhotosFetched([randomPhoto]); // Pass an array with a single image URL
+    }
+  };
 
-    const fetchSeasonalPhoto = async () => {
-        try {
-            const response = await client.photos.search({ query: seasonalTitle, per_page: 1 });
+  //fetchPhotos when component is mounted or whenever you want to fetch photos
+  if (photosArray.length === 0) {
+    fetchPhotos();
+  }
 
-            if ('photos' in response && response.photos.length > 0) {
-                    const fetchedPhoto = response.photos[0];
-                    onPhotoFetched(fetchedPhoto.src.original);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchSeasonalPhoto();
-    }, [seasonalTitle]);
-
-
-    return (
-        <div>
-            
-        </div>
-    );
+  return (
+    <div>
+      <button onClick={selectRandomPhoto}>Select Random Background</button>
+    </div>
+  );
 };
 
 export default SeasonalPhoto;

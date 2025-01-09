@@ -41,7 +41,7 @@ const AddLists: React.FC<ListProps> = ({ boardId }) => {
   return (
     <div>
     <div className={styles.listCard}>
-      <h3 className={styles.header}>Add a New List</h3>
+      <h3 className={styles.header}>Create a New List</h3>
       <input
         type="text"
         className={styles.input}

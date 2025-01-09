@@ -36,6 +36,7 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
   const [cardIsDraggedOver, setCardIsDraggedOver] = useState<boolean>(false);
   const [listIsDraggedOver, setListIsDraggedOver] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string>('');
+  const [loading, setLoading] = useState<string>('');
 
   useEffect(() => {
     const auth = getAuth();
@@ -167,37 +168,41 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
   }
 
   return (
-    <div className={styles.listsContainer}> 
-    <AddLists boardId={boardId} /> 
-      {lists.map((list) => (
-        <div key={list.id} className={styles.listItemContainer}> {/* Wrap each list in its own container */}
-          <div
-            className={`${styles.listCard} ${listIsDraggedOver === list.id ? styles.listHighlight : ''}`}
-            draggable="true"
-            onDragStart={(event) => handleListDragStart(event, list.id)}
-            onDrop={(event) => handleListDrop(event, list.id)}
-            onDragLeave={handleListDragLeave}
-            onDragOver={(event) => handleListDragOver(event, list.id)}
-          >
-            <div className={styles.listHeader}>
-              <h3 className={styles.listTitle}>{list.listTitle}</h3>
-              <DeleteLists boardId={boardId} listtitle={list.listTitle} />
-            </div>
-            <div
-              className={`${styles.cardContainer} ${cardIsDraggedOver ? styles.cardHighlight : ''}`}
-              onDragOver={handleCardDragOver}
-              onDragLeave={handleCardDragLeave}
-              onDrop={(event) => handleCardDrop(event, list.listTitle)}
-            >
-              <CardsComponent boardId={boardId} listTitle={list.listTitle} cards={list.cards} />
-              <AddCards boardId={boardId} listTitle={list.listTitle} userId={userId} />
-            </div>
-          </div>
-        </div>
-      ))}
+    <div className={styles.listsContainer}>        
+          {/* Render lists only if they exist */}
+          {lists.length > 0 ? (
+            lists.map((list) => (
+              <div key={list.id} className={styles.listItemContainer}> 
+                {/* Wrap each list in its own container */}
+                <div
+                  className={`${styles.listCard} ${listIsDraggedOver === list.id ? styles.listHighlight : ''}`}
+                  draggable="true"
+                  onDragStart={(event) => handleListDragStart(event, list.id)}
+                  onDrop={(event) => handleListDrop(event, list.id)}
+                  onDragLeave={handleListDragLeave}
+                  onDragOver={(event) => handleListDragOver(event, list.id)}
+                >
+                  <div className={styles.listHeader}>
+                    <h3 className={styles.listTitle}>{list.listTitle}</h3>
+                    <DeleteLists boardId={boardId} listtitle={list.listTitle} />
+                  </div>
+                  <div
+                    className={`${styles.cardContainer} ${cardIsDraggedOver ? styles.cardHighlight : ''}`}
+                    onDragOver={handleCardDragOver}
+                    onDragLeave={handleCardDragLeave}
+                    onDrop={(event) => handleCardDrop(event, list.listTitle)}
+                  >
+                    <CardsComponent boardId={boardId} listTitle={list.listTitle} cards={list.cards} />
+                    <AddCards boardId={boardId} listTitle={list.listTitle} userId={userId} />
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>No lists available. Start by adding a new list.</p>  // This will show when no lists are available
+          )}
     </div>
   );
-  
-};
+}
 
 export default Lists;
