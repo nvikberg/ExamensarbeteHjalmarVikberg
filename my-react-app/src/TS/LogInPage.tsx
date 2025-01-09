@@ -37,66 +37,66 @@ const LogIn: React.FC = () => {
   };
 
 
-  
+
   const toggleForm = () => {
     setIsRegistering(!isRegistering);
   };
 
   return (
-    <div className={styles.main}style={{
-      backgroundImage: backgroundImage ? `url("${encodeURI(backgroundImage)}")` : 'none',
-    }} >
-      <SeasonalPhoto onPhotoFetched={setBackgroundImage} />
+    <div className={styles.main}>
 
-    <div className={styles.loginContainer}>
-      {isRegistering ? (
-        <Register></Register>
+      <div className={styles.loginContainer}>
+        {isRegistering ? (
+          <Register></Register>
 
-      ) : (
-        <>
-      <form onSubmit={handleLogin}>
-<h1>Login</h1>
-      <div className={styles.formGroup}>
-      <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className={styles.formGroup}>
-        <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        {error && <p className="errorMessage">{error}</p>}
-        <button type="submit" disabled={loading} className={styles.loginButton}>
-          {loading ? "Logging in..." : "Log In"}
-        </button>
-        <GoogleLogin></GoogleLogin>
-      </form>
-      <p>
-        Don't have an account? <br></br>
-        <button onClick={toggleForm} className={styles.loginButton}>Sign up</button>
-      </p>
-      </>
-    )}
+        ) : (
+          <>
+            <form onSubmit={handleLogin}>
+              <h1>Login</h1>
+              <div className={styles.formGroup}>
+                <label htmlFor="email">Email:</label>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              
+                <label htmlFor="password">Password:</label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                </div>
+              {error && <p className="errorMessage">{error}</p>}
+              <div className={styles.buttonContainer}>
+              <button type="submit" disabled={loading} className={styles.loginButton}>
+                {loading ? "Logging in..." : "Log In"}
+              </button>
+              <p> </p>
+              <p> Or log in with Google instead: </p>
+              <GoogleLogin></GoogleLogin>
+              </div>
+            </form>
+            <p>
+              Don't have an account? <br></br>
+              <button onClick={toggleForm} className={styles.loginButton}>Sign up</button>
+            </p>
+          </>
+        )}
 
-{isRegistering && (
+        {isRegistering && (
           <p>
             Already have an account?{" "}
             <button onClick={toggleForm}>Log in</button>
           </p>
-)}
+        )}
 
-    </div>
+      </div>
     </div>
   );
 };
