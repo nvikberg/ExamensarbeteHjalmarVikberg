@@ -1,13 +1,14 @@
 /* 
 colors 
-F6F4E8 BEIGE
-BACEC1 LIGHT TURQUISE
-E59560 LIGHT ORANGE
-1D3124 DARK GREEN */
+#ABC3C9 (LIGHT BLUE)
+#E0DCD3 (LIGHT GRAY)
+#CCBE9F (BEIGE)
+#382119 (DARK BROWN)
+*/
 
 
 .main {
-background-color: #F6F4E8;
+background-color: #E0DCD3;
 display: flex;
 width: 100%;
 justify-content: space-between; 

@@ -57,44 +57,47 @@ const Nav: React.FC<{}> = () => {
   };
 
   const handleLogout = async () => {
-      try{
-          await signOut(auth);
-          // alert("logged out")
-          // console.log(auth + "logge dout")
-          navigate('/')
-      } catch (error){
-          console.error("error logging out", error)
-      }
+    try {
+      await signOut(auth);
+      // alert("logged out")
+      // console.log(auth + "logge dout")
+      navigate('/')
+    } catch (error) {
+      console.error("error logging out", error)
+    }
   }
 
-      return (
-        <div className={styles.navBar}>
-          <div className={styles.logoContainer}>
-                <a href="/homepage">
-                    <img src="/nilo-logo.png" alt="Nilo Logo" />
-                </a>
+  return (
+    <div className={styles.navBar}>
+      <div className={styles.logoContainer}>
+        <a href="/homepage">
+          <img src="/nilo-logo.png" alt="Nilo Logo" />
+        </a>
+      </div>
+  
+      <div className={styles.navLinks}>
+        {!user && (
+          <li>
+            <Link to="/" className={styles.navLink}>Login</Link>
+          </li>
+        )}
+        <li>
+          <Link to="/homepage" className={styles.navLink}>My Boards</Link>
+        </li>
+      </div>
+      <div>
+      {user && (
+      <div className={styles.rightSideContent}>
+          <div className={styles.topRightIcons}>
+            <NavIcons invitations={invitations} />
           </div>
-
-          <div className={styles.navLinks}>
-            {!user && (
-              <li><Link to="/" className={styles.navLink}>Login</Link></li>
-            )}
-            <li><Link to="/homepage" className={styles.navLink}>My Boards</Link></li>
+          <Logout></Logout>
           </div>
-
-          {/* Right side container for icons */}
-          <div className={styles.rightSideIcons}>
-            {user && (
-              <div className={styles.topRightIcons}>
-                {/* Include the NavIcons component here */}
-                <NavIcons invitations={invitations} />
-                <Logout />
-              </div>
-            
-            )}
-          </div>
+        )}
         </div>
-      );
-    }
+    </div>
+  );
+  
+}
 
 export default Nav;

@@ -2,7 +2,9 @@ import React, { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../Data/firebase"; // Import Firebase Auth
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import styles from '../CSS/Logout.module.css'
+// import styles from '../CSS/Logout.module.css'
+import navStyles from '../CSS/Nav.module.css'
+
 
  
 //modal dialog rutan visas inte när man klickar på logga ut. Man vblir ändå utloggad direkt 
@@ -49,15 +51,15 @@ const handleLogout = async () => {
 
 return (
     <div>
-        <button className={styles.logoutButton} onClick={showLogout} aria-haspopup="true">Log out</button>
+        <button className={navStyles.logoutButton} onClick={showLogout} aria-haspopup="true">Log out</button>
         {/* Confirmation Modal */}
         {isVisible && (
-            <div className={styles.confirmationModal}>
-                <div className={styles.modalContent}>
+            <div className={navStyles.confirmationModal}>
+                <div className={navStyles.modalContent}>
                     <h2>Are you sure you want to log out?</h2>
-                    <div className={styles.modalButtons}>
-                        <button onClick={handleLogout} className={styles.confirmBtn}>Yes, Logout </button>
-                        <button onClick={hideLogout} className={styles.cancelBtn}> Cancel </button>
+                    <div className={navStyles.modalButtons}>
+                        <button onClick={handleLogout} className={navStyles.confirmBtn}>Yes, Logout </button>
+                        <button onClick={hideLogout} className={navStyles.cancelBtn}> Cancel </button>
                     </div>
                 </div>
             </div>
