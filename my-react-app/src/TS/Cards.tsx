@@ -237,7 +237,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
       {alertMessage && (
         <div className={styles.alertMessage}>{alertMessage}</div>
       )}
-  
+
       {cards.length > 0 && (
         <div className={styles.cardContainer}>
           <ul className={styles.cardList}>
@@ -250,29 +250,29 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                 onDragStart={(event) => handleDragCardStart(event, card.id)}
               >
                 <div className={styles.closedCardInfo}>
-                <p>{card.cardtext}</p>
-                {card.estimatedHours != null && <p>est: {card.estimatedHours} h</p>}
-                {card.estimatedMinutes != null && <p>{card.estimatedMinutes} min</p>}
-                {card.actualHours != null && <p> act: {card.actualHours} h</p>}
-                {card.actualMinutes != null && <p>{card.actualMinutes} min</p>}
+                  <p>{card.cardtext}</p>
+                  {card.estimatedHours != null && <p>est: {card.estimatedHours} h</p>}
+                  {card.estimatedMinutes != null && <p>{card.estimatedMinutes} min</p>}
+                  {card.actualHours != null && <p> act: {card.actualHours} h</p>}
+                  {card.actualMinutes != null && <p>{card.actualMinutes} min</p>}
                 </div>
                 {editButtonShown && (
-                <button className={styles.editCardBtn} onClick={showEditCard}>Edit Card</button>
+                  <button className={styles.editCardBtn} onClick={showEditCard}>Edit Card</button>
                 )}
                 {infoIsVisable && (
                   <div>
                     <button onClick={closeEditCard}>x</button>
                     <DeleteCards id={card.id || ""} />
-  
+
                     {/* Render the BoardMembers component only when the card has members */}
                     <BoardMembers boardId={boardId} onMemberSelect={setSelectedMember} />
-                    <button 
-                      className={styles.assignBtn} 
+                    <button
+                      className={styles.assignBtn}
                       onClick={() => handleAssignMember(card.id)}
                     >
                       Assign Member
                     </button>
-  
+
                     {/* Assigned members list */}
                     {Array.isArray(card.assignedMember) && card.assignedMember.length > 0 && (
                       <div className={styles.assignedMembers}>
@@ -292,7 +292,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                         </ul>
                       </div>
                     )}
-  
+
                     {/* Time estimation and actual time input */}
                     <div className={styles.timeEstimation}>
                       <p>Estimated time for task:</p>
@@ -316,7 +316,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                       >
                         Save time estimation
                       </button>
-  
+
                       <p>Actual time:</p>
                       <input
                         type="number"
@@ -343,6 +343,6 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
       )}
     </>
   );
-}  
+}
 
 export default CardsComponent;
