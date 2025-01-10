@@ -109,14 +109,6 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-.gridItem img {
-  width: 100%;
-  height: auto;
-  max-width: 150px;
-  border-radius: 8px;
-  /* margin-bottom: 15px; */
-}
-
 .gridItemTextDiv {
   background-color: rgba(255, 255, 255, 0.737); /* Light white background with some transparency */
   padding: 10px; /* Add some space around the text */
@@ -154,7 +146,6 @@
   position: absolute;
   top: 80%;
   right: 10px;
-  /* z-index: 9999; */
 }
 /* Style for the random photo button */
 .randomBackgroundButton {
