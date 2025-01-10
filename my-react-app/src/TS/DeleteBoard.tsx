@@ -112,8 +112,6 @@ const DeleteBoard: React.FC<Props> = ({ boardID, userID }) => {
     return (
         <div>
             <button onClick={showDelete} className={styles.deleteButton}>Delete Board</button>
-
-            {/* Confirmation Modal */}
             {isVisible && (
                 <div className={styles.confirmationModal}>
                     <div className={styles.modalContent}>
@@ -121,8 +119,8 @@ const DeleteBoard: React.FC<Props> = ({ boardID, userID }) => {
                         <div className={styles.modalButtons}>
                             <button onClick={handleDelete} className={styles.confirmBtn}>Yes, Delete</button>
                             <button onClick={hideDelete} className={styles.cancelBtn}>Cancel</button>
-                        </div>
-                    </div>
+                        </div> 
+                     </div>
                 </div>
             )}
         </div>

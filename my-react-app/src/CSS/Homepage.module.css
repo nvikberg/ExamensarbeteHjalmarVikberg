@@ -154,7 +154,7 @@
   position: absolute;
   top: 80%;
   right: 10px;
-  z-index: 9999;
+  /* z-index: 9999; */
 }
 /* Style for the random photo button */
 .randomBackgroundButton {
