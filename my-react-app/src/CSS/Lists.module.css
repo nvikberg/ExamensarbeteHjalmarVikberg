@@ -162,7 +162,6 @@
 
 /* Styling the scrollbar track itself */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
   border-radius: 10px;
 }
 
@@ -176,9 +175,4 @@
 /* Styling the scrollbar thumb on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
-}
-
-/* For vertical scrollbar */
-::-webkit-scrollbar-corner {
-  background: #f1f1f1;
 }

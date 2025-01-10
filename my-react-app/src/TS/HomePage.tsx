@@ -35,6 +35,7 @@ const HomePage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null); // Store the current user
   const [randomPhotoUrl, setRandomPhotoUrl] = useState<string>(""); //för bakgrundsbilden
+  const [memberNames, setMemberNames] = useState<{ [email: string]: string }>({});
   const navigate = useNavigate();
   const auth = getAuth();
 
@@ -151,6 +152,29 @@ const HomePage: React.FC = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    const fetchMemberNames = async () => {
+      const names: { [email: string]: string } = {};
+      for (const item of items) {
+        for (const email of item.members) {
+          const userRef = query(collection(db, "Users"), where("email", "==", email));
+          const userSnapshot = await getDocs(userRef);
+          if (!userSnapshot.empty) {
+            const userData = userSnapshot.docs[0].data();
+            names[email] = `${userData.firstName} ${userData.lastName}`;
+          } else {
+            names[email] = "Unknown";
+          }
+        }
+      }
+      setMemberNames(names);
+    };
+
+    if (items.length > 0) {
+      fetchMemberNames();
+    }
+  }, [items]);
+
   return (
     <div className={styles.main}>
       <div className={styles.homepageContainer}>
@@ -176,9 +200,14 @@ const HomePage: React.FC = () => {
                     onClick={() => navigate(`/board/${item.id}`)}
                   >
                     <div className={styles.gridItemTextDiv}>
-                    <h3>{item.title}</h3>
-                    <p>Members: </p>
-                    <p>{Array.isArray(item.members) ? item.members.join(", ") : 'No members'}</p>
+                      <h3>{item.title}</h3>
+                      <p>Members: </p>
+                      <p>
+                        {item.members
+                          .map((email) => memberNames[email] || email)
+                          .filter(Boolean)
+                          .join(", ")}
+                      </p>
                     </div>
                     <div className={styles.deleteButtonContainer} onClick={(e) => e.stopPropagation()}>
                       <DeleteBoard boardID={item.id} userID={user?.uid} />
