@@ -59,7 +59,7 @@ const ProfilePage: React.FC = ({ }) => {
     async function handleSaveName(event: React.FormEvent) {
         event.preventDefault();
         const auth = getAuth();
-        const currentUser = auth.currentUser;        
+        const currentUser = auth.currentUser;
 
         if (!currentUser) {
             setSuccessMessage("User not logged in.")
@@ -75,7 +75,7 @@ const ProfilePage: React.FC = ({ }) => {
         try {
             const userRef = doc(db, "Users", currentUser.uid);
             const userSnap = await getDoc(userRef);
-            
+
             const updatUserData = {
                 firstName: newFirstName.trim(),
                 lastName: newLastName.trim(),
@@ -90,6 +90,9 @@ const ProfilePage: React.FC = ({ }) => {
                 });
             }
             setSuccessMessage('Name updated successfully!');
+            setTimeout(() => {
+                setSuccessMessage('');
+              }, 3000);
         } catch (error) {
             console.error("Error updating name:", error);
             setSuccessMessage("An error occurred. Please try again.");
@@ -101,6 +104,7 @@ const ProfilePage: React.FC = ({ }) => {
     return (
         <>
             <div className={styles.profileContainer}>
+                <h1>Your profile</h1>
 
                 <div className={styles.profileHeader}>
                     {/* AVATAR PROFIL PIC HÄR */}
@@ -118,14 +122,17 @@ const ProfilePage: React.FC = ({ }) => {
                     <h3>Contact Information</h3>
                     <form className={styles.saveNameForm}>
                         <p>Add your name to your profile:</p>
-                        <input type="text" value={newFirstName} placeholder='Firstname' onChange={(e) => setNewFirstName(e.target.value)} required />
-                        <input type="text" value={newLastName} placeholder='Lastname' onChange={(e) => setNewLastName(e.target.value)} required />
-                        <button className={styles.editButton}onClick={handleSaveName}>Save name</button>
+                        {successMessage && (
+                            <div className={styles.successMessage}>{successMessage}</div>
+                        )}
+                        <input className={styles.input} type="text" value={newFirstName} placeholder='Firstname' onChange={(e) => setNewFirstName(e.target.value)} required />
+                        <input className={styles.input} type="text" value={newLastName} placeholder='Lastname' onChange={(e) => setNewLastName(e.target.value)} required />
+                        <button className={styles.saveNameButton} onClick={handleSaveName}>Save name</button>
                     </form>
-                    <h4 className={styles.toDo}>Att göra i kod - Lägga till så användare kan ändra email och lösen?  </h4>
+                    {/* <h4 className={styles.toDo}>Att göra i kod - Lägga till så användare kan ändra email och lösen?  </h4> */}
                     <p><strong>Your Email</strong> {user?.email}</p>
                     <p><strong>Name:</strong> {newFirstName} {newLastName}</p>
-                    <p><strong>Your account was created on</strong> {user?.created && formatDate(user.created)}</p>
+                    {/* <p><strong>Your account was created on</strong> {user?.created && formatDate(user.created)}</p> */}
                 </div>
                 {currentUser && <DeleteUser userID={currentUser.uid} userEmail={currentUser.email} />}
             </div>

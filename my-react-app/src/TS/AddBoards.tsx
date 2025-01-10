@@ -107,7 +107,7 @@ const AddBoards: React.FC = () => {
       });
 
       setLoading(false); // Set loading to false once the operation is complete
-      setSuccessMessage(`Board added with ID ${docRef.id}`);
+      // setSuccessMessage(`Board added with ID ${docRef.id}`);
       setTimeout(() => {
         setSuccessMessage('');
       }, 3000);

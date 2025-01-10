@@ -65,4 +65,71 @@
   .toDo {
     color: #bc0808;
   }
+
+  .input {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 6px;
+    margin-right: 2px;  
+  }
+
+  .saveNameButton{
+    padding: 5px;
+    background-color: #7d9f7e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
   
+  .deleteUserButton {
+    margin-top: 5%;
+    padding: 5px;
+    background-color: rgb(218, 131, 131);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .successMessage {
+    background-color: #8dad9b; /* Green background for success */
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out; /* Smooth fade-in effect */
+    font-weight: bold;
+  }
+  
+  /* Fade-in animation for success message */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Success message responsive handling */
+  @media (max-width: 768px) {
+    .successMessage {
+      font-size: 1rem; /* Adjust size on smaller screens */
+      padding: 12px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .successMessage {
+      font-size: 0.9rem;
+      padding: 10px;
+    }
+  }

@@ -3,6 +3,7 @@ import { doc, deleteDoc, collection, query, where, getDocs, updateDoc, arrayRemo
 import { db } from "../Data/firebase";
 import { useNavigate } from "react-router-dom";
 import { signOut, getAuth } from "firebase/auth";
+import styles from '../CSS/ProfilePage.module.css'
 
 interface Props {
     userID: string;
@@ -79,7 +80,7 @@ const DeleteUser: React.FC<Props> = ({ userID, userEmail }) => {
     
       return (
         <div>
-          <button onClick={showDelete} className="deleteButton">Delete User</button>
+          <button className={styles.deleteUserButton} onClick={showDelete}> Delete User</button>
     
           {/* Confirmation (frågar en extra gång innan delelte ) Modal */}
           {isVisible && (
