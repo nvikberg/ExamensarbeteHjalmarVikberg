@@ -28,6 +28,10 @@
   border: 2px dashed transparent;
 }
 
+.addListCardHeader{
+  padding-left: 10px;
+}
+
 .listCard {
   position: relative; /* Make this container relative to allow absolute positioning of the delete button */
   background-color: #ffffff;
@@ -48,11 +52,19 @@
   min-width: 300px;
 }
 
+.listCard.drag-over {
+  border: 2px dashed #494b4c;
+  background-color: #f0f8ff;
+}
+
+.listCard:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 .input {
   border-radius: 5px;
   border: 1px solid #ccc;
-  padding: 2px;
-  
+  padding: 6px;
+  margin: 10px;  
 }
 
 .addBoardButton {
@@ -64,15 +76,6 @@
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.3s ease;
-}
-
-.listCard.drag-over {
-  border: 2px dashed #494b4c;
-  background-color: #f0f8ff;
-}
-
-.listCard:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .listTitle {

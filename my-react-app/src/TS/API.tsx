@@ -35,7 +35,9 @@ const SeasonalPhoto: React.FC<{ onPhotosFetched: (photos: string[]) => void }> =
       const randomPhoto = photosArray[Math.floor(Math.random() * photosArray.length)].src.original;
       onPhotosFetched([randomPhoto]); // Pass an array with a single image URL
     }
+    return selectRandomPhoto;
   };
+
 
   //fetchPhotos when component is mounted or whenever you want to fetch photos
   if (photosArray.length === 0) {
@@ -44,7 +46,7 @@ const SeasonalPhoto: React.FC<{ onPhotosFetched: (photos: string[]) => void }> =
 
   return (
     <div>
-      <button onClick={selectRandomPhoto}>Select Random Background</button>
+      {/* <button onClick={selectRandomPhoto}>Select Random Background</button> */}
     </div>
   );
 };

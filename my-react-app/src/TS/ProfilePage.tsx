@@ -120,7 +120,7 @@ const ProfilePage: React.FC = ({ }) => {
                         <p>Add your name to your profile:</p>
                         <input type="text" value={newFirstName} placeholder='Firstname' onChange={(e) => setNewFirstName(e.target.value)} required />
                         <input type="text" value={newLastName} placeholder='Lastname' onChange={(e) => setNewLastName(e.target.value)} required />
-                        <button onClick={handleSaveName}>Save name</button>
+                        <button className={styles.editButton}onClick={handleSaveName}>Save name</button>
                     </form>
                     <h4 className={styles.toDo}>Att göra i kod - Lägga till så användare kan ändra email och lösen?  </h4>
                     <p><strong>Your Email</strong> {user?.email}</p>
