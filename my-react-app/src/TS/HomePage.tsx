@@ -175,9 +175,11 @@ const HomePage: React.FC = () => {
                     }}
                     onClick={() => navigate(`/board/${item.id}`)}
                   >
+                    <div className={styles.gridItemTextDiv}>
                     <h3>{item.title}</h3>
                     <p>Members: </p>
                     <p>{Array.isArray(item.members) ? item.members.join(", ") : 'No members'}</p>
+                    </div>
                     <div className={styles.deleteButtonContainer} onClick={(e) => e.stopPropagation()}>
                       <DeleteBoard boardID={item.id} userID={user?.uid} />
                     </div>
