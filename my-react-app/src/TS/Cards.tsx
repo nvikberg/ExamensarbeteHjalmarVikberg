@@ -260,22 +260,22 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
               >
                 <div className={styles.closedCardInfo}>
                   <p><strong>{card.cardtext}</strong></p>
-                  <p>est:</p>
+                  <p className={styles.closedCardInfoTime}>Est:</p>
                   {card.estimatedHours != null && <p>{card.estimatedHours} h</p>}
                   {card.estimatedMinutes != null && <p>{card.estimatedMinutes} min</p>}
-                  <p>act:</p>
+                  <p className={styles.closedCardInfoTime}>Act:</p>
                   {card.actualHours != null && <p>{card.actualHours} h</p>}
-                  {card.actualMinutes != null && <p>{card.actualMinutes} min</p>}
+                  {card.actualMinutes != null && <p> {card.actualMinutes} min</p>}
                 </div>
                 <div>
-                      <ul className={styles.assignedMembers}>
-                        {card.assignedMember?.map((member, index) => (
-                          <li key={index}>
-                            {member}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                  <ul className={styles.assignedMembers}>
+                    {card.assignedMember?.map((member, index) => (
+                      <li key={index}>
+                        {member}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
                 {clickedCardId !== card.id && (
                   <div>
                     <button className={styles.editCardBtn} onClick={() => showEditCard(card.id)}>Edit Card</button>
@@ -284,8 +284,6 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                 {clickedCardId === card.id && (
                   <div>
                     <button className={styles.closeCardBtn} onClick={closeEditCard}>X</button>
-                    <DeleteCards id={card.id || ""} />
-
                     {/* Render the BoardMembers component only when the card has members */}
                     <BoardMembers boardId={boardId} onMemberSelect={setSelectedMember} />
                     <button
@@ -307,7 +305,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                                 className={styles.removeBtn}
                                 onClick={() => handleRemoveMember(card.id, member)}
                               >
-                                Remove
+                                -
                               </button>
                             </li>
                           ))}
@@ -356,9 +354,11 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                       />
                       <button className={styles.saveBtn} onClick={() => handleSaveActualTime(card.id)}>Save actual time</button>
                     </div>
+                    <DeleteCards id={card.id || ""} />
                   </div>
                 )}
               </div>
+              
             ))}
           </ul>
         </div>
