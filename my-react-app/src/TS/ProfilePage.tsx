@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../Data/firebase';
 import { getAuth, updateCurrentUser } from 'firebase/auth';
-import { getDoc, collection, query, where, doc, updateDoc, setDoc } from 'firebase/firestore';
+import { getDoc, collection, query, where, doc, updateDoc, setDoc, onSnapshot } from 'firebase/firestore';
 import styles from '../CSS/ProfilePage.module.css';
 import DeleteUser from './DeleteUser';
 
@@ -26,26 +26,23 @@ const ProfilePage: React.FC = ({ }) => {
 
     //hämtar användar datan
     useEffect(() => {
-        const fetchUserData = async () => {
-            if (currentUser) {
-                try {
-                    const userRef = doc(db, "Users", currentUser.uid); //
-                    const userDoc = await getDoc(userRef); // getDoc används för singla queries, och getDocs om man ska hämta flera
+        // const fetchUserData = async () => {
 
+            if (currentUser) {
+                    const userRef = doc(db, "Users", currentUser.uid);
+
+                   const unsubscribe = onSnapshot(userRef, (userDoc) => {
                     if (userDoc.exists()) {
                         setUser(userDoc.data() as User); //sätter hela datan från usern i interfacet för att sen användas i returnen
                     } else {
                         console.error("User data not found.");
                     }
-                } catch (error) {
+                }, (error) => {
                     console.error("Error fetching user data:", error);
-                } finally {
                     setLoading(false);
-                }
+                });
+    return () => unsubscribe();
             }
-        };
-
-        fetchUserData();
     }, [currentUser]);
 
 
