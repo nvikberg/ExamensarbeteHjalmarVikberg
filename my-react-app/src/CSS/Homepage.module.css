@@ -125,6 +125,10 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow for depth */
 }
 
+.members {
+  color: black;
+}
+
 
 /* Grid Item Title */
 .gridItem h3 {
@@ -138,7 +142,7 @@
 /* Grid Item Description */
 .gridItem p {
   font-size: 1rem;
-  color: #666;
+  color: #333;
   line-height: 1.5;
   margin: 10px 0;
   font-family: 'Arial', sans-serif;
@@ -154,8 +158,9 @@
 }
 /* Style for the random photo button */
 .randomBackgroundButton {
-  background-color: #335fbe; 
-  color: white;              
+  opacity: 0.8;
+  background-color: #dae2f3; 
+  color: #2A2A2A;              
   font-size: 16px;           /* Adjust font size */
   padding: 10px 20px;        /* Add padding to the button */
   border: none;              /* Remove border */
@@ -167,9 +172,10 @@
 
 /* Hover effect for the button */
 .randomBackgroundButton:hover {
-  background-color: #2e75d2; /* Slightly darker green */
+  background-color: #7CA1CC ; /* Slightly darker green */
   transform: translateY(-2px); /* Slightly lift the button */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Increase shadow size */
+  color: white;
 }
 
 /* Active (clicked) state */

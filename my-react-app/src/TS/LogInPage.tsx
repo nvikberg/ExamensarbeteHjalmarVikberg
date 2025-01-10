@@ -92,7 +92,7 @@ const LogIn: React.FC = () => {
         {isRegistering && (
           <p>
             Already have an account?{" "}
-            <button onClick={toggleForm}>Log in</button>
+            <button onClick={toggleForm} className={styles.loginButton}>Log in</button>
           </p>
         )}
 

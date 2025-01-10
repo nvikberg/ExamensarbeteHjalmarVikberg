@@ -31,7 +31,7 @@ margin-left:10px;
 
 .editCardBtn {
   padding: 5px;
-  background-color: #7d9f7e;
+  background-color: #7CA1CC;
   color: white;
   border: none;
   border-radius: 5px;
@@ -75,7 +75,7 @@ margin-left:10px;
 position: absolute;  
 top: 10px;
 right:10px;
-  background-color: #3f7ad2;
+  background-color: #7CA1CC;
   color: white;
   border: none;
   border-radius: 5px;
@@ -85,7 +85,9 @@ right:10px;
 }
 
 .deleteCardBtn {
-  background-color: #d9534f;
+  background-color: #F05039;
+  margin-top: 3px;
+  padding: 5px;
   color: white;
   border: none;
   border-radius: 3px;
@@ -96,7 +98,7 @@ right:10px;
 
 /* Button styles */
 .assignBtn, .removeBtn, .saveBtn {
-  background-color: #7d9f7e;
+  background-color: #7CA1CC;
   border: none;
   color: white;
   padding: 5px 10px;
@@ -107,15 +109,15 @@ right:10px;
 }
 
 .assignBtn:hover, .removeBtn:hover, .saveBtn:hover {
-  background-color: #005c77;
+  background-color: #7CA1CC;
 }
 
 .removeBtn {
-  background-color: #d9534f;
+  background-color: #F05039 ;
 }
 
 .removeBtn:hover {
-  background-color: #b94f4b;
+  background-color: #F05039 ;
 }
 
 /* Assigned members styling */
@@ -148,11 +150,11 @@ right:10px;
 }
 
 .saveBtn {
-  background-color: #7d9f7e;
+  background-color: #7CA1CC;
 }
 
 .saveBtn:hover {
-  background-color: #344538;
+  filter: brightness(0.8);
 }
 
 

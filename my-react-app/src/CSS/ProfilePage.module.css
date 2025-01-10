@@ -108,6 +108,31 @@
     animation: fadeIn 1s ease-in-out; /* Smooth fade-in effect */
     font-weight: bold;
   }
+
+  /*invitation styling*/ 
+  .invitationContainer {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.invitationContainer button {
+  padding: 10px 16px;
+  margin-right: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+.invitationContainer button:hover {
+  filter:brightness(0.8);
+}
   
   /* Fade-in animation for success message */
   @keyframes fadeIn {

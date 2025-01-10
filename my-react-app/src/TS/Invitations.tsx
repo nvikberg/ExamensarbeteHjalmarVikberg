@@ -3,6 +3,7 @@ import { db } from "../Data/firebase";
 import { getDocs, getDoc, collection, query, where, updateDoc, doc, arrayUnion } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import Board from './BoardPage';
+import styles from "../CSS/ProfilePage.module.css";
 //ATT GÖRA MAN SKA INTE KUNNA SKCKA INBJUDAN TILL SIG SJÄLV
 //NU funkar det som det ska förutom att man sparas som en member i Board collection direct man blir inbjuden till en board
 //ps. faktiska Skapa invitation doc till firebase ligger i AddBoards komponenten
@@ -132,7 +133,7 @@ const Invitations: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className={styles.invitationContainer}>
       <h2>Your Invitations</h2>
       {invitations.length > 0 ? (
         invitations.map((invitation) => (

@@ -112,7 +112,7 @@ const Register: React.FC = () => {
 
           {error && <p className="errorMessage">{error}</p>}
 
-          <button type="submit" disabled={loading}>
+          <button type="submit" className={styles.registerBtn} disabled={loading}>
             {loading ? 'Registering...' : 'Register'}
           </button>
         </form>

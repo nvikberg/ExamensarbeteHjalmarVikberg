@@ -7,7 +7,7 @@
   flex-wrap: nowrap; /* Keep the lists aligned horizontally */
   overflow-x: auto;
   scroll-behavior: smooth;
-  padding-bottom: 10 px;
+  padding-bottom: 10px;
   border-bottom: 2px solid #dddd;
   max-width: 100vw;
   white-space: nowrap;
@@ -69,7 +69,7 @@
 
 .addBoardButton {
   padding: 5px;
-  background-color: #7d9f7e;
+  background-color:  #7CA1CC;
   color: white;
   border: none;
   border-radius: 5px;
@@ -122,12 +122,12 @@
 
 .cardHighlight {
   border: 2px dashed #3498db;
-  background-color: #469f5ca1;
+  background-color:  #7CA1CC;
 }
 
 
 .smallDeleteButton {
-  background-color: rgb(218, 131, 131);
+  background-color: #F05039 ;
   color: white;
   padding: 4px 8px;
   border: none;

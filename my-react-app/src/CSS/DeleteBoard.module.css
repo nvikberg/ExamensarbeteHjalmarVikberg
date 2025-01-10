@@ -35,7 +35,7 @@
   }
   
   .confirmBtn {
-    background-color: red;
+    background-color:  #F05039 ;
     color: white;
   }
   
@@ -45,11 +45,17 @@
   }
   
   .deleteButton {
-    background-color: rgb(218, 131, 131);
-    color: white;
+    background-color: #ccc;
+    color: #2A2A2A;
+    opacity: 0.8;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
     /* z-index: 8888;  */
+  }
+
+  .deleteButton:hover {
+    background-color:  #F05039 ;
+    color: white;
   }

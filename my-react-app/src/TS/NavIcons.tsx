@@ -59,7 +59,7 @@ const NavIcons: React.FC<NavIconsProps> = ({ invitations }) => {
                 {pendingInvitationsCount > 0 && (
                     <span className={styles.invitationCount}>{pendingInvitationsCount}</span>
                 )}
-                <FontAwesomeIcon icon={faUser} onClick={handleProfileIconClick} className={`${styles.icon} ${styles.userIcon}`} />
+                <FontAwesomeIcon icon={faUser} onClick={handleProfileIconClick} className={styles.icon} />
             </div>
         </div>
     );
