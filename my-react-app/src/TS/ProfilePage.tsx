@@ -131,7 +131,7 @@ const ProfilePage: React.FC = ({ }) => {
                     </form>
                     {/* <h4 className={styles.toDo}>Att göra i kod - Lägga till så användare kan ändra email och lösen?  </h4> */}
                     <p><strong>Your Email</strong> {user?.email}</p>
-                    <p><strong>Name:</strong> {newFirstName} {newLastName}</p>
+                    <p><strong>Name:</strong> {user?.firstName} {user?.lastName}</p>
                     {/* <p><strong>Your account was created on</strong> {user?.created && formatDate(user.created)}</p> */}
                 </div>
                 {currentUser && <DeleteUser userID={currentUser.uid} userEmail={currentUser.email} />}
