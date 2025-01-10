@@ -84,12 +84,12 @@ const DeleteUser: React.FC<Props> = ({ userID, userEmail }) => {
     
           {/* Confirmation (frågar en extra gång innan delelte ) Modal */}
           {isVisible && (
-            <div className="confirmation-modal">
-              <div className="modal-content">
+            <div className={styles.confirmationModal}>
+              <div className={styles.modalContent}>
                 <h2>Are you sure you want to delete this user?</h2>
-                <div className="modal-buttons">
-                  <button onClick={handleDelete} className="confirm-btn">Yes, Delete</button>
-                  <button onClick={hideDelete} className="cancel-btn">Cancel</button>
+                <div className={styles.modalButtons}>
+                  <button onClick={handleDelete} className={styles.confirmBtn}>Yes, Delete</button>
+                  <button onClick={hideDelete} className={styles.cancelBtn}>Cancel</button>
                 </div>
               </div>
             </div>

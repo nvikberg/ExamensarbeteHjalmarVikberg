@@ -96,6 +96,29 @@ right:10px;
   transition: background-color 0.3s ease;
 }
 
+.confirmBtn {
+  padding: 6px;
+  background-color: #F05039;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.cancelBtn {
+  margin-left: 2%;
+  padding: 6px;
+  background-color: gray;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
 /* Button styles */
 .assignBtn, .removeBtn, .saveBtn {
   background-color: #7CA1CC;
@@ -109,15 +132,16 @@ right:10px;
 }
 
 .assignBtn:hover, .removeBtn:hover, .saveBtn:hover {
-  background-color: #7CA1CC;
+  filter: brightness(0.8);
 }
 
 .removeBtn {
   background-color: #F05039 ;
+  margin-left: 3%;
 }
 
 .removeBtn:hover {
-  background-color: #F05039 ;
+  filter: brightness(0.8) ;
 }
 
 /* Assigned members styling */

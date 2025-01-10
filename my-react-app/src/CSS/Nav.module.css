@@ -134,7 +134,7 @@
 }
 
 .confirmBtn {
-  background-color: red;
+  background-color: #F05039;
   color: white;
 }
 
@@ -144,11 +144,11 @@
 }
 
 .red{
-  color:rgba(255, 0, 0, 0.523);
+  color:#F05039;
 }
 
 .deleteButton {
-  background-color: rgba(255, 0, 0, 0.495);
+  background-color: #F05039;
   color: white;
   padding: 10px 20px;
   border: none;
