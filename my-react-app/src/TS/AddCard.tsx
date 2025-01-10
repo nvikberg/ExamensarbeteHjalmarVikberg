@@ -12,21 +12,21 @@ interface CardData {
 
 interface BoardProps {
   boardId: string;
-  listTitle: string; 
+  listTitle: string;
   userId: string;
 }
 
 const AddCards: React.FC<BoardProps> = ({ boardId, listTitle, userId }) => {
   const [cardText, setCardText] = useState('');
-   const [successMessage, setSuccessMessage] = useState<string>('');
-  
-        
+  const [successMessage, setSuccessMessage] = useState<string>('');
+
+
   const handleAddCard = async () => {
     if (!cardText) {
       setSuccessMessage(`Please enter card text`);
       setTimeout(() => {
         setSuccessMessage('');
-      }, 3000);    
+      }, 3000);
 
       return;
     }

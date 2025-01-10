@@ -23,7 +23,6 @@ const AddBoards: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string>(''); // Success message to show after board creation
   const [boards, setBoards] = useState<Board[]>([]); // Boards associated with the user
   const [selectedMembers, setSelectedMembers] = useState<string[]>([]); // Selected user emails for the task
-  const [backgroundImage, setBackgroundImage] = useState<string[]>([]);
   const auth = getAuth();
 
   useEffect(() => {
@@ -48,11 +47,6 @@ const AddBoards: React.FC = () => {
     setSelectedMembers(members); // Update selected members for the board
   };
 
-    // Generate random background image
-    const handleNewBackgroundImage = (imageUrl: string[]) => {
-      setBackgroundImage(imageUrl); // Set background image once fetched
-    };
-
   // Lägg till en ny anslagstavla i firestore
   const addBoard = async (): Promise<void> => {
     if (!boardname.trim()) {
@@ -67,15 +61,11 @@ const AddBoards: React.FC = () => {
     setLoading(true); // Set loading to true while the operation is in progress
 
     try {
-
-      const randomBackgroundImage = backgroundImage[Math.floor(Math.random() * backgroundImage.length)];
-
       // Lägg till nytt doc med namn (user input)
       const docRef = await addDoc(collection(db, "Boards"), {
         boardname: boardname,
         userID: user.uid,
         members: [user.email], // Sparar usern som skapade baorden och inbjudna usern i ny row i dbn
-        backgroundImage: randomBackgroundImage, //spara bara den random bilden till db
 
       });
 
@@ -92,7 +82,6 @@ const AddBoards: React.FC = () => {
         // Hämtar informationen om inbjudna usern för att använda i invitation doc
         if (!memberSnapshot.empty) {
           const memberDoc = memberSnapshot.docs[0];
-          // const memberData = memberDoc.data();
           const memberID = memberDoc.id;
 
           // Skapar invitation för varje medlem
@@ -107,7 +96,6 @@ const AddBoards: React.FC = () => {
       });
 
       setLoading(false); // Set loading to false once the operation is complete
-      // setSuccessMessage(`Board added with ID ${docRef.id}`);
       setTimeout(() => {
         setSuccessMessage('');
       }, 3000);
@@ -168,16 +156,13 @@ const AddBoards: React.FC = () => {
           onSelectMembers={handleSelectMembers}
         />
       </div>
-      <SeasonalPhoto onPhotosFetched={handleNewBackgroundImage} /> 
       <button
-          className={styles.addBoardButton}
-          onClick={addBoard} disabled={loading}>
-          {loading ? "Adding Board..." : "Create new board"}
-        </button>
+        className={styles.addBoardButton}
+        onClick={addBoard} disabled={loading}>
+        {loading ? "Adding Board..." : "Create new board"}
+      </button>
       {successMessage && <p className={successMessage}>{successMessage}</p>}
     </div>
-
-    // </div>
 
   );
 };

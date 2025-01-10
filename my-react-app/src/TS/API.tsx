@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createClient, Photo, PhotosWithTotalResults, ErrorResponse } from 'pexels';
-
+import styles from '../CSS/Homepage.module.css'
 
 //API från Pexels där vi hämtar 10 random landscape bilder 
 const client = createClient('LPR2D1WWMHOTpJrhx7mxWVvHNCtRyVxHlZbujV3V9NpCkcjqhk6PYDwZ');
@@ -46,7 +46,7 @@ const SeasonalPhoto: React.FC<{ onPhotosFetched: (photos: string[]) => void }> =
 
   return (
     <div>
-      {/* <button onClick={selectRandomPhoto}>Select Random Background</button> */}
+      <button className={styles.randomBackgroundButton} onClick={selectRandomPhoto}>Click to Select Random Background</button>
     </div>
   );
 };

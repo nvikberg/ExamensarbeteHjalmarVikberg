@@ -18,7 +18,7 @@ interface UserData {
 interface BoardData {
   boardname: string;
   members: string[];
-  backgroundImage: string; 
+  backgroundImage: string;
 
 }
 
@@ -138,7 +138,7 @@ const HomePage: React.FC = () => {
             id: doc.id,
             title: boardData.boardname || "",
             members: boardData.members,
-            backgroundImage: boardData?.backgroundImage || "", 
+            backgroundImage: boardData?.backgroundImage || "",
           });
         });
 
@@ -153,44 +153,44 @@ const HomePage: React.FC = () => {
 
   return (
     <div className={styles.main}>
-    <div className={styles.homepageContainer}>
-      <h1>Your Boards</h1>
-      {loading ? (
-        <p>Loading boards...</p>
-      ) : (
-        <div className={styles.gridContainer}>
-          {/* Always show the AddBoards component */}
-          <AddBoards />
-  
-          {items.length > 0 ? (
-            items.map((item) => (
-              <div key={item.id} className={styles.gridItemWrapper}>
-                {/* Card Container */}
-                <div
-                  className={styles.gridItem}
-                  style={{
-                    backgroundImage: item.backgroundImage
-                      ? `url("${encodeURI(item.backgroundImage)}")`
-                      : 'none', //SÄTT FÄRG PÅ HEMSIDAN
-                  }}
-                  onClick={() => navigate(`/board/${item.id}`)}
-                >
-                  <h3>{item.title}</h3>
-                  <p>Members: </p>
-                  <p>{Array.isArray(item.members) ? item.members.join(", ") : 'No members'}</p>
-                  <div className={styles.deleteButtonContainer} onClick={(e) => e.stopPropagation()}>
-                    <DeleteBoard boardID={item.id} userID={user?.uid} />
+      <div className={styles.homepageContainer}>
+        <h1>Your Boards</h1>
+        {loading ? (
+          <p>Loading boards...</p>
+        ) : (
+          <div className={styles.gridContainer}>
+            {/* Always show the AddBoards component */}
+            <AddBoards />
+
+            {items.length > 0 ? (
+              items.map((item) => (
+                <div key={item.id} className={styles.gridItemWrapper}>
+                  {/* Card Container */}
+                  <div
+                    className={styles.gridItem}
+                    style={{
+                      backgroundImage: item.backgroundImage
+                        ? `url("${encodeURI(item.backgroundImage)}")`
+                        : 'none', //SÄTT FÄRG PÅ HEMSIDAN
+                    }}
+                    onClick={() => navigate(`/board/${item.id}`)}
+                  >
+                    <h3>{item.title}</h3>
+                    <p>Members: </p>
+                    <p>{Array.isArray(item.members) ? item.members.join(", ") : 'No members'}</p>
+                    <div className={styles.deleteButtonContainer} onClick={(e) => e.stopPropagation()}>
+                      <DeleteBoard boardID={item.id} userID={user?.uid} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
-          ) : (
-            <p>No boards found for this user</p>
-          )}
-        </div>
-      )}
+              ))
+            ) : (
+              <p>No boards found for this user</p>
+            )}
+          </div>
+        )}
+      </div>
     </div>
-  </div>
   );
 };
 

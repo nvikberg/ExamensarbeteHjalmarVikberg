@@ -31,10 +31,10 @@
 .gridContainer {
   display: grid;
   grid-template-columns: repeat(auto-fill, 250px); /* Fixed width for each item */
-  gap: 20px;
-  margin-top: 30px;
+  gap: 40px;
+  /* margin-top: 30px; */
   flex: 1;
-  justify-content: space-between;
+  justify-content: space-evenly;
   grid-auto-rows: 1fr; /* Ensures consistent row height */
   width: 100%;
   max-width: 1200px; /* Keeps the grid container within max-width */
@@ -143,21 +143,37 @@
   right: 10px;
   z-index: 9999;
 }
+/* Style for the random photo button */
+.randomBackgroundButton {
+  background-color: #335fbe; 
+  color: white;              
+  font-size: 16px;           /* Adjust font size */
+  padding: 10px 20px;        /* Add padding to the button */
+  border: none;              /* Remove border */
+  border-radius: 5px;       /* Rounded corners */
+  cursor: pointer;          /* Pointer cursor on hover */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+}
 
-/* Adjust the delete button
-.deleteButton {
-  background-color: red;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-top: 10px; /* Space above the delete button */
-/* }
+/* Hover effect for the button */
+.randomBackgroundButton:hover {
+  background-color: #2e75d2; /* Slightly darker green */
+  transform: translateY(-2px); /* Slightly lift the button */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Increase shadow size */
+}
 
-.deleteButton:hover {
-  background-color: darkred;
-}  */
+/* Active (clicked) state */
+.randomBackgroundButton:active {
+  transform: translateY(1px); /* Pressed effect */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Decreased shadow size */
+}
+
+/* Focus effect for accessibility */
+.randomBackgroundButton:focus {
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.5); /* Focus ring effect */
+}
 
 /* Responsive Design for Smaller Screens */
 @media (max-width: 768px) {
