@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faEnvelope, faUser, faShoppingCart, } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import styles from '../CSS/Nav.module.css';
+import styles from '../../CSS/Nav.module.css';
 
 interface NavIconsProps {
     invitations: any[];

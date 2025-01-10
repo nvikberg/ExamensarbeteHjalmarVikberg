@@ -3,15 +3,15 @@ import { useState } from 'react';
 // import logo from './logo.svg';
 import './CSS/App.css';
 import Homepage from './TS/HomePage';  // Import Homepage component
-import Nav from './TS/Nav'; 
-import LogInPage from './TS/LogInPage';
-import Board from './TS/BoardPage';
-import FetchBoard from './TS/FetchBoards';
+import Nav from './TS/navComponents/Nav'; 
+import LogInPage from './TS/accountComponents/LogInPage';
+import Board from './TS/boardComponents/BoardPage';
+import FetchBoard from './TS/boardComponents/FetchBoards';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';  // Import routing components
-import Logout from './TS/Logout';
+import Logout from './TS/accountComponents/Logout';
 import { getAuth } from 'firebase/auth';
-import Inbox from './TS/Invitations';
-import ProfilePage from './TS/ProfilePage';
+import Inbox from './TS/accountComponents/Invitations';
+import ProfilePage from './TS/accountComponents/ProfilePage';
 
 function App(): JSX.Element {
 

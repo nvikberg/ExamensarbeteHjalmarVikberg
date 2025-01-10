@@ -1,8 +1,8 @@
 // BoardMembers.tsx
 import React, { useState, useEffect } from 'react';
-import { db } from '../Data/firebase';
+import { db } from '../../Data/firebase';
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
-import styles from '../CSS/Card.module.css';
+import styles from '../../CSS/Card.module.css';
 
 
 //BoardMembers hämtar data från db med hjälp av boardId som skickas som en prop, och lagrar information om boarden och medlemmarna i komponentens state

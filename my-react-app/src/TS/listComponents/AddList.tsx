@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { db } from '../Data/firebase';
+import { db } from '../../Data/firebase';
 import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
-import styles from '../CSS/Lists.module.css'
+import styles from '../../CSS/Lists.module.css'
 
 interface ListProps {
   boardId: string;

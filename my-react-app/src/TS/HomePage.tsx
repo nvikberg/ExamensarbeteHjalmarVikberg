@@ -4,8 +4,8 @@ import styles from "../CSS/Homepage.module.css";
 import { db } from "../Data/firebase";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc, query, collection, where, getDocs, onSnapshot } from "firebase/firestore";
-import AddBoards from "./AddBoards";
-import DeleteBoard from "./DeleteBoard";
+import AddBoards from "./boardComponents/AddBoards";
+import DeleteBoard from "./boardComponents/DeleteBoard";
 
 //nu ska invitation funka som det ska, 
 //om en invitation är accepterad så ska boarden visas på homepage
@@ -218,8 +218,8 @@ const HomePage: React.FC = () => {
                 </div>
               ))
             ) : (
-              <p>No boards found for this user</p>
-            )}
+              <>
+              </>)}
           </div>
         )}
       </div>

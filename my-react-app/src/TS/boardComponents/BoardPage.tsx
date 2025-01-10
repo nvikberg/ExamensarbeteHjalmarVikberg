@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { db } from "../Data/firebase";
+import { db } from "../../Data/firebase";
 import { updateDoc, collection, query, where, getDocs, getDoc, doc, onSnapshot } from "firebase/firestore";
-import Lists from "./Lists";
-import AddLists from "./AddList";
-import styles from "../CSS/BoardPage.module.css"
-import SeasonalPhoto from "./API";
+import Lists from "../listComponents/Lists";
+import AddLists from "../listComponents/AddList";
+import styles from "../../CSS/BoardPage.module.css"
+import SeasonalPhoto from "../API";
 
 //Boardpage är sidan som visar varje enskild tavla
 //här kan man lägga till listor och kort på sin tavla

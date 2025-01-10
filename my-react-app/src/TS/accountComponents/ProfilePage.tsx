@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { db } from '../Data/firebase';
+import { db } from '../../Data/firebase';
 import { getAuth, updateCurrentUser } from 'firebase/auth';
 import { getDoc, collection, query, where, doc, updateDoc, setDoc, onSnapshot } from 'firebase/firestore';
-import styles from '../CSS/ProfilePage.module.css';
+import styles from '../../CSS/ProfilePage.module.css';
 import DeleteUser from './DeleteUser';
 
 interface User {

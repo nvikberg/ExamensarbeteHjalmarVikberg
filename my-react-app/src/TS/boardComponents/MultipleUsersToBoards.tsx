@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { getAuth } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../Data/firebase";
-import styles from '../CSS/AddBoard.module.css'
+import { db } from "../../Data/firebase";
+import styles from '../../CSS/AddBoard.module.css'
 
 //ATT GÖRA - SKAPA KNAPP ATT TA BORT EMAIL FRÅN LISTAN NEDANFÖR OM MAN ÅNGRAT SIG
 
@@ -15,9 +15,7 @@ interface MultipleUsersToBoardsProps {
     selectedMembers: string[]; //selectedMembers som prop för att kontrollera selectopn från addBoard
 }
 const MultipleUsersToBoards: React.FC<MultipleUsersToBoardsProps> = ({ onSelectMembers, selectedMembers }) => {
-    // const [selectedMembers, setSelectedMembers] = useState<string[]>([]); //spara vald email
     const [userEmails, setUserEmails] = useState<string[]>([]); //array för user emails
-    // const [user, setUser] = useState<any>(null); //för att spara loggad in user
     const auth = getAuth();
     const currentUserEmail = auth.currentUser?.email; // Get the current user's email
 
@@ -62,7 +60,6 @@ const MultipleUsersToBoards: React.FC<MultipleUsersToBoardsProps> = ({ onSelectM
 
     return (
         <div>
-            {/* <p>Invite members to join your board</p> */}
             <select value={selectedMembers[selectedMembers.length - 1] || ""} onChange={handleSelectChange} className={styles.input}>
                 <option value="">Invite Members</option>
                 {userEmails.length > 0 ? (

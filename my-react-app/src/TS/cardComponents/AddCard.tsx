@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { db } from '../Data/firebase';
+import { db } from '../../Data/firebase';
 import { collection, addDoc } from 'firebase/firestore';
-import styles from "../CSS/AddCard.module.css";
+import styles from "../../CSS/AddCard.module.css";
 
 interface CardData {
   boardID: string;

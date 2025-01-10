@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { doc, deleteDoc, collection, query, where, getDocs, updateDoc, arrayRemove } from 'firebase/firestore';
-import { db } from "../Data/firebase";
+import { db } from "../../Data/firebase";
 import { useNavigate } from "react-router-dom";
 import { signOut, getAuth } from "firebase/auth";
-import styles from '../CSS/ProfilePage.module.css'
+import styles from '../../CSS/ProfilePage.module.css'
 
 interface Props {
     userID: string;

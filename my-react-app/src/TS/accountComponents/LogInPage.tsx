@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../Data/firebase"; // Import Firebase Auth
+import { auth } from "../../Data/firebase"; // Import Firebase Auth
 import { signInWithEmailAndPassword } from "firebase/auth";
 import Register from "./Register";
-import styles from '../CSS/Login.module.css';
+import styles from '../../CSS/Login.module.css';
 import GoogleLogin from "./GoogleLogin";
 // import SeasonalPhoto from "./API";
 

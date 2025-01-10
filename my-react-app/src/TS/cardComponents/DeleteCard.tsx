@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { doc, deleteDoc, collection, query, where, getDocs, updateDoc, arrayRemove } from "firebase/firestore";
-import { db } from "../Data/firebase";
-import styles from '../CSS/Card.module.css';
+import { db } from "../../Data/firebase";
+import styles from '../../CSS/Card.module.css';
 
 interface DeleteCardProps {
     id: string;

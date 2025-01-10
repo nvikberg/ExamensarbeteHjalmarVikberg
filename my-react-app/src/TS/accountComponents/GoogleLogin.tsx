@@ -2,10 +2,10 @@ import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { FaGoogle } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 import { getFirestore, doc, updateDoc, query, where, getDocs, collection, setDoc } from "firebase/firestore";
-import { db } from "../Data/firebase";
+import { db } from "../../Data/firebase";
 import { useState } from "react";
 import React from 'react';
-import styles from '../CSS/Login.module.css'
+import styles from '../../CSS/Login.module.css'
 
 //Google login öppnar ett pop up fönster onClick, sedan signas man in med en token som generas genom firebase
 //ditt google konto blir sparat i authentication, och en ny Users läggs till i databasen (bara med email just nu)
@@ -34,7 +34,6 @@ const GoogleLogin: React.FC = () => {
                 if (credential) {
 
                     const token = credential.accessToken;
-                    // console.log("Google Access token", token);
 
                     //signed-in user info
                     const user = result.user;
@@ -63,7 +62,7 @@ const GoogleLogin: React.FC = () => {
                             }, { merge: true }); // merga för att inte skriva över
                             navigate('/homepage');
 
-                            console.log('New user document created with id ', userRef.id);
+                            console.log('New user document created');
                         }
                     } else {
                         console.log('error with query')

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../Data/firebase';
+import { db } from '../../Data/firebase';
 import { collection, doc, getDoc, getDocs, query, updateDoc, where, onSnapshot } from 'firebase/firestore';
-import styles from "../CSS/Lists.module.css"
-import CardsComponent from './Cards';
-import AddCards from './AddCard';
+import styles from "../../CSS/Lists.module.css"
+import CardsComponent from '../cardComponents/Cards';
+import AddCards from '../cardComponents/AddCard';
 import { getAuth } from 'firebase/auth';
 import DeleteLists from './DeleteList';
-import Board from './BoardPage';
+import Board from '../boardComponents/BoardPage';
 import AddLists from "./AddList";
 
 interface CardData {

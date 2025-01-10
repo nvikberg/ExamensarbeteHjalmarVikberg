@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { db } from "../Data/firebase";
+import { db } from "../../Data/firebase";
 import { getDocs, doc, collection, addDoc, updateDoc, arrayUnion, query, where } from "firebase/firestore";
-import styles from '../CSS/AddBoard.module.css';
+import styles from '../../CSS/AddBoard.module.css';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import MultipleUsersToBoards from './MultipleUsersToBoards';
-import homePageStyle from '../CSS/Homepage.module.css'
-import SeasonalPhoto from './API';
+import homePageStyle from '../../CSS/Homepage.module.css'
+import SeasonalPhoto from '../API';
 //kolla igenom denna är kaos (pga medlemmar grejen)
 //ATT GÖRA, EFFEKTIVISERA HUR MAN LÄGGER IN board id hos USERS (loopen rad 78)
 //SKAPA INVITATION finns i denna komponenten

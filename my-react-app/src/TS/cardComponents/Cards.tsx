@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../Data/firebase';
+import { db } from '../../Data/firebase';
 import { onSnapshot, getDoc, collection, query, where, getDocs, updateDoc, doc, arrayUnion, arrayRemove } from 'firebase/firestore';
-import styles from '../CSS/Card.module.css';
-import BoardMembers from './BoardMembers';
+import styles from '../../CSS/Card.module.css';
+import BoardMembers from '../boardComponents/BoardMembers';
 import DeleteCards from './DeleteCard';
 
 

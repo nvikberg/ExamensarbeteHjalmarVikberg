@@ -2,9 +2,17 @@ import React, { useState } from 'react';
 import { createClient, Photo, PhotosWithTotalResults, ErrorResponse } from 'pexels';
 import styles from '../CSS/Homepage.module.css'
 
-//API från Pexels där vi hämtar 10 random landscape bilder 
-const client = createClient('LPR2D1WWMHOTpJrhx7mxWVvHNCtRyVxHlZbujV3V9NpCkcjqhk6PYDwZ');
+//API från Pexels där vi hämtar 10 random landscape bilder för att använda i våra tavlor
+//api nycklen är sparad i env och gitignore
+//hade problem med useEffect här så vi skippade det 
 
+const apiKey = process.env.REACT_APP_PEXELS_API_KEY;
+if (!apiKey) {
+  throw new Error("Pexels API key is missing! Please set REACT_APP_PEXELS_API_KEY in your environment variables.");
+}
+
+// Use the API key to create the client
+const client = createClient(apiKey);
 const SeasonalPhoto: React.FC<{ onPhotosFetched: (photos: string[]) => void }> = ({ onPhotosFetched }) => {
   const [photosArray, setPhotosArray] = useState<Photo[]>([]);
 
@@ -19,6 +27,7 @@ const SeasonalPhoto: React.FC<{ onPhotosFetched: (photos: string[]) => void }> =
       //kollar om respone med 'PhotosWithTotalResults'
       if ('photos' in response) {
         //if response has 'photos', set the photos array
+      
         setPhotosArray(response.photos);
       } else {
         // Handle the error response
@@ -35,7 +44,6 @@ const SeasonalPhoto: React.FC<{ onPhotosFetched: (photos: string[]) => void }> =
       const randomPhoto = photosArray[Math.floor(Math.random() * photosArray.length)].src.original;
       onPhotosFetched([randomPhoto]); // Pass an array with a single image URL
     }
-    return selectRandomPhoto;
   };
 
 

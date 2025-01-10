@@ -11,7 +11,7 @@ import firebase from 'firebase/app';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBDIcuYL5KjkUPvRbDQVC2Eynx4b3ssE0E",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "better-trello-883c0.firebaseapp.com",
   projectId: "better-trello-883c0",
   storageBucket: "better-trello-883c0.firebasestorage.app",

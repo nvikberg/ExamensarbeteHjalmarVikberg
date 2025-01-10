@@ -2,10 +2,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { collection, query, where, getDocs, onSnapshot } from 'firebase/firestore'
-import { db } from '../Data/firebase';
+import { db } from '../../Data/firebase';
 import NavIcons from './NavIcons';
-import styles from '../CSS/Nav.module.css';
-import Logout from './Logout';
+import styles from '../../CSS/Nav.module.css';
+import Logout from '../accountComponents/Logout';
 const Nav: React.FC<{}> = () => {
     //OBS håller på att lägga till så programmet trackar om man ät inloggad så ska inte login länken synas
     const [user, setUser] = useState<any>('');

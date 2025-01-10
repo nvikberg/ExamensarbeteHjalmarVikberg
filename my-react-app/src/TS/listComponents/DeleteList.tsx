@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { doc, deleteDoc, collection, query, where, getDocs, updateDoc, arrayRemove } from "firebase/firestore";
-import { db } from "../Data/firebase";
-import styles from '../CSS/DeleteBoard.module.css';
-import listStyles from '../CSS/Lists.module.css'
+import { db } from "../../Data/firebase";
+import styles from '../../CSS/DeleteBoard.module.css';
+import listStyles from '../../CSS/Lists.module.css'
 
 
 //MÅSTE KOLLA PÅ!
