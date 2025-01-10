@@ -156,14 +156,14 @@ const HomePage: React.FC = () => {
     const fetchMemberNames = async () => {
       const names: { [email: string]: string } = {};
       for (const item of items) {
-        for (const email of item.members) {
-          const userRef = query(collection(db, "Users"), where("email", "==", email));
+        for (const name of item.members) {
+          const userRef = query(collection(db, "Users"), where("email", "==", name));
           const userSnapshot = await getDocs(userRef);
           if (!userSnapshot.empty) {
             const userData = userSnapshot.docs[0].data();
-            names[email] = `${userData.firstName} ${userData.lastName}`;
+            names[name] = `${userData.firstName} ${userData.lastName}`;
           } else {
-            names[email] = "Unknown";
+            names[name] = "Unknown";
           }
         }
       }
@@ -201,12 +201,14 @@ const HomePage: React.FC = () => {
                   >
                     <div className={styles.gridItemTextDiv}>
                       <h3>{item.title}</h3>
-                      <p>Members: </p>
+                      <p style={{ fontWeight: 'bold' }}>Members: </p>
                       <p>
                         {item.members
-                          .map((email) => memberNames[email] || email)
+                          .map((name) => memberNames[name] || name)  //mappar ut namnen
                           .filter(Boolean)
-                          .join(", ")}
+                          .map((name, index) => (
+                            <span key={index}>{name}<br /></span>  //line break mellan varje medlem
+                          ))}
                       </p>
                     </div>
                     <div className={styles.deleteButtonContainer} onClick={(e) => e.stopPropagation()}>
