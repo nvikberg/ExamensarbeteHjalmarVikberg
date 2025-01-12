@@ -333,6 +333,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                       <button
                         className={styles.saveBtn}
                         onClick={() => handleSaveTimeEstimation(card.id)}
+                        onKeyDown={e => e.key === 'Enter' ? handleSaveTimeEstimation:''}
                       >
                         Save time estimation
                       </button>
@@ -352,7 +353,9 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
                         value={actMin ?? ''}
                         onChange={(e) => setActMin(Number(e.target.value))}
                       />
-                      <button className={styles.saveBtn} onClick={() => handleSaveActualTime(card.id)}>Save actual time</button>
+                      <button className={styles.saveBtn} onClick={() => handleSaveActualTime(card.id)}
+                        onKeyDown={e => e.key === 'Enter' ? handleSaveActualTime:''}
+                        >Save actual time</button>
                     </div>
                     <DeleteCards id={card.id || ""} />
                   </div>

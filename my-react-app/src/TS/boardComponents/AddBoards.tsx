@@ -140,6 +140,7 @@ const AddBoards: React.FC = () => {
       <div className={styles.boardHeader}>
         <h2>Add new board</h2>
       </div>
+      <form>
       <div>
         <input
           className={styles.input}
@@ -161,6 +162,7 @@ const AddBoards: React.FC = () => {
         onClick={addBoard} disabled={loading}>
         {loading ? "Adding Board..." : "Create new board"}
       </button>
+      </form>
       {successMessage && <p className={successMessage}>{successMessage}</p>}
     </div>
 
