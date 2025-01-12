@@ -8,7 +8,7 @@
   overflow-x: auto;
   scroll-behavior: smooth;
   padding-bottom: 10px;
-  border-bottom: 2px solid #dddd;
+  /* border-bottom: 2px solid #dddd; */
   max-width: 100vw;
   white-space: nowrap;
   max-height: calc(100vh - 20px);
