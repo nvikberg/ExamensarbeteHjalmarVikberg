@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/ExamensarbeteHjalmarVikberg/static/css/main.24d0393e.css",
-    "main.js": "/ExamensarbeteHjalmarVikberg/static/js/main.49981084.js",
+    "main.css": "/ExamensarbeteHjalmarVikberg/static/css/main.3c311638.css",
+    "main.js": "/ExamensarbeteHjalmarVikberg/static/js/main.9300bdf9.js",
     "static/js/488.af104311.chunk.js": "/ExamensarbeteHjalmarVikberg/static/js/488.af104311.chunk.js",
     "index.html": "/ExamensarbeteHjalmarVikberg/index.html",
-    "main.24d0393e.css.map": "/ExamensarbeteHjalmarVikberg/static/css/main.24d0393e.css.map",
-    "main.49981084.js.map": "/ExamensarbeteHjalmarVikberg/static/js/main.49981084.js.map",
+    "main.3c311638.css.map": "/ExamensarbeteHjalmarVikberg/static/css/main.3c311638.css.map",
+    "main.9300bdf9.js.map": "/ExamensarbeteHjalmarVikberg/static/js/main.9300bdf9.js.map",
     "488.af104311.chunk.js.map": "/ExamensarbeteHjalmarVikberg/static/js/488.af104311.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.24d0393e.css",
-    "static/js/main.49981084.js"
+    "static/css/main.3c311638.css",
+    "static/js/main.9300bdf9.js"
   ]
 }
