@@ -65,7 +65,7 @@ const Nav: React.FC<{}> = () => {
             <div className={styles.navLinks}>
                 {!user && (
                     <li>
-                        <Link to="/" className={styles.navLink}>Login</Link>
+                        <Link to="/login" className={styles.navLink}>Login</Link>
                     </li>
                 )}
                 <li>
