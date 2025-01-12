@@ -1,61 +1,78 @@
-/* Confirmation Modal */
-.confirmationModal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; 
-  }
-  
-  .modalContent {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    width: 300px;
-  }
-  
-  .modalButtons {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-  }
-  
-  .confirmBtn,
-  .cancelBtn {
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  .confirmBtn {
-    background-color:  #F05039 ;
-    color: white;
-  }
-  
-  .cancelBtn {
-    background-color: gray;
-    color: white;
-  }
-  
-  .deleteButton {
-    background-color: #ccc;
-    color: #2A2A2A;
-    opacity: 0.8;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    /* z-index: 8888;  */
-  }
+    .deleteButton {
+      background-color: #ccc;
+      color: #2A2A2A;
+      opacity: 0.8;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      /* z-index: 8888;  */
+    }
 
-  .deleteButton:hover {
-    background-color:  #F05039 ;
-    color: white;
-  }
+    .deleteButton:hover {
+      background-color: #F05039;
+      color: white;
+    }
+
+    .confirmDeleteContainer {
+      display: flex;
+      /* justify-content: center; */
+      /* text-align: center; */
+      padding: auto;
+      /* width: 120%; */
+      border-radius: 5px;
+
+      /* background-color: #fffffff1; */
+    }
+
+    .confirmDeleteContainer span {
+      font-size: 12px;
+      /* color: #333; */
+    }
+
+    .confirmText {
+      padding: 1px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .confirmBtn {
+      /* width: 10px; */
+      justify-content: center;
+
+      margin-left: 10px;
+      background-color: #F05039;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background-color 0.3s;
+    }
+
+    .confirmBtn:hover {
+      filter: brightness(0.8);
+    }
+
+    /* Cancel button styling */
+    .cancelBtn {
+      /* width: 13px; */
+      background-color: #879394;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background-color 0.3s;
+    }
+
+    .cancelBtn:hover {
+      background-color: #7f8c8d;
+    }
+
+    /* You can also add a little spacing or tweak the layout */
+    .confirmDeleteContainer button {
+      height: min-content;
+    }

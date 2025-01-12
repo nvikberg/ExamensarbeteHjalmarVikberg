@@ -20,6 +20,7 @@ interface Props {
 const DeleteBoard: React.FC<Props> = ({ boardID, userID }) => {
     const [isVisible, setVisible] = useState<boolean>(false);
     const [alertMessage, setAlertMessage] = useState<string>('')
+    const [isConfirmDelete, setIsConfirmDelete] = useState<boolean>(false)
     const navigate = useNavigate();
 
     const handleDelete = async (): Promise<void> => {
@@ -106,23 +107,40 @@ const DeleteBoard: React.FC<Props> = ({ boardID, userID }) => {
         }
     };
 
+    const handleDeleteClick = () => {
+        setIsConfirmDelete(true);
+      };
+    
+      const handleCancel = () => {
+        setIsConfirmDelete(false); 
+      };
+    
+      const handleConfirmDelete = () => {
+        console.log("Confirm delete for board id", boardID);
+        setIsConfirmDelete(false);
+        handleDelete(); //här raderas tavlan
+      };
 
 
 
-    return (
+
+      return (
         <div>
-            <button onClick={showDelete} className={styles.deleteButton} aria-haspopup="true">Delete Board</button>
-            {isVisible && (
-                <div className={styles.confirmationModal}>
-                    <div className={styles.modalContent}>
-                        <h2>Are you sure you want to delete this board?</h2>
-                        <div className={styles.modalButtons}>
-                            <button onClick={handleDelete} className={styles.confirmBtn}>Yes, Delete</button>
-                            <button onClick={hideDelete} className={styles.cancelBtn}>Cancel</button>
-                        </div> 
-                     </div>
-                </div>
-            )}
+          {!isConfirmDelete ? (
+            <button onClick={handleDeleteClick} className={styles.deleteButton} aria-haspopup="true">
+              Delete Board
+            </button>
+          ) : (
+            <div className={styles.confirmDeleteContainer}>
+              <span><p className={styles.confirmText}>Are you sure?</p></span>
+              <button onClick={handleConfirmDelete} className={styles.confirmBtn}>
+                Yes, Delete
+              </button>
+              <button onClick={handleCancel} className={styles.cancelBtn}>
+                Cancel
+              </button>
+            </div>
+          )}
         </div>
     );
 };
