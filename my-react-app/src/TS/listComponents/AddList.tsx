@@ -42,6 +42,7 @@ const AddLists: React.FC<ListProps> = ({ boardId }) => {
     <div>
       <div className={styles.listCard}>
         <h3 className={styles.addListCardHeader}>Create a New List</h3>
+        <form>
         <input
           type="text"
           className={styles.input}
@@ -53,6 +54,7 @@ const AddLists: React.FC<ListProps> = ({ boardId }) => {
         <button className={styles.addBoardButton} onClick={handleAddList} disabled={loading}>
           {loading ? 'Adding...' : 'Add List'}
         </button>
+        </form>
         {successMessage && <p className={successMessage}>{successMessage}</p>}
       </div>
     </div>
