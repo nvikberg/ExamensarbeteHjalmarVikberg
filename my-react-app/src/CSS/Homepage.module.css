@@ -178,7 +178,7 @@
 /* Focus effect for accessibility */
 .randomBackgroundButton:focus {
   outline: none; /* Remove default outline */
-  box-shadow: 0 0 0 4px rgba(181, 190, 238, 0.5); /* Focus ring effect */
+  box-shadow: 0 0 0 4p x rgba(181, 190, 238, 0.5); /* Focus ring effect */
 }
 
 /* Responsive Design for Smaller Screens */
