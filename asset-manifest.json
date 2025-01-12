@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/ExamensarbeteHjalmarVikberg/static/css/main.24d0393e.css",
+    "main.js": "/ExamensarbeteHjalmarVikberg/static/js/main.49981084.js",
+    "static/js/488.af104311.chunk.js": "/ExamensarbeteHjalmarVikberg/static/js/488.af104311.chunk.js",
+    "index.html": "/ExamensarbeteHjalmarVikberg/index.html",
+    "main.24d0393e.css.map": "/ExamensarbeteHjalmarVikberg/static/css/main.24d0393e.css.map",
+    "main.49981084.js.map": "/ExamensarbeteHjalmarVikberg/static/js/main.49981084.js.map",
+    "488.af104311.chunk.js.map": "/ExamensarbeteHjalmarVikberg/static/js/488.af104311.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.24d0393e.css",
+    "static/js/main.49981084.js"
+  ]
+}
