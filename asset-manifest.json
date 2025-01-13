@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/login/static/css/main.2def2198.css",
-    "main.js": "/login/static/js/main.ecfb085e.js",
-    "static/js/488.af104311.chunk.js": "/login/static/js/488.af104311.chunk.js",
-    "index.html": "/login/index.html",
-    "main.2def2198.css.map": "/login/static/css/main.2def2198.css.map",
-    "main.ecfb085e.js.map": "/login/static/js/main.ecfb085e.js.map",
-    "488.af104311.chunk.js.map": "/login/static/js/488.af104311.chunk.js.map"
+    "main.css": "/ExamensarbeteHjalmarVikberg/login/static/css/main.2def2198.css",
+    "main.js": "/ExamensarbeteHjalmarVikberg/login/static/js/main.2f57fc46.js",
+    "static/js/488.af104311.chunk.js": "/ExamensarbeteHjalmarVikberg/login/static/js/488.af104311.chunk.js",
+    "index.html": "/ExamensarbeteHjalmarVikberg/login/index.html",
+    "main.2def2198.css.map": "/ExamensarbeteHjalmarVikberg/login/static/css/main.2def2198.css.map",
+    "main.2f57fc46.js.map": "/ExamensarbeteHjalmarVikberg/login/static/js/main.2f57fc46.js.map",
+    "488.af104311.chunk.js.map": "/ExamensarbeteHjalmarVikberg/login/static/js/488.af104311.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2def2198.css",
-    "static/js/main.ecfb085e.js"
+    "static/js/main.2f57fc46.js"
   ]
 }
