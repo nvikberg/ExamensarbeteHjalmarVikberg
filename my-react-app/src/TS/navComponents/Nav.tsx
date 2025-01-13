@@ -59,7 +59,7 @@ const Nav: React.FC<{}> = () => {
         <div className={styles.navBar}>
             <div className={styles.logoContainer}>
                 <a>
-                    <img src="/logo-niloBoard.png" alt="Nilo Logo" />
+                <img src={process.env.PUBLIC_URL + "/logo-niloBoard.png"} alt="Nilo Logo" />
                 </a>
             </div>
             <div className={styles.navLinks}>
