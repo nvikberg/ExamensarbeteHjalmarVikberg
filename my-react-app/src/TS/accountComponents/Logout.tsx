@@ -41,7 +41,7 @@ const hideLogout = () => {
 const handleLogout = async () => {
     try{
         await signOut(auth);
-        navigate('/')
+        navigate('/login')
         setVisible(false);
     } catch (error){
         console.error("error logging out", error)

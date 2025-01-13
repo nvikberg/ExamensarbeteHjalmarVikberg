@@ -59,30 +59,35 @@ const Nav: React.FC<{}> = () => {
         <div className={styles.navBar}>
             <div className={styles.logoContainer}>
                 <a>
-                <img src={process.env.PUBLIC_URL + "/logo-niloBoard.png"} alt="Nilo Logo" />
+                    <img src={process.env.PUBLIC_URL + "/logo-niloBoard.png"} alt="Nilo Logo" />
                 </a>
             </div>
-            <div className={styles.navLinks}>
-                {!user && (
+    
+            <ul className={styles.navLinks}>
+                {/* visas när ingen användare är inloggad */}
+                {/* {!user && (
                     <li>
                         <Link to="/login" className={styles.navLink}>Login</Link>
                     </li>
-                )}
-                <li>
-                    <Link to="/homepage" className={styles.navLink}>My Boards</Link>
-                </li>
-            </div>
-            <div>
+                )} */}
+    
+                {/*visas när användare är inloggad */}
                 {user && (
-                    <div className={styles.rightSideContent}>
-                        <div className={styles.topRightIcons}>
-                            <NavIcons invitations={invitations} />
+                    <>
+                        <li>
+                            <Link to="/homepage" className={styles.navLinkMyBoard}>My Boards</Link>
+                        </li>
+                        <div className={styles.rightSideContent}>
+                            <div className={styles.topRightIcons}>
+                                <NavIcons invitations={invitations} />
+                            </div>
+                            <Logout />
                         </div>
-                        <Logout></Logout>
-                    </div>
+                    </>
                 )}
-            </div>
+            </ul>
         </div>
     );
+    
 }
 export default Nav;

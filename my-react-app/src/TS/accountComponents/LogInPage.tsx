@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../Data/firebase"; // Import Firebase Auth
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import Register from "./Register";
 import styles from '../../CSS/Login.module.css';
 import GoogleLogin from "./GoogleLogin";
@@ -17,8 +17,23 @@ const LogIn: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [isRegistering, setIsRegistering] = useState<boolean>(false); //trackar vilken form (login el register)
-
+  const [user, setUser] = useState<any>(null); // Track current user
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+        navigate("/homepage"); //ifall en user redan är inloggad så skickas man till homepage
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,19 +51,15 @@ const LogIn: React.FC = () => {
     }
   };
 
-
-
   const toggleForm = () => {
     setIsRegistering(!isRegistering);
   };
 
   return (
     <div className={styles.main}>
-
       <div className={styles.loginContainer}>
         {isRegistering ? (
           <Register></Register>
-
         ) : (
           <>
             <form onSubmit={handleLogin}>
@@ -71,20 +82,22 @@ const LogIn: React.FC = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-                </div>
+              </div>
               {error && <p className="errorMessage">{error}</p>}
               <div className={styles.buttonContainer}>
-              <button type="submit" disabled={loading} className={styles.loginButton}>
-                {loading ? "Logging in..." : "Log In"}
-              </button>
-              <p> </p>
-              <p> Or log in with Google instead: </p>
-              <GoogleLogin></GoogleLogin>
+                <button type="submit" disabled={loading} className={styles.loginButton}>
+                  {loading ? "Logging in..." : "Log In"}
+                </button>
+                <p> </p>
+                <p> Or log in with Google instead: </p>
+                <GoogleLogin></GoogleLogin>
               </div>
             </form>
             <p>
-              Don't have an account? <br></br>
-              <button onClick={toggleForm} className={styles.loginButton}>Sign up</button>
+              Don't have an account? <br />
+              <button onClick={toggleForm} className={styles.loginButton}>
+                Sign up
+              </button>
             </p>
           </>
         )}
@@ -92,10 +105,11 @@ const LogIn: React.FC = () => {
         {isRegistering && (
           <p>
             Already have an account?{" "}
-            <button onClick={toggleForm} className={styles.loginButton}>Log in</button>
+            <button onClick={toggleForm} className={styles.loginButton}>
+              Log in
+            </button>
           </p>
         )}
-
       </div>
     </div>
   );

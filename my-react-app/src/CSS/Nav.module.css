@@ -19,6 +19,12 @@
   align-items: center; /* Ensure links are vertically aligned */
 }
 
+.navLinkMyBoard {
+  margin-top: 10px;
+  margin-right: 20px;
+
+}
+
 .navLinks li {
   margin-left: 20px;
 }

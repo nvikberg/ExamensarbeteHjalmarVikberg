@@ -113,7 +113,7 @@ const HomePage: React.FC = () => {
     const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
       if (!user) {
         console.error("No user is logged in");
-        navigate("/"); // Redirect to login page if no user is logged in
+        navigate("/login"); // Redirect to login page if no user is logged in
         return;
       }
 
