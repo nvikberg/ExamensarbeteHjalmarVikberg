@@ -64,14 +64,14 @@ const Nav: React.FC<{}> = () => {
             </div>
     
             <ul className={styles.navLinks}>
-                {/* visas när ingen användare är inloggad */}
-                {/* {!user && (
+                {/* visas när ingen användare är inloggad */} 
+                {!user && (
                     <li>
-                        <Link to="/login" className={styles.navLink}>Login</Link>
+                        <Link to="/login" className={styles.navLinkMyBoard}>Login</Link>
                     </li>
-                )} */}
+                )}
     
-                {/*visas när användare är inloggad */}
+                {/* {/*visas när användare är inloggad */}
                 {user && (
                     <>
                         <li>
