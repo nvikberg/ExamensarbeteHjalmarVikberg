@@ -58,14 +58,14 @@ const Nav: React.FC<{}> = () => {
     return (
         <div className={styles.navBar}>
             <div className={styles.logoContainer}>
-                <a href="/homepage">
+                <a>
                     <img src="/logo-niloBoard.png" alt="Nilo Logo" />
                 </a>
             </div>
             <div className={styles.navLinks}>
                 {!user && (
                     <li>
-                        <Link to="/" className={styles.navLink}>Login</Link>
+                        <Link to="/login" className={styles.navLink}>Login</Link>
                     </li>
                 )}
                 <li>

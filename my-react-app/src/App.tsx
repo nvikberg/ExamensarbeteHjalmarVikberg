@@ -27,7 +27,7 @@ const auth = getAuth();
         <Nav />
 
         <Routes>
-        <Route path="/" element={<LogInPage/>} />
+        <Route path="/login" element={<LogInPage/>} />
         <Route path="/homepage" element={<Homepage />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/inbox" element={<Inbox />} />
