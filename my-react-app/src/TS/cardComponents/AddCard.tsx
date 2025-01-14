@@ -51,7 +51,6 @@ const AddCards: React.FC<BoardProps> = ({ boardId, listTitle, userId }) => {
 
   return (
     <div className={styles.addCardDiv}>
-      <form>
       <input
         type="text"
         placeholder="Enter card text"
@@ -59,7 +58,6 @@ const AddCards: React.FC<BoardProps> = ({ boardId, listTitle, userId }) => {
         onChange={(e) => setCardText(e.target.value)}
       />
       <button onClick={handleAddCard}>Add Card</button>
-      </form>
       {successMessage && <p className={successMessage}>{successMessage}</p>}
     </div>
   );
