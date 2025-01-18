@@ -35,6 +35,8 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
   const [userId, setUserId] = useState<string | null>(null);
   const [cardIsDraggedOver, setCardIsDraggedOver] = useState<boolean>(false);
   const [listIsDraggedOver, setListIsDraggedOver] = useState<string | null>(null);
+  const [isDropZoneText, setIsDropZoneText] = useState<string | null>(null);
+
   const [successMessage, setSuccessMessage] = useState<string>('');
   const [loading, setLoading] = useState<string>('');
 
@@ -109,6 +111,8 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
   const handleCardDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setCardIsDraggedOver(true);
+    console.log("drop card in blue zone")
+
   };
 
   const handleCardDragLeave = () => {
@@ -169,7 +173,7 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
       {lists.length > 0 &&
         lists.map((list) => (
           <div key={list.id} className={styles.listItemContainer}>
-            {/* Wrap each list in its own container */}
+            {/*each list in its own container */}
             <div
               className={`${styles.listCard} ${listIsDraggedOver === list.id ? styles.listHighlight : ''}`}
               draggable="true"
@@ -183,7 +187,7 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
                 <DeleteLists boardId={boardId} listtitle={list.listTitle} />
               </div>
               <div
-                className={`${styles.cardContainer} ${cardIsDraggedOver ? styles.cardHighlight : ''}`}
+                className={`${styles.cardContainer} ${cardIsDraggedOver ? styles.cardHighlight : ''}`}              
                 onDragOver={handleCardDragOver}
                 onDragLeave={handleCardDragLeave}
                 onDrop={(event) => handleCardDrop(event, list.listTitle)}
@@ -201,3 +205,15 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
 }
 
 export default Lists;
+
+//visa txt vart man ska släppa korten
+        {/* {cardIsDraggedOver && listIsDraggedOver === list.id && (
+          <div className={styles.dropZoneContainer}>
+            <p className={styles.dropZoneText}>Drop card in blue highlighted zone</p>
+          </div>
+        )}   */}
+         {/* {listIsDraggedOver === list.id && !cardIsDraggedOver && (
+          <div className={styles.dropZoneContainer}>
+            <p className={styles.dropZoneText}>Drop list over title area</p>
+          </div>
+        )}  */}

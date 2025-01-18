@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { doc, deleteDoc, collection, query, where, getDocs, updateDoc, arrayRemove } from "firebase/firestore";
 import { db } from "../../Data/firebase";
-import styles from '../../CSS/DeleteBoard.module.css';
-import listStyles from '../../CSS/Lists.module.css'
+import styles from '../../CSS/Lists.module.css'
 
 
 //MÅSTE KOLLA PÅ!
@@ -17,10 +16,6 @@ interface DeleteListsProps {
 
 const DeleteLists: React.FC<DeleteListsProps> = ({ boardId, listtitle }) => {
     const [isVisible, setIsVisible] = useState(false);
-    const [isShown, setIsShown] = useState(false);
-
-    const showDeleteList = () => setIsShown(true);
-    const hideDeleteList = () => setIsShown(false);
     const showOptionList = () => setIsVisible(true);
     const hideDelete = () => setIsVisible(false);
 
@@ -48,11 +43,7 @@ const DeleteLists: React.FC<DeleteListsProps> = ({ boardId, listtitle }) => {
                 deleteDoc(cardDoc.ref));
             await Promise.all(deletePromises);
         }
-
-            // alert(`List "${listtitle}" and its cards deleted successfully!`);
             setIsVisible(false);
-            setIsShown(false);
-            // onListDeleted();  // Trigger re-render after deletion
         } catch (error) {
             console.error("Error deleting list and cards:", error);
         }
@@ -60,12 +51,7 @@ const DeleteLists: React.FC<DeleteListsProps> = ({ boardId, listtitle }) => {
 
     return (
         <div>
-            <button className={listStyles.smallDeleteButton} onClick={showOptionList} aria-haspopup="true">Delete List</button>
-            {/* {isShown && (
-                <div className="deleteQuestion">
-                    <h2>Delete this list and its cards?</h2>
-                    <button onClick={showOptionList} className={styles.confirmBtn}>Yes, Delete</button>
-                    <button onClick={hideDeleteList} className={styles.cancelBtn}>Cancel</button> */}
+            <button className={styles.smallDeleteButton} onClick={showOptionList} aria-haspopup="true">Delete List</button>
                     {isVisible && (
                     <div className={styles.confirmationModal}>
                         <div className={styles.modalContent}>

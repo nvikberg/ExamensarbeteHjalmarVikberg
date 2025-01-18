@@ -150,6 +150,7 @@
 /* Style for the random photo button */
 .randomBackgroundButton {
   opacity: 0.8;
+  margin-left: 15px;
   background-color: #dae2f3; 
   color: #2A2A2A;              
   font-size: 16px;           /* Adjust font size */

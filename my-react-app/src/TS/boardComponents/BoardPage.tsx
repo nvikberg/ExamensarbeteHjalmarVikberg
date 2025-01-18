@@ -123,12 +123,12 @@ const Board: React.FC = () => {
             <h2 className={styles.actualTotal}> Actual time: {actualTotal.hours} h and {actualTotal.minutes} minutes </h2>
           </div>
         </div>
-
       </header>
       <div className={styles.boardMainContent}>
         <SeasonalPhoto onPhotosFetched={(photos: string[]) => handleBackgroundImageSelection(photos[0])} />
         <ol className={styles.listWrapper}>
           <AddLists boardId={boardId}></AddLists>
+          
           <div className={styles.lists}>
             <Lists boardId={boardId} />
           </div>

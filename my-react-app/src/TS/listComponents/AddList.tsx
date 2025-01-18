@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { db } from '../../Data/firebase';
 import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import styles from '../../CSS/Lists.module.css'
-
+import boardStyles from '../../CSS/BoardPage.module.css'
 interface ListProps {
   boardId: string;
 }
@@ -57,6 +57,13 @@ const AddLists: React.FC<ListProps> = ({ boardId }) => {
         </form>
         {successMessage && <p className={successMessage}>{successMessage}</p>}
       </div>
+      <div className={boardStyles.header}>
+        <div className={styles.dropTextDiv}>
+        <p className={styles.listHoverText}><p>Pssst..</p>
+        Move a list by dragging over <br></br>the top area of the other list</p>
+        <p className={styles.cardHoverText}>Move a card by dragging over<br></br>the blue hover zon </p>
+        </div>
+          </div>
     </div>
   );
 };
