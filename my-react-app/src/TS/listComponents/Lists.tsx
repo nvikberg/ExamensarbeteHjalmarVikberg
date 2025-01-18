@@ -77,22 +77,30 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
     event.stopPropagation();
     event.dataTransfer.setData("draggedListId", listId);
     setListIsDraggedOver(listId);
+    // setCardIsDraggedOver(false);
   };
 
   const handleListDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
     event.stopPropagation();
     setListIsDraggedOver(null);
+    // setCardIsDraggedOver(false);
+
   };
 
   const handleListDragOver = (event: React.DragEvent<HTMLDivElement>, listId: string) => {
     event.preventDefault();
     setListIsDraggedOver(listId);
+    setCardIsDraggedOver(false); //HERE IS WHY IT WONT WORK, LIST IS HIGHLIGHTEN WHEN BOTH CARD AND LIST IS DRAGGED
+
   };
 
   const handleListDrop = (event: React.DragEvent<HTMLDivElement>, targetListId: string) => {
     event.preventDefault();
     const draggedListId = event.dataTransfer.getData("draggedListId");
     setListIsDraggedOver(null);
+    setCardIsDraggedOver(false);
+    // setCardIsDraggedOver(false);
+
 
     if (!draggedListId) return;
 
@@ -110,13 +118,20 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
 
   const handleCardDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+    setListIsDraggedOver(null);
+
     setCardIsDraggedOver(true);
-    console.log("drop card in blue zone")
+    setIsDropZoneText("Drop card in blue highlighted zone");
+    // console.log("drop card in blue zone")
 
   };
 
   const handleCardDragLeave = () => {
     setCardIsDraggedOver(false);
+    setIsDropZoneText(null);
+    setListIsDraggedOver(null);
+
+
   };
 
   const handleCardDrop = async (event: React.DragEvent<HTMLDivElement>, newListTitle: string) => {
@@ -124,6 +139,8 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
     event.stopPropagation();
     setCardIsDraggedOver(false);
     setListIsDraggedOver(null);
+    setIsDropZoneText(null); 
+
 
     const cardId = event.dataTransfer.getData("cardId");
     if (!cardId) {
@@ -169,11 +186,25 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
 
   return (
     <div className={styles.listsContainer}>
+      
       {/* Render lists only if they exist */}
       {lists.length > 0 &&
         lists.map((list) => (
+          
           <div key={list.id} className={styles.listItemContainer}>
             {/*each list in its own container */}
+            <div>
+            {cardIsDraggedOver && (
+          <div className={styles.dropTextDiv}>
+            <div className={styles.dropZoneTextList}>{isDropZoneText}</div>
+            {listIsDraggedOver === list.id && (
+                <div className={styles.dropZoneContainer}>
+                  <div className={styles.dropZoneText}>Drop list over title area</div>
+                </div>
+              )} 
+          </div>
+        )}  
+            </div>
             <div
               className={`${styles.listCard} ${listIsDraggedOver === list.id ? styles.listHighlight : ''}`}
               draggable="true"
@@ -207,13 +238,5 @@ const Lists: React.FC<BoardProps> = ({ boardId }) => {
 export default Lists;
 
 //visa txt vart man ska släppa korten
-        {/* {cardIsDraggedOver && listIsDraggedOver === list.id && (
-          <div className={styles.dropZoneContainer}>
-            <p className={styles.dropZoneText}>Drop card in blue highlighted zone</p>
-          </div>
-        )}   */}
-         {/* {listIsDraggedOver === list.id && !cardIsDraggedOver && (
-          <div className={styles.dropZoneContainer}>
-            <p className={styles.dropZoneText}>Drop list over title area</p>
-          </div>
-        )}  */}
+      
+         

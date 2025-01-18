@@ -59,9 +59,9 @@ const AddLists: React.FC<ListProps> = ({ boardId }) => {
       </div>
       <div className={boardStyles.header}>
         <div className={styles.dropTextDiv}>
-        <p className={styles.listHoverText}><p>Pssst..</p>
-        Move a list by dragging over <br></br>the top area of the other list</p>
-        <p className={styles.cardHoverText}>Move a card by dragging over<br></br>the blue hover zon </p>
+        <p className={styles.cardHoverText}><p>Pssst..</p>
+        Move list: <br></br>Drag n drop over the List title area</p>
+        <p className={styles.cardHoverText}>Move card:<br></br> Drag n drop over the cards area </p>
         </div>
           </div>
     </div>

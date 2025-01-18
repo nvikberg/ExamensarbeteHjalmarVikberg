@@ -130,7 +130,7 @@
   background-color:  #7CA1CC;
 }
 
-/* .dropZoneText {
+.dropZoneText {
   border-radius: 4px;
   background-color: rgb(255, 255, 255);
   color: #7CA1CC;  
@@ -143,7 +143,7 @@
   background-color: rgba(219, 119, 52, 0.2);
   font-weight: bold; 
   font-size: 16px; 
-} */
+}
 
 
 .smallDeleteButton {
