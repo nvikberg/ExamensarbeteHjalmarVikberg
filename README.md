@@ -1,6 +1,6 @@
 ### Github pages link https://nvikberg.github.io/ExamensarbeteHjalmarVikberg/<br>
 
-## By Nikolina Vikberg & Lovisa Hjalmar
+### By Nikolina Vikberg & Lovisa Hjalmar
 
 "Trello" project created with typescript and react, and firestore for database
 
