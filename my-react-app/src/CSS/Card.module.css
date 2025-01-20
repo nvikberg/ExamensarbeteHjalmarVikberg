@@ -227,10 +227,12 @@ right:10px;
   /* box-sizing: border-box; */
   transition: background-color 0.2s ease;
 }
-
-/* Change background color when hovering over the button */
 .memberSelectionContainer button:hover {
-  background-color: #b0d0e2;
+  background-color: #7CA1CC; /* Hover state */
+}
+.memberSelectionContainer .selectedMember {
+  background-color: #7CA1CC;
+  color: white;
 }
 
 /* Message when no members are available */
@@ -242,6 +244,7 @@ right:10px;
 
 /* For the selected member button */
 .memberSelectionContainer button.active {
+  color: white;
   background-color: #026aa7; /* Darker blue */
   border: 1px solid #025a8a; /* Slightly darker border */
   cursor: not-allowed; /* Disable cursor when active */

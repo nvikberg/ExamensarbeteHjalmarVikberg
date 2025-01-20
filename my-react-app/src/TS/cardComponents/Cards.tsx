@@ -43,6 +43,7 @@ const CardsComponent: React.FC<CardsComponentProps> = ({ cards: initialCards, bo
   const [selectedMember, setSelectedMember] = useState<string | null>(null);  // Track selected member
   const [alertMessage, setAlertMessage] = useState<string>('')
   const [cardIsDraggedOver, setCardIsDraggedOver] = useState<boolean>(false);
+  const [isClicked, setIsClicked] = useState(false);
 
 
   useEffect(() => {

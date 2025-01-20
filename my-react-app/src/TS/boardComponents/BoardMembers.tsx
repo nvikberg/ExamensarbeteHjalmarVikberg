@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../../Data/firebase';
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import styles from '../../CSS/Card.module.css';
+import { FaCheckSquare } from 'react-icons/fa';
 
 
 //BoardMembers hämtar data från db med hjälp av boardId som skickas som en prop, och lagrar information om boarden och medlemmarna i komponentens state
@@ -31,6 +32,8 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId, onMemberSelect }) 
   const [boardData, setBoardData] = useState<BoardData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [memberNames, setMemberNames] = useState<{ [key: string]: string }>({});
+  const [selectedMember, setSelectedMember] = useState<string | null>(null); // Track selected member
+
 
   const fetchUserName = async (email: string): Promise<string> => {
     try {
@@ -39,7 +42,7 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId, onMemberSelect }) 
 
       if (!querySnapshot.empty) {
         const userData = querySnapshot.docs[0].data();
-        return userData.firstName;
+        return userData.firstName || email;
       } else {
         return "Unknown User";
       }
@@ -77,6 +80,11 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId, onMemberSelect }) 
     fetchBoardData();
   }, [boardId]);
 
+  const handleMemberClick = (member: string) => {
+    setSelectedMember(member); // Set selected member
+    onMemberSelect(member); // Notify parent
+  };
+
   if (loading) {
     return <p>Loading members...</p>;
   }
@@ -89,8 +97,13 @@ const BoardMembers: React.FC<BoardMembersProps> = ({ boardId, onMemberSelect }) 
         {boardData && boardData.members?.length > 0 ? (
           boardData.members.map((member, index) => (
             <li key={index}>
-              <button onClick={() => onMemberSelect(memberNames[member] || member)}>
-                {memberNames[member] || member}
+               <button
+                onClick={() => handleMemberClick(member)}
+                className={`${styles.memberButton} ${
+                  selectedMember === member ? styles.selectedMember : ''
+                }`}
+              >
+                {member}
               </button>
             </li>
           ))

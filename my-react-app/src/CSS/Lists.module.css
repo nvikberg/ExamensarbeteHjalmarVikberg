@@ -283,7 +283,6 @@
 
 /* Styling the draggable part of the scrollbar */
 ::-webkit-scrollbar-thumb {
-  background: #888;
   border-radius: 10px;
   transition: background 0.3s;
 }
